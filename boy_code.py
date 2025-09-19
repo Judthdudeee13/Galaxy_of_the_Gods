@@ -432,7 +432,8 @@ def load_background3():
     down = True
     left = True
     right = True
-    left = False
+    if p.centerx <= 85:
+       left = False
     if p.centerx >= 1200:
         right = False
     if p.centery <= 75:
