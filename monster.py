@@ -40,13 +40,13 @@ class monster_class:
         if self.load:
             x = p.x - self.x
             y = p.y - self.y
-            if x-self.width-2 > 0:
+            if x-self.width-1 > 0:
                 self.x += self.speed
-            if y-self.height-2 > 0:
+            if y-self.height-1 > 0:
                 self.y += self.speed    
-            if x+self.player_width+2 < 0:
+            if x+self.player_width+1 < 0:
                 self.x -= self.speed
-            if y+self.player_width+2 < 0:
+            if y+self.player_width+1 < 0:
                 self.y -= self.speed
             self.turn += 1
 
