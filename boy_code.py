@@ -12,6 +12,7 @@ import inventory as inv
 import weapons
 
 keys = pygame.key.get_pressed()
+mouse_keys = pygame.mouse.get_pressed()
 
 #setup pygame
 pygame.init()
@@ -158,28 +159,32 @@ def move():
         if keys[pygame.K_w]:
             p.centery -= move_speed
             move_up = True
-            if p.colliderect(monsters_rect):
-                p.centery += move_speed
+            for monster in monsters_rect:
+                if p.colliderect(monster):
+                    p.centery += move_speed
 
     if down: 
         if keys[pygame.K_s]:
            p.centery += move_speed
            move_down = True
-           if p.colliderect(monsters_rect):
-                p.centery -= move_speed
+           for monster in monsters_rect:
+                if p.colliderect(monster):
+                    p.centery -= move_speed
 
     if left:
         if keys[pygame.K_a]:
             p.centerx -= move_speed
             move_left = True
-            if p.colliderect(monsters_rect):
-                p.centerx += move_speed
+            for monster in monsters_rect:
+                if p.colliderect(monster):
+                    p.centerx += move_speed
     if right:
         if keys[pygame.K_d]:
             p.centerx += move_speed
             move_right = True
-            if p.colliderect(monsters_rect):
-                p.centerx -= move_speed
+            for monster in monsters_rect:
+                if p.colliderect(monster):
+                    p.centerx -= move_speed
     if extraMove == True:
         move_speed = 6
 
@@ -317,7 +322,8 @@ def attack():
     except:
         pass
 def all_monsters_recive_damage(box, pos, damage):
-    monsters.recive_damage(box, pos, damage)
+    for monster in monsters:
+        monster.recive_damage(box, pos, damage)
 
 #Inventory
 
@@ -358,9 +364,9 @@ def load_background1():
         inventorys.load_inventory_background()
         inventorys.load_inventory(inventory)
         bg = 0
-    if p.centery <= 94 and p.centerx >= 611 and p.centerx <= 700:
+    if p.centery <= 103 and p.centerx >= 613 and p.centerx <= 700:
         left = False
-    if p.centery <= 94 and p.centerx >= 610 and p.centerx <= 699:
+    if p.centery <= 103 and p.centerx >= 610 and p.centerx <= 697:
         right = False
     if p.centerx <= 85:
         left = False
@@ -370,7 +376,7 @@ def load_background1():
         up = False
     if p.centery >= 600:
         down = False
-    if p.centery <= 95 and p.centerx >= 610 and p.centerx <= 700:
+    if p.centery <= 106 and p.centerx >= 613 and p.centerx <= 697:
         up = False
     if p.centerx >= 215 and p.centerx <= 235 and p.centery <= 75 and keys[K_w] and abs(it1-time.time()) > 1:
         bg = 2
@@ -406,7 +412,7 @@ def load_background2():
     if p.centerx >= 215 and p.centerx <= 235 and p.centery <= 75 and keys[K_w] and abs(it1-time.time()) > 1:
         bg = 1
         it1 = time.time()
-    if p.centery >= 440 and p.centery <= 480 and p.centerx >= 1050 and abs(it1-time.time()) > 1 and keys[K_d]:    
+    if p.centery >= 440 and p.centery <= 480 and p.centerx >= 1190 and abs(it1-time.time()) > 1 and keys[K_d]:    
         bg = 3
         p.centerx = 90
         p.centery = 390
@@ -433,7 +439,7 @@ def load_background3():
     left = True
     right = True
     if p.centerx <= 85:
-       left = False
+        left = False
     if p.centerx >= 1200:
         right = False
     if p.centery <= 75:
@@ -443,10 +449,12 @@ def load_background3():
          
 
     window.blit(background1, back1)
-    monsters.targeting(p)
-    monsters.blit()
+    for monster in monsters:
+        monster.targeting(p)
+        monster.blit()
     try:
-        damage_taken += monsters.damage_givin(p)
+        for monster in monsters:
+            damage_taken += monster.damage_givin(p)
     except:
         pass
     if p.centery >= 370 and p.centery <= 410 and p.centerx <= 90 and abs(it1-time.time()) > 1 and keys[K_a]:    
@@ -603,12 +611,18 @@ def load_weapons():
     basic_sword.set_up(0.5, 0, 1, direction, 25)
 
 def load_monsters():
+    global monster1
+    global monster1_mask
+    global monster1_rect
     global monsters
-    global monsters_mask
     global monsters_rect
-    monsters = mon.monster_class()
-    monsters.set_up(1, 1, 3, 2, 1, window, 32, 32, 50, 50)
-    monsters_rect, monsters_mask = monsters.load_moster()
+    global monsters_mask
+    monster1 = mon.monster_class()
+    monster1.set_up(1, 1, 3, 2, 1, window, 32, 32, 50, 50)
+    monster1_rect, monster1_mask = monster1.load_monster()
+    monsters = [monster1]
+    monsters_rect = [monster1_rect]
+    monsters_mask = [monster1_mask]
 
 game = 0
 obg = bg
