@@ -20,12 +20,12 @@ class monster_class:
         self.width = width
         self.height = height
     
-    def load_moster(self):
+    def load_monster(self):
         if self.load:
             image = pygame.image.load("moster_replace.png")
             image = pygame.transform.scale(image, (32, 32))
             rect = image.get_rect()
-            rect2 = rect.inflate(2, 2)
+            rect2 = rect.inflate(4, 4)
             rect.x = 500
             rect.y = 500
             self.x = rect.x
@@ -36,19 +36,21 @@ class monster_class:
             self.turn = 0
             self.mask = pygame.mask.from_surface(self.image)
             return rect, self.mask
+        
     def targeting(self, p):
         if self.load:
             x = p.x - self.x
             y = p.y - self.y
-            if x-self.width-1 > 0:
+            if x-self.width > 0:
                 self.x += self.speed
-            if y-self.height-1 > 0:
+            if y-self.height > 0:
                 self.y += self.speed    
-            if x+self.player_width+1 < 0:
+            if x+self.player_width < 0:
                 self.x -= self.speed
-            if y+self.player_width+1 < 0:
+            if y+self.player_width < 0:
                 self.y -= self.speed
             self.turn += 1
+        
 
     def blit(self):
         if self.load:
@@ -61,11 +63,12 @@ class monster_class:
 
     def damage_givin(self, p_rect):
         if self.load:
-            if p_rect.colliderect(self.rect):
+            if p_rect.colliderect(self.rect2):
                 if abs(self.damage_time - time.time()) > self.times:
                     damage_taken = 0
                     damage_taken += 1
                     self.damage_time = time.time()
+                    print(10)
                     return self.damage
     def recive_damage(self, player_mask, player_rect, damage):
         if self.load:
@@ -80,3 +83,5 @@ class monster_class:
 
         if self.health <= 0:
             self.load = False
+            self.rect.x = -1000
+            self.rect.y = -1000
