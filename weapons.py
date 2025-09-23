@@ -31,13 +31,14 @@ swing= False
 class weapon:
     def __init__(self):
         pass
-    def set_up(self, reload_time, ammo, damage, direction, range):
+    def set_up(self, reload_time, ammo, damage, direction, range, attack_image):
         self.reload_time = reload_time
         self.ammo = ammo
         self.damage = damage
         self.direction = direction
         self.range = range
         self.reload_time_cooldown = time.time()
+        self.attack_image = attack_image
 
 
 
@@ -55,7 +56,7 @@ class melee(weapon):
     def swing_blit(self):
         hit_box_sur, hit_box_pos, damage, hit_box_im, relod_time = self.attack()
         self.swing = False
-        return  hit_box_sur, hit_box_pos, damage, hit_box_im, relod_time
+        return  hit_box_sur, hit_box_pos, damage, hit_box_im, relod_time, self.attack_image
 
 
 
