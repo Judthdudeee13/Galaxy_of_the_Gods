@@ -265,9 +265,8 @@ def attack():
     try:
         if keys[pygame.K_SPACE]:
             if inventory['sword'][1] == 'basic_sword':
-                hit_box_sur10, hit_box_pos, damage_given, hit_box, reload_time1 = basic_sword.swing_blit()
+                hit_box_sur10, hit_box_pos, damage_given, hit_box, reload_time1, attack_image = basic_sword.swing_blit()
                 if abs(reload_time-time.time()) >= reload_time1:
-                    attack_image = 3
                     hit_box_blit = hit_box
                     hit_box_pos2 = hit_box_pos
                     hit_box_sur = hit_box_sur10
@@ -617,7 +616,7 @@ clear_data()
 def load_weapons():
     global basic_sword
     basic_sword = weapons.melee()
-    basic_sword.set_up(0.5, 0, 1, direction, 25)
+    basic_sword.set_up(0.5, 0, 1, direction, 25, 5)
 
 def load_monsters():
     global monster1
