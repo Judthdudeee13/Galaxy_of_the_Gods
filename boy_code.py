@@ -284,7 +284,7 @@ def attack():
                     if direction == 'right':
                         hit_box_pos.x = p.x+42
                         hit_box_pos.y = p.y+12
-                    all_monsters_recive_damage(hit_box_sur, hit_box_pos1, damage_given)
+                    
                     reload_time = time.time()
     
     
@@ -319,6 +319,7 @@ def attack():
                 hit_box_pos1.y = p.y+12
                 hit_box_blit90 = pygame.transform.rotate(hit_box_blit1, 270)
                 window.blit(hit_box_blit90, hit_box_pos1)
+            all_monsters_recive_damage(hit_box_sur, hit_box_pos1, damage_given, attack_image)
 
 
 
@@ -329,9 +330,9 @@ def attack():
             
     except:
         pass
-def all_monsters_recive_damage(box, pos, damage):
+def all_monsters_recive_damage(box, pos, damage, time_left):
     for monster in monsters:
-        monster.recive_damage(box, pos, damage)
+        monster.recive_damage(box, pos, damage, time_left)
 
 #Inventory
 

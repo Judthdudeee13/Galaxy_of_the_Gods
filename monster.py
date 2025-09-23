@@ -19,6 +19,7 @@ class monster_class:
         self.load = True
         self.width = width
         self.height = height
+        self.able_to_recive_damage = True
     
     def load_monster(self):
         if self.load:
@@ -72,11 +73,15 @@ class monster_class:
                     self.damage_time = time.time()
                     print(10)
                     return self.damage
-    def recive_damage(self, player_mask, player_rect, damage):
+    def recive_damage(self, player_mask, player_rect, damage, time_left):
         if self.load:
+            
             try:
-                if player_mask.overlap(self.mask, (self.rect.x - player_rect.x, self.rect.y - player_rect.y)):
+                if time_left == 2:
+                    self.able_to_recive_damage = True
+                if player_mask.overlap(self.mask, (self.rect.x - player_rect.x, self.rect.y - player_rect.y)) and self.able_to_recive_damage:
                     self.health -= damage
+                    self.able_to_recive_damage = False
             except Exception as e:
                 print(e)
                 print('THIS ONE DIDN\'T WORK this one') 
