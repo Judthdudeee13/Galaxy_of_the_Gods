@@ -162,6 +162,9 @@ def move():
             for monster in monsters_rect:
                 if p.colliderect(monster):
                     p.centery += move_speed
+                if p.colliderect(monster):
+                    p.centery += 1
+                
 
     if down: 
         if keys[pygame.K_s]:
@@ -170,6 +173,8 @@ def move():
            for monster in monsters_rect:
                 if p.colliderect(monster):
                     p.centery -= move_speed
+                if p.colliderect(monster):
+                    p.centery -= 1
 
     if left:
         if keys[pygame.K_a]:
@@ -178,6 +183,8 @@ def move():
             for monster in monsters_rect:
                 if p.colliderect(monster):
                     p.centerx += move_speed
+                if p.colliderect(monster):
+                    p.centerx += 1
     if right:
         if keys[pygame.K_d]:
             p.centerx += move_speed
@@ -185,6 +192,8 @@ def move():
             for monster in monsters_rect:
                 if p.colliderect(monster):
                     p.centerx -= move_speed
+                if p.colliderect(monster):
+                    p.centerx -= 1
     if extraMove == True:
         move_speed = 6
 
@@ -258,7 +267,7 @@ def attack():
             if inventory['sword'][1] == 'basic_sword':
                 hit_box_sur10, hit_box_pos, damage_given, hit_box, reload_time1 = basic_sword.swing_blit()
                 if abs(reload_time-time.time()) >= reload_time1:
-                    attack_image = 10
+                    attack_image = 3
                     hit_box_blit = hit_box
                     hit_box_pos2 = hit_box_pos
                     hit_box_sur = hit_box_sur10
@@ -275,7 +284,6 @@ def attack():
                     if direction == 'right':
                         hit_box_pos.x = p.x+42
                         hit_box_pos.y = p.y+12
-            
                     all_monsters_recive_damage(hit_box_sur, hit_box_pos1, damage_given)
                     reload_time = time.time()
     
@@ -294,22 +302,22 @@ def attack():
             if direction == 'up':
                 hit_box_pos1.x = p.x+12
                 hit_box_pos1.y = p.y-15
-                hit_box_blit180 = pygame.transform.rotate(hit_box_blit1, 180)
+                hit_box_blit180 = pygame.transform.rotate(hit_box_blit1, 0)
                 window.blit(hit_box_blit180, hit_box_pos1)
             if direction == 'down':
                 hit_box_pos1.x = p.x+12
                 hit_box_pos1.y = p.y+40
-                hit_box_blit0 = pygame.transform.rotate(hit_box_blit1, 0)
+                hit_box_blit0 = pygame.transform.rotate(hit_box_blit1, 180)
                 window.blit(hit_box_blit0, hit_box_pos1)
             if direction == 'left' or direction == 'None':
                 hit_box_pos1.x = p.x-12
                 hit_box_pos1.y = p.y+12
-                hit_box_blit270 = pygame.transform.rotate(hit_box_blit1, 270)
+                hit_box_blit270 = pygame.transform.rotate(hit_box_blit1, 90)
                 window.blit(hit_box_blit270, hit_box_pos1)
             if direction == 'right':
                 hit_box_pos1.x = p.x+42
                 hit_box_pos1.y = p.y+12
-                hit_box_blit90 = pygame.transform.rotate(hit_box_blit1, 90)
+                hit_box_blit90 = pygame.transform.rotate(hit_box_blit1, 270)
                 window.blit(hit_box_blit90, hit_box_pos1)
 
 

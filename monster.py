@@ -56,6 +56,8 @@ class monster_class:
         if self.load:
             self.rect.x = self.x
             self.rect.y = self.y
+            self.rect2.x = self.rect.x-2
+            self.rect2.y = self.rect.y-2
             #self.window.blit(self.rect2, self.rect)
             self.window.blit(self.image, self.rect)
         
@@ -75,7 +77,6 @@ class monster_class:
             try:
                 if player_mask.overlap(self.mask, (self.rect.x - player_rect.x, self.rect.y - player_rect.y)):
                     self.health -= damage
-                    print(1)
             except Exception as e:
                 print(e)
                 print('THIS ONE DIDN\'T WORK this one') 
