@@ -262,11 +262,13 @@ def attack():
         direction = 'left'
     if move_right == True:
         direction = 'right'
+    basic_bow.blit(p.x, p.y, direction)
     try:
         if keys[pygame.K_SPACE]:
             if inventory['sword'][1] == 'basic_sword':
-                hit_box_sur10, hit_box_pos, damage_given, hit_box, reload_time1, attack_image = basic_sword.swing_blit()
+                hit_box_sur10, hit_box_pos, damage_given, hit_box, reload_time1 = basic_sword.swing_blit()
                 if abs(reload_time-time.time()) >= reload_time1:
+                    attack_image = 3
                     hit_box_blit = hit_box
                     hit_box_pos2 = hit_box_pos
                     hit_box_sur = hit_box_sur10
@@ -615,8 +617,12 @@ clear_data()
 
 def load_weapons():
     global basic_sword
+    global basic_bow
     basic_sword = weapons.melee()
-    basic_sword.set_up(0.5, 0, 1, direction, 25, 5)
+    basic_sword.set_up(0.5, 0, 1, direction, 25)
+    basic_bow  = weapons.range()
+    basic_bow.set_up(2, 'basic_arrow', 2, direction, 0)
+    basic_bow.set_up1((10, 20), 'basic_bow.png')
 
 def load_monsters():
     global monster1
