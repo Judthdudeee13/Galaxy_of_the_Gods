@@ -56,7 +56,7 @@ frame = 0
 player_frame = 0
 reload_time = time.time()
 direction = "down"
-current_weapon = 'basic_sword'
+current_weapon = 'basic_bow'
 attack_image = -1
 
 #game developer settings
@@ -252,11 +252,13 @@ def attack():
         direction = 'right'
     basic_bow.blit(p.x, p.y, direction, inventory, current_weapon)
     if keys[pygame.K_SPACE]:
-        hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image = basic_sword.swing_blit(inventory, direction, p, current_weapon)
-        all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image)
+        for weapon in weapons_list:
+            hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image = weapon.attack(inventory, direction, p, current_weapon)
+            all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image)
     if attack_image > 0:
-        hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image = basic_sword.swing_blit(inventory, direction, p, current_weapon)
-        all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image)
+        for weapon in weapons_list:
+            hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image = weapon.attack(inventory, direction, p, current_weapon)
+            all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image)
 
 def all_monsters_recive_damage(box, pos, damage, time_left):
     for monster in monsters:
@@ -296,7 +298,7 @@ def load_background1():
     left = True
     right = True
     if p.centerx >= 600 and p.centerx <= 700 and p.centery <= 150 and keys[pygame.K_e]:
-        inventory['sword'][1] = 'basic_sword'
+        inventory['range'][1] = 'basic_bow'
         q = True
         inventorys.load_inventory_background()
         inventorys.load_inventory(inventory)
@@ -545,11 +547,13 @@ clear_data()
 def load_weapons():
     global basic_sword
     global basic_bow
+    global weapons_list
     basic_sword = weapons.melee()
     basic_sword.set_up(0.5, 0, 1, direction, 25)
     basic_bow  = weapons.range()
     basic_bow.set_up(2, 'basic_arrow', 2, direction, 0)
     basic_bow.set_up1((10, 20), 'basic_bow.png')
+    weapons_list = [basic_bow, basic_sword]
 
 def load_monsters():
     global monster1
