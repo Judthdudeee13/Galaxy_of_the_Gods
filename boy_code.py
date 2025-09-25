@@ -243,17 +243,9 @@ def life(hearts, damages):
         current_hearts -= 1
 
 
-direction = False
-hit_box_blit1 = False
-hit_box_pos1 = False
+
 def attack():
     global direction
-    global attack_image
-    global hit_box_blit1
-    global hit_box_pos1
-    global hit_box_sur1
-    global damage_given
-    global reload_time
     if move_up == True:
         direction = 'up'
     if move_down == True:
@@ -263,74 +255,13 @@ def attack():
     if move_right == True:
         direction = 'right'
     basic_bow.blit(p.x, p.y, direction)
-    try:
-        if keys[pygame.K_SPACE]:
-            if inventory['sword'][1] == 'basic_sword':
-                hit_box_sur10, hit_box_pos, damage_given, hit_box, reload_time1 = basic_sword.swing_blit()
-                if abs(reload_time-time.time()) >= reload_time1:
-                    attack_image = 3
-                    hit_box_blit = hit_box
-                    hit_box_pos2 = hit_box_pos
-                    hit_box_sur = hit_box_sur10
-                    reload_time2 = reload_time1
-                    if direction == 'up':
-                        hit_box_pos.x = p.x+12
-                        hit_box_pos.y = p.y-15
-                    if direction == 'down':
-                        hit_box_pos.x = p.x+12
-                        hit_box_pos.y = p.y+40
-                    if direction == 'left' or direction == 'None':
-                        hit_box_pos.x = p.x-12
-                        hit_box_pos.y = p.y+12
-                    if direction == 'right':
-                        hit_box_pos.x = p.x+42
-                        hit_box_pos.y = p.y+12
-                    
-                    reload_time = time.time()
-    
-    
-        if attack_image > 0:
-            attack_image -= 1
-            try:
-                hit_box_blit1 = hit_box_blit
-                hit_box_pos1 = hit_box_pos2
-                hit_box_sur1 = hit_box_sur
-            except:
-                hit_box_blit1 = hit_box_blit1
-                hit_box_pos1 = hit_box_pos1
-                hit_box_sur1 = hit_box_sur1
+    attack_image = 0
+    if keys[pygame.K_SPACE]:
+        hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image = basic_sword.swing_blit(inventory, direction, p)
+    if attack_image > 0:
+        hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image = basic_sword.swing_blit(inventory, direction, p)
+        all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image)
 
-            if direction == 'up':
-                hit_box_pos1.x = p.x+12
-                hit_box_pos1.y = p.y-15
-                hit_box_blit180 = pygame.transform.rotate(hit_box_blit1, 0)
-                window.blit(hit_box_blit180, hit_box_pos1)
-            if direction == 'down':
-                hit_box_pos1.x = p.x+12
-                hit_box_pos1.y = p.y+40
-                hit_box_blit0 = pygame.transform.rotate(hit_box_blit1, 180)
-                window.blit(hit_box_blit0, hit_box_pos1)
-            if direction == 'left' or direction == 'None':
-                hit_box_pos1.x = p.x-12
-                hit_box_pos1.y = p.y+12
-                hit_box_blit270 = pygame.transform.rotate(hit_box_blit1, 90)
-                window.blit(hit_box_blit270, hit_box_pos1)
-            if direction == 'right':
-                hit_box_pos1.x = p.x+42
-                hit_box_pos1.y = p.y+12
-                hit_box_blit90 = pygame.transform.rotate(hit_box_blit1, 270)
-                window.blit(hit_box_blit90, hit_box_pos1)
-            all_monsters_recive_damage(hit_box_sur, hit_box_pos1, damage_given, attack_image)
-
-
-
-
-
-            
-        
-            
-    except:
-        pass
 def all_monsters_recive_damage(box, pos, damage, time_left):
     for monster in monsters:
         monster.recive_damage(box, pos, damage, time_left)
