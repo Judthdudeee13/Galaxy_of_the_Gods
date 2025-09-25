@@ -71,20 +71,14 @@ class monster_class:
                     damage_taken = 0
                     damage_taken += 1
                     self.damage_time = time.time()
-                    print(10)
                     return self.damage
     def recive_damage(self, player_mask, player_rect, damage, time_left):
         if self.load:
-            
-            try:
                 if time_left == 2:
                     self.able_to_recive_damage = True
                 if player_mask.overlap(self.mask, (self.rect.x - player_rect.x, self.rect.y - player_rect.y)) and self.able_to_recive_damage:
                     self.health -= damage
                     self.able_to_recive_damage = False
-            except Exception as e:
-                print(e)
-                print('THIS ONE DIDN\'T WORK this one') 
 
 
         if self.health <= 0:

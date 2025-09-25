@@ -1,10 +1,3 @@
-#work on cool down currently game works 03/26/2025
-#if abs(time.time()-attack_image()) <= reload_time and attack_image > 0:
-#weapons(reload_time, ammo, damage, direction, range)
-#monstersset_up(self, name, damage, health, speed, times, window, width, height, player_width, player_height)
-
-
-
 import pygame, sys, random, time, pickle
 import monster as mon
 from pygame.locals import *
@@ -47,7 +40,7 @@ BLUE = "#0000ff"
 #set up starting variables
 it1 = 2
 q = False
-inventory = {'sword': [0], 'range': [0]}
+inventory = {'sword': [0, 0], 'range': [0, 0]}
 inventory_time = time.time()
 keys = pygame.key.get_pressed()
 bg = 1
@@ -63,6 +56,8 @@ frame = 0
 player_frame = 0
 reload_time = time.time()
 direction = "down"
+current_weapon = 'basic_sword'
+attack_image = -1
 
 #game developer settings
 def game_developer():
@@ -246,6 +241,7 @@ def life(hearts, damages):
 
 def attack():
     global direction
+    global attack_image
     if move_up == True:
         direction = 'up'
     if move_down == True:
@@ -254,12 +250,12 @@ def attack():
         direction = 'left'
     if move_right == True:
         direction = 'right'
-    basic_bow.blit(p.x, p.y, direction)
-    attack_image = 0
+    basic_bow.blit(p.x, p.y, direction, inventory, current_weapon)
     if keys[pygame.K_SPACE]:
-        hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image = basic_sword.swing_blit(inventory, direction, p)
+        hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image = basic_sword.swing_blit(inventory, direction, p, current_weapon)
+        all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image)
     if attack_image > 0:
-        hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image = basic_sword.swing_blit(inventory, direction, p)
+        hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image = basic_sword.swing_blit(inventory, direction, p, current_weapon)
         all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image)
 
 def all_monsters_recive_damage(box, pos, damage, time_left):
@@ -300,7 +296,7 @@ def load_background1():
     left = True
     right = True
     if p.centerx >= 600 and p.centerx <= 700 and p.centery <= 150 and keys[pygame.K_e]:
-        inventory['sword'].append('basic_sword')
+        inventory['sword'][1] = 'basic_sword'
         q = True
         inventorys.load_inventory_background()
         inventorys.load_inventory(inventory)
