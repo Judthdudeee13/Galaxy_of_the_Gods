@@ -72,9 +72,9 @@ class monster_class:
                     damage_taken += 1
                     self.damage_time = time.time()
                     return self.damage
-    def recive_damage(self, player_mask, player_rect, damage, time_left):
+    def recive_damage(self, player_mask, player_rect, damage, time_left, starting_time):
         if self.load:
-                if time_left == 2:
+                if time_left == starting_time-1:
                     self.able_to_recive_damage = True
                 if player_mask.overlap(self.mask, (self.rect.x - player_rect.x, self.rect.y - player_rect.y)) and self.able_to_recive_damage:
                     self.health -= damage

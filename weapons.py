@@ -28,18 +28,19 @@ GREEN = '#00ff00'
 BLACK = "#000000"
 WHITE = "#FFFFFF"
 swing= False
-attack_image = 0
+attack_image = -1
 
 class weapon:
     def __init__(self):
         pass
-    def set_up(self, reload_time, ammo, damage, direction, range):
+    def set_up(self, reload_time, ammo, damage, direction, range, starting_time):
         self.reload_time = reload_time
         self.ammo = ammo
         self.damage = damage
         self.direction = direction
         self.range = range
         self.reload_time_cooldown = time.time()
+        self.starting_time = starting_time 
 
 
 
@@ -51,10 +52,9 @@ class melee(weapon):
         hit_box_sur = pygame.mask.from_surface(hit_box_im)
         self.swing = True
         self.swing = False
-        global attack_image
         if inventory['sword'][1] == 'basic_sword' and current_weapon == 'basic_sword':
             if abs(self.reload_time_cooldown-time.time()) >= self.reload_time:
-                attack_image = 3
+                attack_image = self.starting_time
                 hit_box_blit1 = hit_box_im
                 hit_box_sur = hit_box_sur
                 if direction == 'up':
@@ -73,36 +73,38 @@ class melee(weapon):
                 self.reload_time_cooldown = time.time()
 
 
-        if attack_image > 0:
-            attack_image -= 1
-            try:
-                hit_box_blit1 = hit_box_im
-                hit_box_pos1 = hit_box_pos
-            except:
-                hit_box_blit1 = hit_box_im
-                hit_box_pos1 = hit_box_pos1
+            if attack_image > 0:
+                attack_image -= 1
+                try:
+                    hit_box_blit1 = hit_box_im
+                    hit_box_pos1 = hit_box_pos
+                except:
+                    hit_box_blit1 = hit_box_im
+                    hit_box_pos1 = hit_box_pos1
 
-            if direction == 'up':
-                hit_box_pos1.x = p.x+12
-                hit_box_pos1.y = p.y-15
-                hit_box_blit180 = pygame.transform.rotate(hit_box_blit1, 180)
-                window.blit(hit_box_blit180, hit_box_pos1)
-            if direction == 'down':
-                hit_box_pos1.x = p.x+12
-                hit_box_pos1.y = p.y+40
-                hit_box_blit0 = pygame.transform.rotate(hit_box_blit1, 0)
-                window.blit(hit_box_blit0, hit_box_pos1)
-            if direction == 'left' or direction == 'None':
-                hit_box_pos1.x = p.x-12
-                hit_box_pos1.y = p.y+12
-                hit_box_blit270 = pygame.transform.rotate(hit_box_blit1, 270)
-                window.blit(hit_box_blit270, hit_box_pos1)
-            if direction == 'right':
-                hit_box_pos1.x = p.x+42
-                hit_box_pos1.y = p.y+12
-                hit_box_blit90 = pygame.transform.rotate(hit_box_blit1, 90)
-                window.blit(hit_box_blit90, hit_box_pos1)
-        return  hit_box_sur, hit_box_pos, self.damage, hit_box_im, attack_image
+                if direction == 'up':
+                    hit_box_pos1.x = p.x+12
+                    hit_box_pos1.y = p.y-15
+                    hit_box_blit180 = pygame.transform.rotate(hit_box_blit1, 180)
+                    window.blit(hit_box_blit180, hit_box_pos1)
+                if direction == 'down':
+                    hit_box_pos1.x = p.x+12
+                    hit_box_pos1.y = p.y+40
+                    hit_box_blit0 = pygame.transform.rotate(hit_box_blit1, 0)
+                    window.blit(hit_box_blit0, hit_box_pos1)
+                if direction == 'left' or direction == 'None':
+                    hit_box_pos1.x = p.x-12
+                    hit_box_pos1.y = p.y+12
+                    hit_box_blit270 = pygame.transform.rotate(hit_box_blit1, 270)
+                    window.blit(hit_box_blit270, hit_box_pos1)
+                if direction == 'right':
+                    hit_box_pos1.x = p.x+42
+                    hit_box_pos1.y = p.y+12
+                    hit_box_blit90 = pygame.transform.rotate(hit_box_blit1, 90)
+                    window.blit(hit_box_blit90, hit_box_pos1)
+            return  hit_box_sur, hit_box_pos, self.damage, hit_box_im, attack_image, self.starting_time
+        else:
+             return hit_box_sur, hit_box_pos, self.damage, hit_box_im, -1, self.starting_time
 
 
 
@@ -139,29 +141,43 @@ class range(weapon):
                     hit_box_blit90 = pygame.transform.rotate(self.bow, 0)
                     window.blit(hit_box_blit90, self.bow_rect)
     def attack(self, inventory, direction, player, current_weapon):
+        global attack_image
         self.arrow_im = pygame.image.load('basic_arrow.png')
         self.arrow_im = pygame.transform.scale(self.arrow_im, self.arrow_size)
         self.arrow_sur = pygame.mask.from_surface(self.arrow_im)
         self.arrow_rect = self.arrow_im.get_rect()
         if inventory['range'][1] == 'basic_bow' and current_weapon == 'basic_bow':
-            if direction == 'up':
-                    self.arrow_rect.centerx = player.x+25
-                    self.arrow_rect.centery = player.y-5
-                    hit_box_blit180 = pygame.transform.rotate(self.arrow_im, 0)
-                    window.blit(hit_box_blit180, self.arrow_rect)
-            if direction == 'down':
-                    self.arrow_rect.centerx = player.x+25
-                    self.arrow_rect.centery = player.y+55
-                    hit_box_blit0 = pygame.transform.rotate(self.arrow_im, 180)
-                    window.blit(hit_box_blit0, self.arrow_rect)
-            if direction == 'left' or direction == 'None':
-                    self.arrow_rect.centerx = player.x-11
-                    self.arrow_rect.centery = player.y+30
-                    hit_box_blit270 = pygame.transform.rotate(self.arrow_im, 90)
-                    window.blit(hit_box_blit270, self.arrow_rect)
-            if direction == 'right':
-                    self.arrow_rect.centerx = player.x+52
-                    self.arrow_rect.centery = player.y+30
-                    hit_box_blit90 = pygame.transform.rotate(self.arrow_im, 270)
-                    window.blit(hit_box_blit90, self.arrow_rect)
-        return self.arrow_sur, self.arrow_rect, self.damage, self.arrow_im, attack_image
+            if abs(self.reload_time_cooldown-time.time()) >= self.reload_time:
+                attack_image = self.starting_time
+                self.reload_time_cooldown = time.time()
+
+
+            if attack_image > 0:
+                attack_image -= 1
+                print(attack_image)
+                print('this one')
+                if direction == 'up':
+                        self.arrow_rect.centerx = player.x+25
+                        self.arrow_rect.centery = player.y-5
+                        hit_box_blit180 = pygame.transform.rotate(self.arrow_im, 0)
+                        window.blit(hit_box_blit180, self.arrow_rect)
+                if direction == 'down':
+                        self.arrow_rect.centerx = player.x+25
+                        self.arrow_rect.centery = player.y+55
+                        hit_box_blit0 = pygame.transform.rotate(self.arrow_im, 180)
+                        window.blit(hit_box_blit0, self.arrow_rect)
+                if direction == 'left' or direction == 'None':
+                        self.arrow_rect.centerx = player.x-11
+                        self.arrow_rect.centery = player.y+30
+                        hit_box_blit270 = pygame.transform.rotate(self.arrow_im, 90)
+                        window.blit(hit_box_blit270, self.arrow_rect)
+                if direction == 'right':
+                        self.arrow_rect.centerx = player.x+52
+                        self.arrow_rect.centery = player.y+30
+                        hit_box_blit90 = pygame.transform.rotate(self.arrow_im, 270)
+                        window.blit(hit_box_blit90, self.arrow_rect)
+            print(attack_image)
+            print('this one')
+            return self.arrow_sur, self.arrow_rect, self.damage, self.arrow_im, attack_image, self.starting_time
+        else:
+             return self.arrow_sur, self.arrow_rect, self.damage, self.arrow_im, -1, self.starting_time
