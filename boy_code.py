@@ -253,9 +253,12 @@ def attack():
         direction = 'right'
     basic_bow.blit(p.x, p.y, direction, inventory, current_weapon)
     if keys[pygame.K_SPACE]:
-        for weapon in weapons_list:
-            hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventory, direction, p, current_weapon)
-            all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image, starting_time)
+        try:
+            for weapon in weapons_list:
+                hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventory, direction, p, current_weapon)
+                all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image, starting_time)
+        except:
+            print('idk')
     if attack_image > 0:
         print('worked1')
         for weapon in weapons_list:

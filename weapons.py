@@ -82,7 +82,7 @@ class melee(weapon):
                 print(attack_image)
                 return  self.hit_box_sur, self.hit_box_pos, self.damage, self.hit_box_im, attack_image, self.starting_time
         else:
-             return self.hit_box_sur, self.hit_box_pos, self.damage, self.hit_box_im, -1, self.starting_time
+            return self.hit_box_sur, self.hit_box_pos, self.damage, self.hit_box_im, -1, self.starting_time
 
 
 
