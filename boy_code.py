@@ -57,6 +57,7 @@ player_frame = 0
 reload_time = time.time()
 direction = "down"
 current_weapon = 'basic_bow'
+#current_weapon = 'basic_sword'
 attack_image = -1
 
 #game developer settings
@@ -255,9 +256,8 @@ def attack():
         for weapon in weapons_list:
             hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventory, direction, p, current_weapon)
             all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image, starting_time)
-            print(attack_image)
-            print('this one2')
     if attack_image > 0:
+        print('worked1')
         for weapon in weapons_list:
             print('worked')
             hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventory, direction, p, current_weapon)
@@ -302,6 +302,7 @@ def load_background1():
     right = True
     if p.centerx >= 600 and p.centerx <= 700 and p.centery <= 150 and keys[pygame.K_e]:
         inventory['range'][1] = 'basic_bow'
+        #inventory['sword'][1] = 'basic_sword'
         q = True
         inventorys.load_inventory_background()
         inventorys.load_inventory(inventory)
@@ -552,7 +553,7 @@ def load_weapons():
     global basic_bow
     global weapons_list
     basic_sword = weapons.melee()
-    basic_sword.set_up(0.5, 0, 1, direction, 25, 3)
+    basic_sword.set_up(0.5, 0, 1, direction, 25, 100)
     basic_bow  = weapons.range()
     basic_bow.set_up(2, 'basic_arrow', 2, direction, 0, 100)
     basic_bow.set_up1((10, 20), 'basic_bow.png')
