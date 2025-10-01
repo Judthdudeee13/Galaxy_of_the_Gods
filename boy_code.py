@@ -59,6 +59,7 @@ direction = "down"
 current_weapon = 'basic_bow'
 #current_weapon = 'basic_sword'
 attack_image = -1
+space_clicked = False
 
 #game developer settings
 def game_developer():
@@ -253,17 +254,16 @@ def attack():
         direction = 'right'
     basic_bow.blit(p.x, p.y, direction, inventory, current_weapon)
     if keys[pygame.K_SPACE]:
-        try:
+            space_clicked = True
             for weapon in weapons_list:
-                hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventory, direction, p, current_weapon)
+                hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventory, direction, p, current_weapon, space_clicked)
                 all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image, starting_time)
-        except:
-            print('idk')
-    if attack_image > 0:
-        print('worked1')
-        for weapon in weapons_list:
-            print('worked')
-            hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventory, direction, p, current_weapon)
+    else:
+        space_clicked = False
+
+    for weapon in weapons_list:
+        hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventory, direction, p, current_weapon, space_clicked)
+        if attack_image > 0:
             all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image, starting_time)
 
 def all_monsters_recive_damage(box, pos, damage, time_left, starting_time):
@@ -555,7 +555,7 @@ def load_weapons():
     global basic_bow
     global weapons_list
     basic_sword = weapons.melee()
-    basic_sword.set_up(0.5, 0, 1, direction, 25, 100)
+    basic_sword.set_up(0.5, 0, 1, direction, 25, 3)
     basic_bow  = weapons.range()
     basic_bow.set_up(2, 'basic_arrow', 2, direction, 0, 100)
     basic_bow.set_up1((10, 20), 'basic_bow.png')
