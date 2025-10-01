@@ -1,7 +1,7 @@
 import pygame, sys, random, time, pickle
 import monster as mon
 from pygame.locals import *
-import inventory as inv
+import information_screens
 import weapons
 
 keys = pygame.key.get_pressed()
@@ -12,7 +12,7 @@ pygame.init()
 pygame.mixer.init()
 clock = pygame.time.Clock()
 pygame.mouse.set_visible(False)
-inventorys = inv.inventory_class()
+inventorys = information_screens.inventory()
 
 GAME_DEVELOPER_MACANICS = True
 
@@ -307,8 +307,7 @@ def load_background1():
         inventory['range'][1] = 'basic_bow'
         #inventory['sword'][1] = 'basic_sword'
         q = True
-        inventorys.load_inventory_background()
-        inventorys.load_inventory(inventory)
+        inventorys.run(inventory)
         bg = 0
     if p.centery <= 103 and p.centerx >= 613 and p.centerx <= 700:
         left = False
@@ -637,11 +636,11 @@ damage_taken = int(data['damage'])
 while game == True:
     keys = pygame.key.get_pressed()
     #open inventory
-    if keys[K_q] and bg != 0 and time.time() -  inventory_time > .5:
+    if keys[K_q] and bg != 0 and time.time() -  inventory_time > .25:
         obg = bg
         bg = 0
         inventory_time = time.time()
-    elif bg == 0 and keys[K_q] and time.time() -  inventory_time > .5:
+    elif bg == 0 and keys[K_q] and time.time() -  inventory_time > .25:
         bg = obg
         inventory_time = time.time()
 
@@ -672,8 +671,7 @@ while game == True:
     game_developer()
 
     if bg == 0:
-        inventorys.load_inventory_background()
-        inventorys.load_inventory(inventory)
+        inventorys.run(inventory)
 
     #move player
     if bg != 0:
