@@ -28,6 +28,8 @@ GREEN = '#00ff00'
 BLACK = "#000000"
 WHITE = "#FFFFFF"
 swing= False
+x = 0
+y= 0
 
 class weapon:
     def __init__(self):
@@ -97,6 +99,7 @@ class range(weapon):
         self.bow = pygame.image.load(image)
         self.bow = pygame.transform.scale_by(self.bow, (1.5, 1.5))
         self.bow_rect = self.bow.get_rect()
+        self.arrow_direction = 'up'
     def blit(self, playerx, playery, direction, inventory, current_weapon):
         if inventory['range'][1] == 'basic_bow' and current_weapon == 'basic_bow':
             if direction == 'up':
@@ -120,6 +123,7 @@ class range(weapon):
                     hit_box_blit90 = pygame.transform.rotate(self.bow, 0)
                     window.blit(hit_box_blit90, self.bow_rect)
     def attack(self, inventory, direction, player, current_weapon, space):
+        global x, y
         self.arrow_im = pygame.image.load('basic_arrow.png')
         self.arrow_im = pygame.transform.scale(self.arrow_im, self.arrow_size)
         self.arrow_sur = pygame.mask.from_surface(self.arrow_im)
@@ -128,31 +132,69 @@ class range(weapon):
             if abs(self.reload_time_cooldown-time.time()) >= self.reload_time and self.attack_image <= 0 and space:
                 self.attack_image = self.starting_time
                 self.reload_time_cooldown = time.time()
-
-
-            if self.attack_image > 0:
-                self.attack_image -= 1
+                x = 0
+                y = 0
                 if direction == 'up':
+                        x = player.x+25
+                        y = player.y-5
+                        self.arrow_direction = 'up'
                         self.arrow_rect.centerx = player.x+25
                         self.arrow_rect.centery = player.y-5
                         hit_box_blit180 = pygame.transform.rotate(self.arrow_im, 0)
                         window.blit(hit_box_blit180, self.arrow_rect)
                 if direction == 'down':
+                        x = player.x+25
+                        y = player.y+55
+                        self.arrow_direction = 'down'
                         self.arrow_rect.centerx = player.x+25
                         self.arrow_rect.centery = player.y+55
                         hit_box_blit0 = pygame.transform.rotate(self.arrow_im, 180)
                         window.blit(hit_box_blit0, self.arrow_rect)
                 if direction == 'left' or direction == 'None':
+                        x = player.x-11
+                        y = player.y+30
+                        self.arrow_direction = 'left'
                         self.arrow_rect.centerx = player.x-11
                         self.arrow_rect.centery = player.y+30
                         hit_box_blit270 = pygame.transform.rotate(self.arrow_im, 90)
                         window.blit(hit_box_blit270, self.arrow_rect)
                 if direction == 'right':
+                        x = player.x+52
+                        y = player.y+30
+                        self.arrow_direction = 'right'
                         self.arrow_rect.centerx = player.x+52
                         self.arrow_rect.centery = player.y+30
                         hit_box_blit90 = pygame.transform.rotate(self.arrow_im, 270)
                         window.blit(hit_box_blit90, self.arrow_rect)
-                print(self.attack_image)
+                return self.arrow_sur, self.arrow_rect, self.damage, self.arrow_im, self.attack_image, self.starting_time
+
+
+            elif self.attack_image > 0:
+                self.attack_image -= 1
+                if self.arrow_direction == 'up':
+                        y -= 10
+                        self.arrow_rect.centerx = x
+                        self.arrow_rect.centery = y
+                        hit_box_blit180 = pygame.transform.rotate(self.arrow_im, 0)
+                        window.blit(hit_box_blit180, self.arrow_rect)
+                if self.arrow_direction == 'down':
+                        y += 10
+                        self.arrow_rect.centerx = x
+                        self.arrow_rect.centery = y
+                        hit_box_blit0 = pygame.transform.rotate(self.arrow_im, 180)
+                        window.blit(hit_box_blit0, self.arrow_rect)
+                if self.arrow_direction == 'left' or direction == 'None':
+                        x-=10
+                        self.arrow_rect.centerx = x
+                        self.arrow_rect.centery = y
+                        hit_box_blit270 = pygame.transform.rotate(self.arrow_im, 90)
+                        window.blit(hit_box_blit270, self.arrow_rect)
+                if self.arrow_direction == 'right':
+                        x+=10
+                        self.arrow_rect.centerx = x
+                        self.arrow_rect.centery = y
+                        hit_box_blit90 = pygame.transform.rotate(self.arrow_im, 270)
+                        window.blit(hit_box_blit90, self.arrow_rect)
                 return self.arrow_sur, self.arrow_rect, self.damage, self.arrow_im, self.attack_image, self.starting_time
             else:
                 return self.arrow_sur, self.arrow_rect, self.damage, self.arrow_im, -1, self.starting_time

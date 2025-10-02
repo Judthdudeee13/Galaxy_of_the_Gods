@@ -557,7 +557,7 @@ def load_weapons():
     basic_sword = weapons.melee()
     basic_sword.set_up(0.5, 0, 1, direction, 25, 3)
     basic_bow  = weapons.range()
-    basic_bow.set_up(2, 'basic_arrow', 2, direction, 0, 100)
+    basic_bow.set_up(2, 'basic_arrow', 1, direction, 0, 25)
     basic_bow.set_up1((10, 20), 'basic_bow.png')
     weapons_list = [basic_bow, basic_sword]
 
