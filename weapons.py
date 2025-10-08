@@ -200,3 +200,8 @@ class range(weapon):
                 return self.arrow_sur, self.arrow_rect, self.damage, self.arrow_im, -1, self.starting_time
         else:
              return self.arrow_sur, self.arrow_rect, self.damage, self.arrow_im, -1, self.starting_time
+
+    def check_for_collision(self, collisions):
+         for collision in collisions:
+              if self.arrow_rect.colliderect(collision):
+                   self.arrow_rect.center(-1000, -1000)
