@@ -42,6 +42,7 @@ class inventory:
         self.inventory_bow = pygame.image.load("inventory/inventory_ranged.png")
         self.background = self.inventory_melee
         self.inventory_spot = []
+        self.current_weapon = 'basic_sword'
         for y in range(6):
                 y_pos = (y*122)+150
                 for x in range(13):
@@ -52,6 +53,7 @@ class inventory:
         self.inventory_list = inventory_list
         self.load_inventory_background()
         self.load_inventory()
+        self.change_background()
 
 
     def load_inventory(self):
@@ -69,6 +71,13 @@ class inventory:
                 window.blit(basic_sword, basic_sword_rect)
             
         mouse_pos()
+    def change_background(self):
+        melee_hit_box = pygame.draw.rect(window, GREEN, (0, 0, 147, 126))
+        range_hit_box = pygame.draw.rect(window, RED, (147, 0, 147, 126))
+        magic_hit_box = pygame.draw.rect(window, GREEN, (294, 0, 147, 126))
+        armor_hit_box = pygame.draw.rect(window, RED, (441, 0, 147, 126))
+        inventory_hit_box = pygame.draw.rect(window, GREEN, (588, 0, 147, 126))
+        map_hit_box = pygame.draw.rect(window, RED, (735, 0, 147, 126))
         
     
     def load_inventory_background(self):

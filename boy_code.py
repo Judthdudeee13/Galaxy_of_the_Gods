@@ -56,7 +56,7 @@ frame = 0
 player_frame = 0
 reload_time = time.time()
 direction = "down"
-current_weapon = 'basic_bow'
+current_weapon = inventorys.current_weapon
 #current_weapon = 'basic_sword'
 attack_image = -1
 space_clicked = False
@@ -305,7 +305,7 @@ def load_background1():
     right = True
     if p.centerx >= 600 and p.centerx <= 700 and p.centery <= 150 and keys[pygame.K_e]:
         inventory['range'][1] = 'basic_bow'
-        #inventory['sword'][1] = 'basic_sword'
+        inventory['sword'][1] = 'basic_sword'
         q = True
         inventorys.run(inventory)
         bg = 0
