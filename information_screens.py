@@ -38,7 +38,7 @@ def mouse_pos():
 
 class inventory:
     def __init__(self):
-        self.inventory_melee = pygame.image.load("inventory/sword_inventory.png")
+        self.inventory_melee = pygame.image.load("inventory/inventory_melee.png")
         self.inventory_bow = pygame.image.load("inventory/inventory_ranged.png")
         self.background = self.inventory_melee
         self.inventory_spot = []
