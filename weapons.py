@@ -48,7 +48,7 @@ class weapon:
 
 class melee(weapon):
     def attack(self, inventory, direction, p, current_weapon, space):
-        self.hit_box_im = pygame.image.load("melee_AOE.png")
+        self.hit_box_im = pygame.image.load("weapons/melee_AOE.png")
         self.hit_box_im = pygame.transform.scale(self.hit_box_im, (self.range, self.range))
         self.hit_box_pos = self.hit_box_im.get_rect()
         self.hit_box_sur = pygame.mask.from_surface(self.hit_box_im)
@@ -124,7 +124,7 @@ class range(weapon):
                     window.blit(hit_box_blit90, self.bow_rect)
     def attack(self, inventory, direction, player, current_weapon, space):
         global x, y
-        self.arrow_im = pygame.image.load('basic_arrow.png')
+        self.arrow_im = pygame.image.load('weapons/basic_arrow.png')
         self.arrow_im = pygame.transform.scale(self.arrow_im, self.arrow_size)
         self.arrow_sur = pygame.mask.from_surface(self.arrow_im)
         self.arrow_rect = self.arrow_im.get_rect()

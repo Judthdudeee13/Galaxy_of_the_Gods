@@ -38,8 +38,8 @@ def mouse_pos():
 
 class inventory:
     def __init__(self):
-        self.inventory_melee = pygame.image.load("sword_inventory.png")
-        self.inventory_bow = pygame.image.load("bow_inventory.png")
+        self.inventory_melee = pygame.image.load("inventory/sword_inventory.png")
+        self.inventory_bow = pygame.image.load("inventory/inventory_ranged.png")
         self.background = self.inventory_melee
         self.inventory_spot = []
         for y in range(6):
@@ -57,13 +57,13 @@ class inventory:
     def load_inventory(self):
         if self.background  == self.inventory_melee:
             if self.inventory_list['sword'][1]:
-                basic_sword = pygame.image.load('basic_sword(inv).png')
+                basic_sword = pygame.image.load('weapons/basic_sword(inv).png')
                 basic_sword_rect = basic_sword.get_rect()
                 basic_sword_rect.center = self.inventory_spot[0]
                 window.blit(basic_sword, basic_sword_rect)
         elif self.background  == self.inventory_bow:
             if self.inventory_list['range'][1]:
-                basic_sword = pygame.image.load('basic_sword(inv).png')
+                basic_sword = pygame.image.load('weapons/basic_sword(inv).png')
                 basic_sword_rect = basic_sword.get_rect()
                 basic_sword_rect.center = self.inventory_spot[0]
                 window.blit(basic_sword, basic_sword_rect)

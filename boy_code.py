@@ -203,15 +203,15 @@ class load_heart:
 
     def blit(self):
         if self.part == "4":
-            heart = pygame.image.load("full_heart.png")
+            heart = pygame.image.load("hearts/full_heart.png")
         if self.part == "3":
-            heart = pygame.image.load("3_quarter_heart.png")
+            heart = pygame.image.load("hearts/3_quarter_heart.png")
         if self.part == "2":
-            heart = pygame.image.load("half_heart.png")
+            heart = pygame.image.load("hearts/half_heart.png")
         if self.part == "1":
-            heart = pygame.image.load("quarter_heart.png")
+            heart = pygame.image.load("hearts/quarter_heart.png")
         if self.part == "0":
-            heart = pygame.image.load("emptey.png")
+            heart = pygame.image.load("hearts/emptey.png")
         heart_rect = heart.get_rect()
         heart_rect.x = self.x
         heart_rect.y = self.y
@@ -287,7 +287,7 @@ def load_background1():
     global bg
     global it1
     keys = pygame.key.get_pressed()
-    background = pygame.image.load("background1.PNG")
+    background = pygame.image.load("backgrounds/background1.PNG")
     background1 = pygame.transform.scale(background,(1300,700))
     back1 = background1.get_rect()
     back1.centerx = 650
@@ -336,7 +336,7 @@ def load_background2():
     global bg
     global it1
     keys = pygame.key.get_pressed()
-    background = pygame.image.load("background2.PNG")
+    background = pygame.image.load("backgrounds/background2.PNG")
     background1 = pygame.transform.scale(background,(1300,700))
     back1 = background1.get_rect()
     back1.centerx = 650
@@ -374,7 +374,7 @@ def load_background3():
     global it1
     global damage_taken
     keys = pygame.key.get_pressed()
-    background = pygame.image.load("background3.PNG")
+    background = pygame.image.load("backgrounds/background3.PNG")
     background1 = pygame.transform.scale(background,(1300,700))
     back1 = background1.get_rect()
     back1.centerx = 650
@@ -426,7 +426,7 @@ def load_background4():
     global it1
     global damage_taken
     keys = pygame.key.get_pressed()
-    background = pygame.image.load("background4.PNG")
+    background = pygame.image.load("backgrounds/background4.PNG")
     background1 = pygame.transform.scale(background,(1300,700))
     back1 = background1.get_rect()
     back1.centerx = 650
@@ -558,7 +558,7 @@ def load_weapons():
     basic_sword.set_up(0.5, 0, 1, direction, 25, 3)
     basic_bow  = weapons.range()
     basic_bow.set_up(2, 'basic_arrow', 1, direction, 0, 25)
-    basic_bow.set_up1((10, 20), 'basic_bow.png')
+    basic_bow.set_up1((10, 20), 'weapons/basic_bow.png')
     weapons_list = [basic_bow, basic_sword]
 
 def load_monsters():
