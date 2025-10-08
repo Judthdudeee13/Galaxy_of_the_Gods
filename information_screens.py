@@ -36,9 +36,10 @@ def mouse_pos():
     mouse_rect.centery = y
     window.blit(mouse, mouse_rect)
 
-class inventory_class:
+class inventory:
     def __init__(self):
-        self.inventory_melee = pygame.image.load("sword_inventory.png")
+        self.inventory_melee = pygame.image.load("inventory/inventory_melee.png")
+        self.inventory_bow = pygame.image.load("inventory/inventory_ranged.png")
         self.background = self.inventory_melee
         self.inventory_spot = []
         for y in range(6):
@@ -47,16 +48,25 @@ class inventory_class:
                     x_pos = (x*100)+50
                     self.inventory_spot.append((x_pos, y_pos))
 
+    def run(self, inventory_list):
+        self.inventory_list = inventory_list
+        self.load_inventory_background()
+        self.load_inventory()
 
-    def load_inventory(self, inventory_map):
-        try:
-            if inventory_map['sword'][1] == 'basic_sword':
-                basic_sword = pygame.image.load('basic_sword(inv).png')
+
+    def load_inventory(self):
+        if self.background  == self.inventory_melee:
+            if self.inventory_list['sword'][1]:
+                basic_sword = pygame.image.load('weapons/basic_sword(inv).png')
                 basic_sword_rect = basic_sword.get_rect()
                 basic_sword_rect.center = self.inventory_spot[0]
                 window.blit(basic_sword, basic_sword_rect)
-        except Exception as e:
-            print(e)
+        elif self.background  == self.inventory_bow:
+            if self.inventory_list['range'][1]:
+                basic_sword = pygame.image.load('weapons/basic_sword(inv).png')
+                basic_sword_rect = basic_sword.get_rect()
+                basic_sword_rect.center = self.inventory_spot[0]
+                window.blit(basic_sword, basic_sword_rect)
             
         mouse_pos()
         

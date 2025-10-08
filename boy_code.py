@@ -1,14 +1,7 @@
-#work on cool down currently game works 03/26/2025
-#if abs(time.time()-attack_image()) <= reload_time and attack_image > 0:
-#weapons(reload_time, ammo, damage, direction, range)
-#monstersset_up(self, name, damage, health, speed, times, window, width, height, player_width, player_height)
-
-
-
 import pygame, sys, random, time, pickle
 import monster as mon
 from pygame.locals import *
-import inventory as inv
+import information_screens
 import weapons
 
 keys = pygame.key.get_pressed()
@@ -19,7 +12,7 @@ pygame.init()
 pygame.mixer.init()
 clock = pygame.time.Clock()
 pygame.mouse.set_visible(False)
-inventorys = inv.inventory_class()
+inventorys = information_screens.inventory()
 
 GAME_DEVELOPER_MACANICS = True
 
@@ -47,7 +40,7 @@ BLUE = "#0000ff"
 #set up starting variables
 it1 = 2
 q = False
-inventory = {'sword': [0], 'range': [0]}
+inventory = {'sword': [0, 0], 'range': [0, 0]}
 inventory_time = time.time()
 keys = pygame.key.get_pressed()
 bg = 1
@@ -63,6 +56,10 @@ frame = 0
 player_frame = 0
 reload_time = time.time()
 direction = "down"
+current_weapon = 'basic_bow'
+#current_weapon = 'basic_sword'
+attack_image = -1
+space_clicked = False
 
 #game developer settings
 def game_developer():
@@ -206,15 +203,15 @@ class load_heart:
 
     def blit(self):
         if self.part == "4":
-            heart = pygame.image.load("full_heart.png")
+            heart = pygame.image.load("hearts/full_heart.png")
         if self.part == "3":
-            heart = pygame.image.load("3_quarter_heart.png")
+            heart = pygame.image.load("hearts/3_quarter_heart.png")
         if self.part == "2":
-            heart = pygame.image.load("half_heart.png")
+            heart = pygame.image.load("hearts/half_heart.png")
         if self.part == "1":
-            heart = pygame.image.load("quarter_heart.png")
+            heart = pygame.image.load("hearts/quarter_heart.png")
         if self.part == "0":
-            heart = pygame.image.load("emptey.png")
+            heart = pygame.image.load("hearts/emptey.png")
         heart_rect = heart.get_rect()
         heart_rect.x = self.x
         heart_rect.y = self.y
@@ -243,17 +240,10 @@ def life(hearts, damages):
         current_hearts -= 1
 
 
-direction = False
-hit_box_blit1 = False
-hit_box_pos1 = False
+
 def attack():
     global direction
     global attack_image
-    global hit_box_blit1
-    global hit_box_pos1
-    global hit_box_sur1
-    global damage_given
-    global reload_time
     if move_up == True:
         direction = 'up'
     if move_down == True:
@@ -262,76 +252,23 @@ def attack():
         direction = 'left'
     if move_right == True:
         direction = 'right'
-    try:
-        if keys[pygame.K_SPACE]:
-            if inventory['sword'][1] == 'basic_sword':
-                hit_box_sur10, hit_box_pos, damage_given, hit_box, reload_time1, attack_image = basic_sword.swing_blit()
-                if abs(reload_time-time.time()) >= reload_time1:
-                    hit_box_blit = hit_box
-                    hit_box_pos2 = hit_box_pos
-                    hit_box_sur = hit_box_sur10
-                    reload_time2 = reload_time1
-                    if direction == 'up':
-                        hit_box_pos.x = p.x+12
-                        hit_box_pos.y = p.y-15
-                    if direction == 'down':
-                        hit_box_pos.x = p.x+12
-                        hit_box_pos.y = p.y+40
-                    if direction == 'left' or direction == 'None':
-                        hit_box_pos.x = p.x-12
-                        hit_box_pos.y = p.y+12
-                    if direction == 'right':
-                        hit_box_pos.x = p.x+42
-                        hit_box_pos.y = p.y+12
-                    
-                    reload_time = time.time()
-    
-    
+    basic_bow.blit(p.x, p.y, direction, inventory, current_weapon)
+    if keys[pygame.K_SPACE]:
+            space_clicked = True
+            for weapon in weapons_list:
+                hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventory, direction, p, current_weapon, space_clicked)
+                all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image, starting_time)
+    else:
+        space_clicked = False
+
+    for weapon in weapons_list:
+        hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventory, direction, p, current_weapon, space_clicked)
         if attack_image > 0:
-            attack_image -= 1
-            try:
-                hit_box_blit1 = hit_box_blit
-                hit_box_pos1 = hit_box_pos2
-                hit_box_sur1 = hit_box_sur
-            except:
-                hit_box_blit1 = hit_box_blit1
-                hit_box_pos1 = hit_box_pos1
-                hit_box_sur1 = hit_box_sur1
+            all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image, starting_time)
 
-            if direction == 'up':
-                hit_box_pos1.x = p.x+12
-                hit_box_pos1.y = p.y-15
-                hit_box_blit180 = pygame.transform.rotate(hit_box_blit1, 0)
-                window.blit(hit_box_blit180, hit_box_pos1)
-            if direction == 'down':
-                hit_box_pos1.x = p.x+12
-                hit_box_pos1.y = p.y+40
-                hit_box_blit0 = pygame.transform.rotate(hit_box_blit1, 180)
-                window.blit(hit_box_blit0, hit_box_pos1)
-            if direction == 'left' or direction == 'None':
-                hit_box_pos1.x = p.x-12
-                hit_box_pos1.y = p.y+12
-                hit_box_blit270 = pygame.transform.rotate(hit_box_blit1, 90)
-                window.blit(hit_box_blit270, hit_box_pos1)
-            if direction == 'right':
-                hit_box_pos1.x = p.x+42
-                hit_box_pos1.y = p.y+12
-                hit_box_blit90 = pygame.transform.rotate(hit_box_blit1, 270)
-                window.blit(hit_box_blit90, hit_box_pos1)
-            all_monsters_recive_damage(hit_box_sur, hit_box_pos1, damage_given, attack_image)
-
-
-
-
-
-            
-        
-            
-    except:
-        pass
-def all_monsters_recive_damage(box, pos, damage, time_left):
+def all_monsters_recive_damage(box, pos, damage, time_left, starting_time):
     for monster in monsters:
-        monster.recive_damage(box, pos, damage, time_left)
+        monster.recive_damage(box, pos, damage, time_left, starting_time)
 
 #Inventory
 
@@ -350,7 +287,7 @@ def load_background1():
     global bg
     global it1
     keys = pygame.key.get_pressed()
-    background = pygame.image.load("background1.PNG")
+    background = pygame.image.load("backgrounds/background1.PNG")
     background1 = pygame.transform.scale(background,(1300,700))
     back1 = background1.get_rect()
     back1.centerx = 650
@@ -367,10 +304,10 @@ def load_background1():
     left = True
     right = True
     if p.centerx >= 600 and p.centerx <= 700 and p.centery <= 150 and keys[pygame.K_e]:
-        inventory['sword'].append('basic_sword')
+        inventory['range'][1] = 'basic_bow'
+        #inventory['sword'][1] = 'basic_sword'
         q = True
-        inventorys.load_inventory_background()
-        inventorys.load_inventory(inventory)
+        inventorys.run(inventory)
         bg = 0
     if p.centery <= 103 and p.centerx >= 613 and p.centerx <= 700:
         left = False
@@ -399,7 +336,7 @@ def load_background2():
     global bg
     global it1
     keys = pygame.key.get_pressed()
-    background = pygame.image.load("background2.PNG")
+    background = pygame.image.load("backgrounds/background2.PNG")
     background1 = pygame.transform.scale(background,(1300,700))
     back1 = background1.get_rect()
     back1.centerx = 650
@@ -437,7 +374,7 @@ def load_background3():
     global it1
     global damage_taken
     keys = pygame.key.get_pressed()
-    background = pygame.image.load("background3.PNG")
+    background = pygame.image.load("backgrounds/background3.PNG")
     background1 = pygame.transform.scale(background,(1300,700))
     back1 = background1.get_rect()
     back1.centerx = 650
@@ -489,7 +426,7 @@ def load_background4():
     global it1
     global damage_taken
     keys = pygame.key.get_pressed()
-    background = pygame.image.load("background4.PNG")
+    background = pygame.image.load("backgrounds/background4.PNG")
     background1 = pygame.transform.scale(background,(1300,700))
     back1 = background1.get_rect()
     back1.centerx = 650
@@ -615,8 +552,14 @@ clear_data()
 
 def load_weapons():
     global basic_sword
+    global basic_bow
+    global weapons_list
     basic_sword = weapons.melee()
-    basic_sword.set_up(0.5, 0, 1, direction, 25, 5)
+    basic_sword.set_up(0.5, 0, 1, direction, 25, 3)
+    basic_bow  = weapons.range()
+    basic_bow.set_up(2, 'basic_arrow', 1, direction, 0, 25)
+    basic_bow.set_up1((10, 20), 'weapons/basic_bow.png')
+    weapons_list = [basic_bow, basic_sword]
 
 def load_monsters():
     global monster1
@@ -693,11 +636,11 @@ damage_taken = int(data['damage'])
 while game == True:
     keys = pygame.key.get_pressed()
     #open inventory
-    if keys[K_q] and bg != 0 and time.time() -  inventory_time > .5:
+    if keys[K_q] and bg != 0 and time.time() -  inventory_time > .25:
         obg = bg
         bg = 0
         inventory_time = time.time()
-    elif bg == 0 and keys[K_q] and time.time() -  inventory_time > .5:
+    elif bg == 0 and keys[K_q] and time.time() -  inventory_time > .25:
         bg = obg
         inventory_time = time.time()
 
@@ -728,8 +671,7 @@ while game == True:
     game_developer()
 
     if bg == 0:
-        inventorys.load_inventory_background()
-        inventorys.load_inventory(inventory)
+        inventorys.run(inventory)
 
     #move player
     if bg != 0:
