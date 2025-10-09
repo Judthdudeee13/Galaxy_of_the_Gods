@@ -78,6 +78,9 @@ class inventory:
         armor_hit_box = pygame.draw.rect(window, RED, (441, 0, 147, 126))
         inventory_hit_box = pygame.draw.rect(window, GREEN, (588, 0, 147, 126))
         map_hit_box = pygame.draw.rect(window, RED, (735, 0, 147, 126))
+        person_hit_box = pygame.draw.rect(window, GREEN, (882, 0, 147, 126))
+        quests_hit_box = pygame.draw.rect(window, RED, (1029, 0, 147, 126))
+        close_hit_box = pygame.draw.rect(window, GREEN, (1176, 0, 147, 126))
         
     
     def load_inventory_background(self):
