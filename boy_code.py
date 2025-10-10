@@ -671,7 +671,9 @@ while game == True:
     game_developer()
 
     if bg == 0:
-        inventorys.run(inventory)
+        if not inventorys.run(inventory):
+            bg = obg
+            inventory_time = time.time()
 
     #move player
     if bg != 0:

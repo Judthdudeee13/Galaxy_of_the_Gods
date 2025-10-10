@@ -36,10 +36,21 @@ def mouse_pos():
     mouse_rect.centery = y
     window.blit(mouse, mouse_rect)
 
+def mouse_buttons():
+    mouse_buttons = pygame.mouse.get_pressed()
+    if mouse_buttons[0]:
+        return 0
 class inventory:
     def __init__(self):
+        self.close = False
         self.inventory_melee = pygame.image.load("inventory/inventory_melee.png")
-        self.inventory_bow = pygame.image.load("inventory/inventory_ranged.png")
+        self.inventory_range = pygame.image.load("inventory/inventory_ranged.png")
+        self.inventory_magic = pygame.image.load("inventory/inventory_magic.png")
+        self.inventory_armor = pygame.image.load("inventory/inventory_armor.png")
+        self.inventory_inventory = pygame.image.load("inventory/inventory.png")
+        self.inventory_map = pygame.image.load("inventory/inventory_map.png")
+        self.inventory_person = pygame.image.load("inventory/inventory_person.png")
+        self.inventory_quests = pygame.image.load("inventory/inventory_quests.png")
         self.background = self.inventory_melee
         self.inventory_spot = []
         self.current_weapon = 'basic_sword'
@@ -54,6 +65,11 @@ class inventory:
         self.load_inventory_background()
         self.load_inventory()
         self.change_background()
+        if self.close:
+            self.close = False
+            return False
+        else:
+            return True
 
 
     def load_inventory(self):
@@ -63,7 +79,7 @@ class inventory:
                 basic_sword_rect = basic_sword.get_rect()
                 basic_sword_rect.center = self.inventory_spot[0]
                 window.blit(basic_sword, basic_sword_rect)
-        elif self.background  == self.inventory_bow:
+        elif self.background  == self.inventory_range:
             if self.inventory_list['range'][1]:
                 basic_sword = pygame.image.load('weapons/basic_sword(inv).png')
                 basic_sword_rect = basic_sword.get_rect()
@@ -72,16 +88,42 @@ class inventory:
             
         mouse_pos()
     def change_background(self):
-        melee_hit_box = pygame.draw.rect(window, GREEN, (0, 0, 147, 126))
-        range_hit_box = pygame.draw.rect(window, RED, (147, 0, 147, 126))
-        magic_hit_box = pygame.draw.rect(window, GREEN, (294, 0, 147, 126))
-        armor_hit_box = pygame.draw.rect(window, RED, (441, 0, 147, 126))
-        inventory_hit_box = pygame.draw.rect(window, GREEN, (588, 0, 147, 126))
-        map_hit_box = pygame.draw.rect(window, RED, (735, 0, 147, 126))
-        person_hit_box = pygame.draw.rect(window, GREEN, (882, 0, 147, 126))
-        quests_hit_box = pygame.draw.rect(window, RED, (1029, 0, 147, 126))
-        close_hit_box = pygame.draw.rect(window, GREEN, (1176, 0, 147, 126))
+        background = None
+        melee_hit_box = pygame.Rect(0, 0, 147, 126)
+        range_hit_box = pygame.Rect(147, 0, 147, 126)
+        magic_hit_box = pygame.Rect(294, 0, 147, 126)
+        armor_hit_box = pygame.Rect(441, 0, 147, 126)
+        inventory_hit_box = pygame.Rect(588, 0, 147, 126)
+        map_hit_box = pygame.Rect(735, 0, 147, 126)
+        person_hit_box = pygame.Rect(882, 0, 147, 126)
+        quests_hit_box = pygame.Rect(1029, 0, 147, 126)
+        close_hit_box = pygame.Rect(1176, 0, 147, 126)
+        hit_boxes = [melee_hit_box, range_hit_box, magic_hit_box, armor_hit_box, inventory_hit_box, map_hit_box, person_hit_box, quests_hit_box, close_hit_box]
+        mouse_pos()
+        for hit_box in hit_boxes:
+            if mouse_buttons() == 0:
+                if hit_box.colliderect(mouse_rect):
+                    background = hit_box
+        if background == melee_hit_box:
+            self.background = self.inventory_melee
+        if background == range_hit_box:
+            self.background = self.inventory_range
+        if background == magic_hit_box:
+            self.background = self.inventory_magic
+        if background == armor_hit_box:
+            self.background = self.inventory_armor
+        if background == inventory_hit_box:
+            self.background = self.inventory_inventory
+        if background == map_hit_box:
+            self.background = self.inventory_map
+        if background == person_hit_box:
+            self.background = self.inventory_person
+        if background == quests_hit_box:
+            self.background = self.inventory_quests
+        if background == close_hit_box:
+            self.close = True
         
+
     
     def load_inventory_background(self):
         self.rect = self.background.get_rect()
