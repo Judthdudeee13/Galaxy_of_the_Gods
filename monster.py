@@ -5,11 +5,12 @@ class monster_class:
     def __init__(self):
         pass
 
-    def set_up(self, name, damage, health, speed, times, window, width, height, player_width, player_height):
+    def set_up(self, name, damage, health, speed, times, window, width, height, player_width, player_height, x, y):
         self.player_width = player_width
         self.player_height = player_height
         self.name = name
         self.damage = damage
+        self.original_health = health
         self.health = health
         self.speed = speed
         self.damage_time = time.time()
@@ -20,6 +21,10 @@ class monster_class:
         self.width = width
         self.height = height
         self.able_to_recive_damage = True
+        self.x = x
+        self.y = y
+        self.original_x = x
+        self.original_y = y
     
     def load_monster(self):
         if self.load:
@@ -27,8 +32,8 @@ class monster_class:
             image = pygame.transform.scale(image, (32, 32))
             rect = image.get_rect()
             rect2 = rect.inflate(4, 4)
-            rect.x = 500
-            rect.y = 500
+            rect.x = self.x
+            rect.y = self.y
             self.x = rect.x
             self.y = rect.y
             self.rect = rect
@@ -61,7 +66,6 @@ class monster_class:
             self.rect2.y = self.rect.y-2
             self.window.blit(self.image, self.rect)
         
-        
 
     def damage_givin(self, p_rect):
         if self.load:
@@ -87,3 +91,9 @@ class monster_class:
 
     def load_dead(self):
         self.load = False
+
+    def load_alive(self):
+        self.load = True
+        self.health = self.original_health
+        self.x = self.original_x
+        self.y = self.original_y

@@ -60,6 +60,7 @@ current_weapon = inventorys.current_weapon
 #current_weapon = 'basic_sword'
 attack_image = -1
 space_clicked = False
+day_counter = 0
 
 #game developer settings
 def game_developer():
@@ -464,21 +465,27 @@ def load_monsters():
     global monsters_mask
     global current_monsters
     monster1 = mon.monster_class()
-    monster1.set_up(1, 1, 3, 2, 1, window, 32, 32, 50, 50)
+    monster1.set_up(1, 1, 3, 2, 1, window, 32, 32, 50, 50, 500, 500)
     monster1_rect, monster1_mask = monster1.load_monster()
     current_monsters = []
     monsters = [monster1]
     monsters_rect = []
     monsters_mask = []
 
+def monsters_alive():
+    for monster in monsters:
+        monster.load_alive()
+    global monsters_dead
+    monsters_dead = [False for _ in monsters]
+
 #game data
 def clear_data():
     global data
-    data = {'bg': 1, 'inventory': inventory, 'x': '700', 'y': '500', "hearts": 3, 'damage': damage_taken, 'monsters_dead': [False for _ in range(len(monsters))]}
+    data = {'bg': 1, 'inventory': inventory, 'x': '700', 'y': '500', "hearts": 3, 'damage': damage_taken, 'monsters_dead': [False for _ in range(len(monsters))], 'day': 0}
 
 def dump_data():
     global data
-    data = {'bg': bg, 'inventory': inventory, 'x': p.centerx, 'y':p.centery, 'hearts': hearts, 'damage': damage_taken, 'monsters_dead': monsters_dead}
+    data = {'bg': bg, 'inventory': inventory, 'x': p.centerx, 'y':p.centery, 'hearts': hearts, 'damage': damage_taken, 'monsters_dead': monsters_dead, 'day': day_counter}
     with open('gotg.pickle', 'wb') as file:
         pickle.dump(data, file)
 
@@ -493,12 +500,14 @@ def reset():
     global new_music
     global hearts
     global monsters_dead
+    global day_counter
     bg = data['bg']
     inventory = data['inventory']
     p.centerx = int(data['x'])
     p.centery = int(data['y'])
     hearts = int(data['hearts'])
     monsters_dead = data['monsters_dead']
+    day_counter = data['day']
     new_music = 1
 
 def yes_no(text):
@@ -638,18 +647,16 @@ while game == 0:
     clock.tick(60)
 
 open_data()
-bg = data['bg']
-inventory = data['inventory']
-p.centerx = int(data['x'])
-p.centery = int(data['y'])
-new_music = 0
-hearts = int(data['hearts'])
-damage_taken = int(data['damage'])
-monsters_dead = data['monsters_dead']
+reset()
+
 for monster in range(len(monsters)):
     if monsters_dead[monster]:
         monsters[monster].load_dead()
 while game == True:
+    if day_counter == 8400:
+        monsters_alive()
+        day_counter = 0
+    print(day_counter)
     #makes sure no moansters are loaded when not i  correct room
     current_monsters = []
     monsters_rect = []
@@ -727,3 +734,6 @@ while game == True:
     frame += 1
     if frame == 60:
         frame = 0
+        day_counter += 1
+
+    
