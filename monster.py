@@ -59,7 +59,6 @@ class monster_class:
             self.rect.y = self.y
             self.rect2.x = self.rect.x-2
             self.rect2.y = self.rect.y-2
-            #self.window.blit(self.rect2, self.rect)
             self.window.blit(self.image, self.rect)
         
         
@@ -85,3 +84,6 @@ class monster_class:
             self.load = False
             self.rect.x = -1000
             self.rect.y = -1000
+
+    def load_dead(self):
+        self.load = False

@@ -267,7 +267,7 @@ def attack():
             all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image, starting_time)
 
 def all_monsters_recive_damage(box, pos, damage, time_left, starting_time):
-    for monster in monsters:
+    for monster in current_monsters:
         monster.recive_damage(box, pos, damage, time_left, starting_time)
 
 #Inventory
@@ -373,6 +373,9 @@ def load_background3():
     global bg
     global it1
     global damage_taken
+    global current_monsters
+    global monsters_rect
+    global monsters_mask
     keys = pygame.key.get_pressed()
     background = pygame.image.load("backgrounds/background3.PNG")
     background1 = pygame.transform.scale(background,(1300,700))
@@ -391,14 +394,16 @@ def load_background3():
         up = False
     if p.centery >= 600:
         down = False
-         
 
+    current_monsters = [monster1]
+    monsters_rect = [monster1_rect]
+    monsters_mask = [monster1_mask]
     window.blit(background1, back1)
-    for monster in monsters:
+    for monster in current_monsters:
         monster.targeting(p)
         monster.blit()
     try:
-        for monster in monsters:
+        for monster in current_monsters:
             damage_taken += monster.damage_givin(p)
     except:
         pass
@@ -449,17 +454,31 @@ def load_background4():
         p.centerx = 1200
         p.centery = 460
         it1 = time.time()
-
-
+#load monsters
+def load_monsters():
+    global monster1
+    global monster1_mask
+    global monster1_rect
+    global monsters
+    global monsters_rect
+    global monsters_mask
+    global current_monsters
+    monster1 = mon.monster_class()
+    monster1.set_up(1, 1, 3, 2, 1, window, 32, 32, 50, 50)
+    monster1_rect, monster1_mask = monster1.load_monster()
+    current_monsters = []
+    monsters = [monster1]
+    monsters_rect = []
+    monsters_mask = []
 
 #game data
 def clear_data():
     global data
-    data = {'bg': 1, 'inventory': inventory, 'x': '700', 'y': '500', "hearts": 3, 'damage': damage_taken}
+    data = {'bg': 1, 'inventory': inventory, 'x': '700', 'y': '500', "hearts": 3, 'damage': damage_taken, 'monsters_dead': [False for _ in range(len(monsters))]}
 
 def dump_data():
     global data
-    data = {'bg': bg, 'inventory': inventory, 'x': p.centerx, 'y':p.centery, 'hearts': hearts, 'damage': damage_taken}
+    data = {'bg': bg, 'inventory': inventory, 'x': p.centerx, 'y':p.centery, 'hearts': hearts, 'damage': damage_taken, 'monsters_dead': monsters_dead}
     with open('gotg.pickle', 'wb') as file:
         pickle.dump(data, file)
 
@@ -473,11 +492,13 @@ def reset():
     global inventory
     global new_music
     global hearts
+    global monsters_dead
     bg = data['bg']
     inventory = data['inventory']
     p.centerx = int(data['x'])
     p.centery = int(data['y'])
     hearts = int(data['hearts'])
+    monsters_dead = data['monsters_dead']
     new_music = 1
 
 def yes_no(text):
@@ -544,7 +565,8 @@ def menu():
  
     
 
-
+#load monsters for clearing data
+load_monsters()
 #start of main game code
 clear_data()
 #dump_data()
@@ -561,25 +583,17 @@ def load_weapons():
     basic_bow.set_up1((10, 20), 'weapons/basic_bow.png')
     weapons_list = [basic_bow, basic_sword]
 
-def load_monsters():
-    global monster1
-    global monster1_mask
-    global monster1_rect
-    global monsters
-    global monsters_rect
-    global monsters_mask
-    monster1 = mon.monster_class()
-    monster1.set_up(1, 1, 3, 2, 1, window, 32, 32, 50, 50)
-    monster1_rect, monster1_mask = monster1.load_monster()
-    monsters = [monster1]
-    monsters_rect = [monster1_rect]
-    monsters_mask = [monster1_mask]
+
+def load_quit():
+    for monster in range(len(monsters)):
+        if monsters[monster].load == False:
+            monsters_dead[monster] = True
+
 
 game = 0
 obg = bg
 bg = 0
 load_weapons()
-load_monsters()
 while game == 0:
     if bg != -1:
         menu()
@@ -614,7 +628,6 @@ while game == 0:
         if event.type == QUIT:
             if bg == 0:
                 bg = obg
-            dump_data()
             pygame.quit()
             sys.exit()
 
@@ -632,8 +645,15 @@ p.centery = int(data['y'])
 new_music = 0
 hearts = int(data['hearts'])
 damage_taken = int(data['damage'])
-
+monsters_dead = data['monsters_dead']
+for monster in range(len(monsters)):
+    if monsters_dead[monster]:
+        monsters[monster].load_dead()
 while game == True:
+    #makes sure no moansters are loaded when not i  correct room
+    current_monsters = []
+    monsters_rect = []
+    monsters_mask = []
     keys = pygame.key.get_pressed()
     #open inventory
     if keys[K_q] and bg != 0 and time.time() -  inventory_time > .25:
@@ -694,6 +714,7 @@ while game == True:
         if event.type == QUIT:
             if bg == 0:
                 bg = obg
+            load_quit()
             dump_data()
             pygame.quit()
             sys.exit()
