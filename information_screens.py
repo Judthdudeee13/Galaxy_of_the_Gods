@@ -53,7 +53,7 @@ class inventory:
         self.inventory_quests = pygame.image.load("inventory/inventory_quests.png")
         self.background = self.inventory_melee
         self.inventory_spot = []
-        self.current_weapon = 'basic_sword'
+        self.current_weapon = 'basic_bow'
         for y in range(6):
                 y_pos = (y*122)+150
                 for x in range(13):

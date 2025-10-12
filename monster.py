@@ -81,7 +81,7 @@ class monster_class:
                     self.able_to_recive_damage = True
                 if player_mask.overlap(self.mask, (self.rect.x - player_rect.x, self.rect.y - player_rect.y)) and self.able_to_recive_damage:
                     self.health -= damage
-                    self.able_to_recive_damage = False
+                    self.able_to_recive_damage = False 
 
 
         if self.health <= 0:
@@ -91,6 +91,7 @@ class monster_class:
 
     def load_dead(self):
         self.load = False
+        self.rect.center = (-1000, -1000)
 
     def load_alive(self):
         self.load = True

@@ -22,7 +22,9 @@ WIDTH = 1300
 
 #set up window  
 window = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
-pygame.display.set_caption('game')
+pygame.display.set_caption('Galaxly of the gods')
+logo = pygame.image.load("game_logo.png")
+pygame.display.set_icon(logo)
 
 #set up fonts
 basic = pygame.font.SysFont(None, 75)
@@ -653,10 +655,9 @@ for monster in range(len(monsters)):
     if monsters_dead[monster]:
         monsters[monster].load_dead()
 while game == True:
-    if day_counter == 8400:
+    if day_counter == 60:
         monsters_alive()
         day_counter = 0
-    print(day_counter)
     #makes sure no moansters are loaded when not i  correct room
     current_monsters = []
     monsters_rect = []
