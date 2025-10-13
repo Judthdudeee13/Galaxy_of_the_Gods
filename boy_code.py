@@ -655,7 +655,9 @@ for monster in range(len(monsters)):
     if monsters_dead[monster]:
         monsters[monster].load_dead()
 while game == True:
-    if day_counter == 60:
+    # sets weapon
+    current_weapon = inventorys.current_weapon
+    if day_counter == 18030:
         monsters_alive()
         day_counter = 0
     #makes sure no moansters are loaded when not i  correct room
