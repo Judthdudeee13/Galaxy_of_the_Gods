@@ -483,7 +483,7 @@ def monsters_alive():
 #game data
 def clear_data():
     global data
-    data = {'bg': 1, 'inventory': inventory, 'x': '700', 'y': '500', "hearts": 3, 'damage': damage_taken, 'monsters_dead': [False for _ in range(len(monsters))], 'day': 0}
+    data = {'bg': 1, 'inventory': inventory, 'x': '700', 'y': '500', "hearts": 3, 'damage': 0, 'monsters_dead': [False for _ in range(len(monsters))], 'day': 0}
 
 def dump_data():
     global data
@@ -495,6 +495,7 @@ def open_data():
     global data
     with open('gotg.pickle', 'rb') as file:
         data = pickle.load(file)
+        print(data['damage'])
 
 def reset():
     global bg
@@ -503,6 +504,7 @@ def reset():
     global hearts
     global monsters_dead
     global day_counter
+    global damage_taken
     bg = data['bg']
     inventory = data['inventory']
     p.centerx = int(data['x'])
@@ -510,6 +512,7 @@ def reset():
     hearts = int(data['hearts'])
     monsters_dead = data['monsters_dead']
     day_counter = data['day']
+    damage_taken = data['damage']
     new_music = 1
 
 def yes_no(text):
@@ -657,7 +660,7 @@ for monster in range(len(monsters)):
 while game == True:
     # sets weapon
     current_weapon = inventorys.current_weapon
-    if day_counter == 18030:
+    if day_counter == 1800:
         monsters_alive()
         day_counter = 0
     #makes sure no moansters are loaded when not i  correct room
