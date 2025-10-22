@@ -38,6 +38,7 @@ GREEN = '#00ff00'
 BLACK = "#000000"
 WHITE = "#FFFFFF"
 BLUE = "#0000ff"
+DARK_BLUE = '#04015e'
 
 #set up starting variables
 it1 = 2
@@ -63,6 +64,7 @@ current_weapon = inventorys.current_weapon
 attack_image = -1
 space_clicked = False
 day_counter = 0
+DAY = 60
 
 #game developer settings
 def game_developer():
@@ -552,8 +554,8 @@ def menu():
     back1.centerx = 650
     back1.centery = 350
     window.blit(background, back1)
-    new_game = pygame.draw.rect(window, BLUE, (700, 400, 125, 75))
-    resume = pygame.draw.rect(window, BLUE, (500, 400, 125, 75))
+    new_game = pygame.draw.rect(window, DARK_BLUE, (700, 400, 125, 75))
+    resume = pygame.draw.rect(window, DARK_BLUE, (500, 400, 125, 75))
     resume_text = datas.render('RESUME', True, WHITE)
     resume_rect = resume_text.get_rect()
     resume_rect.center = resume.center
@@ -564,7 +566,7 @@ def menu():
     window.blit(new_game_text, new_game_rect)
     mouse_pos()
     if mouse_buttons() == 0 and abs(wait_time -  time.time()) > 1:
-        if mouse_rect.colliderect(new_game_rect):
+        if mouse_rect.colliderect(new_game):
             bg = -1
             wait_time = time.time()
         if mouse_rect.colliderect(resume_rect):
@@ -660,7 +662,7 @@ for monster in range(len(monsters)):
 while game == True:
     # sets weapon
     current_weapon = inventorys.current_weapon
-    if day_counter == 1800:
+    if day_counter == DAY:
         monsters_alive()
         day_counter = 0
     #makes sure no moansters are loaded when not i  correct room
