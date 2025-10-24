@@ -1,13 +1,15 @@
 import pygame
 
 class backgrounds:
-    def __init__(self, window):
+    def __init__(self, window, h, w):
         self.window = window
         self.hit_boxes = []
         self.interaction_boxes = []
         self.room_change = []
-
-    def load_background1(self, inventorys):
+        self.height = h
+        self.width = w
+        self.none = (-100, -100, -100, -100)
+    def load_background1(self, inventorys, ):
         keys = pygame.key.get_pressed()
         self.background = pygame.image.load("backgrounds/background1.PNG")
         self.background1 = pygame.transform.scale(self.background,(1300,700))
@@ -26,7 +28,25 @@ class backgrounds:
                 (613, 700, 0, 103),#left
                 (610, 697, 0, 103),#right
                 (613, 697, 0, 103), #up
-                (-100, -100, -100, -100)#down
+                (self.none)#down
+            ),
+            (
+                (0, 85, 0, self.height), #left
+                (self.none),#right
+                (self.none),#up
+                (self.none)#down
+            ),
+            (
+                (self.none),#left
+                (1200, self.width, 0, self.height),#right
+                (self.none),#up
+                (self.none)#down
+            )
+            (
+                (self.none),#left
+                (self.none),#right
+                (0, self.width, 0, 75),#up
+                (self.none)#down
             )
             
         ]
