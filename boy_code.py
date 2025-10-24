@@ -3,6 +3,7 @@ import monster as mon
 from pygame.locals import *
 import information_screens
 import weapons
+import rooms
 
 keys = pygame.key.get_pressed()
 mouse_keys = pygame.mouse.get_pressed()
@@ -43,7 +44,6 @@ DARK_BLUE = '#04015e'
 #set up starting variables
 it1 = 2
 q = False
-inventory = {'sword': [0, 0], 'range': [0, 0]}
 inventory_time = time.time()
 keys = pygame.key.get_pressed()
 bg = 1
@@ -65,6 +65,13 @@ attack_image = -1
 space_clicked = False
 day_counter = 0
 DAY = 60
+
+
+# backgrounds
+room1 = rooms.backgrounds(window)
+
+
+
 
 #game developer settings
 def game_developer():
@@ -257,17 +264,17 @@ def attack():
         direction = 'left'
     if move_right == True:
         direction = 'right'
-    basic_bow.blit(p.x, p.y, direction, inventory, current_weapon)
+    basic_bow.blit(p.x, p.y, direction, inventorys.inventory_list, current_weapon)
     if keys[pygame.K_SPACE]:
             space_clicked = True
             for weapon in weapons_list:
-                hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventory, direction, p, current_weapon, space_clicked)
+                hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventorys.inventory_list, direction, p, current_weapon, space_clicked)
                 all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image, starting_time)
     else:
         space_clicked = False
 
     for weapon in weapons_list:
-        hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventory, direction, p, current_weapon, space_clicked)
+        hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventorys.inventory_list, direction, p, current_weapon, space_clicked)
         if attack_image > 0:
             all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image, starting_time)
 
@@ -279,58 +286,17 @@ def all_monsters_recive_damage(box, pos, damage, time_left, starting_time):
 
 
 #backgrounds
-def load_background1():
-    keys = pygame.key.get_pressed()
-    global background1
-    global background
-    global back1
-    global q
-    global up
-    global left
-    global down
-    global right
-    global bg
-    global it1
-    keys = pygame.key.get_pressed()
-    background = pygame.image.load("backgrounds/background1.PNG")
-    background1 = pygame.transform.scale(background,(1300,700))
-    back1 = background1.get_rect()
-    back1.centerx = 650
-    back1.centery = 350
-    chest = pygame.image.load("chest.PNG")
-    chest = pygame.transform.scale(chest,(150,100))
-    chest_rect = chest.get_rect()
-    chest_rect.centerx = 650
-    chest_rect.centery = 100
-    window.blit(background1, back1)
-    window.blit(chest, chest_rect)
-    up = True
-    down = True
-    left = True
-    right = True
-    if p.centerx >= 600 and p.centerx <= 700 and p.centery <= 150 and keys[pygame.K_e]:
-        inventory['range'][1] = 'basic_bow'
-        inventory['sword'][1] = 'basic_sword'
-        q = True
-        inventorys.run(inventory)
-        bg = 0
-    if p.centery <= 103 and p.centerx >= 613 and p.centerx <= 700:
-        left = False
-    if p.centery <= 103 and p.centerx >= 610 and p.centerx <= 697:
-        right = False
-    if p.centerx <= 85:
-        left = False
-    if p.centerx >= 1200:
-        right = False
-    if p.centery <= 75:
-        up = False
-    if p.centery >= 600:
-        down = False
-    if p.centery <= 106 and p.centerx >= 613 and p.centerx <= 697:
-        up = False
-    if p.centerx >= 215 and p.centerx <= 235 and p.centery <= 75 and keys[K_w] and abs(it1-time.time()) > 1:
-        bg = 2
-        it1 = time.time()
+def backgrounds():
+        global up
+        global left
+        global down
+        global right
+        global bg
+        global it1
+        up = True
+        down = True
+        left = True
+        right = True
 
 def load_background2():
     global q
@@ -485,11 +451,11 @@ def monsters_alive():
 #game data
 def clear_data():
     global data
-    data = {'bg': 1, 'inventory': inventory, 'x': '700', 'y': '500', "hearts": 3, 'damage': 0, 'monsters_dead': [False for _ in range(len(monsters))], 'day': 0}
+    data = {'bg': 1, 'inventory': {'sword': [0, 0], 'range': [0, 0]}, 'x': '700', 'y': '500', "hearts": 3, 'damage': 0, 'monsters_dead': [False for _ in range(len(monsters))], 'day': 0}
 
 def dump_data():
     global data
-    data = {'bg': bg, 'inventory': inventory, 'x': p.centerx, 'y':p.centery, 'hearts': hearts, 'damage': damage_taken, 'monsters_dead': monsters_dead, 'day': day_counter}
+    data = {'bg': bg, 'inventory': inventorys.inventory_list, 'x': p.centerx, 'y':p.centery, 'hearts': hearts, 'damage': damage_taken, 'monsters_dead': monsters_dead, 'day': day_counter}
     with open('gotg.pickle', 'wb') as file:
         pickle.dump(data, file)
 
@@ -508,7 +474,7 @@ def reset():
     global day_counter
     global damage_taken
     bg = data['bg']
-    inventory = data['inventory']
+    inventorys.inventory_list = data['inventory']
     p.centerx = int(data['x'])
     p.centery = int(data['y'])
     hearts = int(data['hearts'])
@@ -690,7 +656,7 @@ while game == True:
   
     #load backgrounds
     if bg == 1:
-        load_background1()
+        room1.load_background1(inventorys)
     if bg == 2:
        load_background2()
     if bg == 3:
@@ -706,7 +672,7 @@ while game == True:
     game_developer()
 
     if bg == 0:
-        if not inventorys.run(inventory):
+        if not inventorys.run(inventorys.inventory_list):
             bg = obg
             inventory_time = time.time()
 
