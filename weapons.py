@@ -191,52 +191,52 @@ class ranged(weapon):
                 self.attack_image -= 1
                 if self.arrow_direction == 'up' and up:
                         self.y -= 10
-                        self.arrow_rect.centerx = x
-                        self.arrow_rect.centery = y
+                        self.arrow_rect.centerx = self.x
+                        self.arrow_rect.centery = self.y
                         hit_box_blit180 = pygame.transform.rotate(self.arrow_im, 0)
                         window.blit(hit_box_blit180, self.arrow_rect)
                 if self.arrow_direction == 'down' and down:
                         self.y += 10
-                        self.arrow_rect.centerx = x
-                        self.arrow_rect.centery = y
+                        self.arrow_rect.centerx = self.x
+                        self.arrow_rect.centery = self.y
                         hit_box_blit0 = pygame.transform.rotate(self.arrow_im, 180)
                         window.blit(hit_box_blit0, self.arrow_rect)
                 if self.arrow_direction == 'left' and left or self.arrow_direction == 'None':
                         self.x-=10
-                        self.arrow_rect.centerx = x
-                        self.arrow_rect.centery = y
+                        self.arrow_rect.centerx = self.x
+                        self.arrow_rect.centery = self.y
                         hit_box_blit270 = pygame.transform.rotate(self.arrow_im, 90)
                         window.blit(hit_box_blit270, self.arrow_rect)
                 if self.arrow_direction == 'right' and right:
                         self.x+=10
-                        self.arrow_rect.centerx = x
-                        self.arrow_rect.centery = y
+                        self.arrow_rect.centerx = self.x
+                        self.arrow_rect.centery = self.y
                         hit_box_blit90 = pygame.transform.rotate(self.arrow_im, 270)
                         window.blit(hit_box_blit90, self.arrow_rect)
 
 
                 if self.arrow_direction == 'up':
                         self.y -= 0
-                        self.arrow_rect.centerx = x
-                        self.arrow_rect.centery = y
+                        self.arrow_rect.centerx = self.x
+                        self.arrow_rect.centery = self.y
                         hit_box_blit180 = pygame.transform.rotate(self.arrow_im, 0)
                         window.blit(hit_box_blit180, self.arrow_rect)
                 if self.arrow_direction == 'down':
                         self.y += 0
-                        self.arrow_rect.centerx = x
-                        self.arrow_rect.centery = y
+                        self.arrow_rect.centerx = self.x
+                        self.arrow_rect.centery = self.y
                         hit_box_blit0 = pygame.transform.rotate(self.arrow_im, 180)
                         window.blit(hit_box_blit0, self.arrow_rect)
                 if self.arrow_direction == 'left' or self.arrow_direction == 'None':
                         self.x-=0
-                        self.arrow_rect.centerx = x
-                        self.arrow_rect.centery = y
+                        self.arrow_rect.centerx = self.x
+                        self.arrow_rect.centery = self.y
                         hit_box_blit270 = pygame.transform.rotate(self.arrow_im, 90)
                         window.blit(hit_box_blit270, self.arrow_rect)
                 if self.arrow_direction == 'right':
                         self.x+=0
-                        self.arrow_rect.centerx = x
-                        self.arrow_rect.centery = y
+                        self.arrow_rect.centerx = self.x
+                        self.arrow_rect.centery = self.y
                         hit_box_blit90 = pygame.transform.rotate(self.arrow_im, 270)
                         window.blit(hit_box_blit90, self.arrow_rect)
                 print(self.x)
