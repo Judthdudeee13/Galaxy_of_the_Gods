@@ -269,13 +269,13 @@ def attack():
     if keys[pygame.K_SPACE]:
             space_clicked = True
             for weapon in weapons_list:
-                hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventorys.inventory_list, direction, p, current_weapon, space_clicked)
+                hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventorys.inventory_list, direction, p, current_weapon, space_clicked, background)
                 all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image, starting_time)
     else:
         space_clicked = False
 
     for weapon in weapons_list:
-        hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventorys.inventory_list, direction, p, current_weapon, space_clicked)
+        hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventorys.inventory_list, direction, p, current_weapon, space_clicked, background)
         if attack_image > 0:
             all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image, starting_time)
 
@@ -497,7 +497,7 @@ def load_weapons():
     global weapons_list
     basic_sword = weapons.melee()
     basic_sword.set_up(0.5, 0, 1, direction, 25, 3)
-    basic_bow  = weapons.range()
+    basic_bow  = weapons.ranged()
     basic_bow.set_up(2, 'basic_arrow', 1, direction, 0, 25)
     basic_bow.set_up1((10, 20), 'weapons/basic_bow.png')
     weapons_list = [basic_bow, basic_sword]
@@ -637,7 +637,7 @@ while game == True:
     pygame.display.update()
 
     #frame rate 60
-    clock.tick(60)
+    clock.tick(10)
     frame += 1
     if frame == 60:
         frame = 0
