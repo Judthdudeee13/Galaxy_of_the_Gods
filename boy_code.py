@@ -1,6 +1,4 @@
 import pygame, sys, random, time, pickle
-import monster as mon
-from pygame.locals import *
 import information_screens
 import weapons
 import rooms
@@ -14,6 +12,9 @@ pygame.mixer.init()
 clock = pygame.time.Clock()
 pygame.mouse.set_visible(False)
 inventorys = information_screens.inventory()
+information_screens_list = [
+    inventorys
+]
 
 GAME_DEVELOPER_MACANICS = True
 
@@ -64,11 +65,11 @@ current_weapon = inventorys.current_weapon
 attack_image = -1
 space_clicked = False
 day_counter = 0
-DAY = 60
+DAY = 1800
 
 
 # backgrounds
-room1 = rooms.backgrounds(window)
+background = rooms.backgrounds(window, HEIGHT, WIDTH)
 
 
 
@@ -168,7 +169,7 @@ def move():
         if keys[pygame.K_w]:
             p.centery -= move_speed
             move_up = True
-            for monster in monsters_rect:
+            for monster in background.monsters_rect:
                 if p.colliderect(monster):
                     p.centery += move_speed
                 if p.colliderect(monster):
@@ -179,7 +180,7 @@ def move():
         if keys[pygame.K_s]:
            p.centery += move_speed
            move_down = True
-           for monster in monsters_rect:
+           for monster in background.monsters_rect:
                 if p.colliderect(monster):
                     p.centery -= move_speed
                 if p.colliderect(monster):
@@ -189,7 +190,7 @@ def move():
         if keys[pygame.K_a]:
             p.centerx -= move_speed
             move_left = True
-            for monster in monsters_rect:
+            for monster in background.monsters_rect:
                 if p.colliderect(monster):
                     p.centerx += move_speed
                 if p.colliderect(monster):
@@ -198,7 +199,7 @@ def move():
         if keys[pygame.K_d]:
             p.centerx += move_speed
             move_right = True
-            for monster in monsters_rect:
+            for monster in background.monsters_rect:
                 if p.colliderect(monster):
                     p.centerx -= move_speed
                 if p.colliderect(monster):
@@ -279,7 +280,7 @@ def attack():
             all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image, starting_time)
 
 def all_monsters_recive_damage(box, pos, damage, time_left, starting_time):
-    for monster in current_monsters:
+    for monster in background.current_monsters:
         monster.recive_damage(box, pos, damage, time_left, starting_time)
 
 #Inventory
@@ -297,98 +298,39 @@ def backgrounds():
         down = True
         left = True
         right = True
-
-def load_background2():
-    global q
-    global up
-    global left
-    global down
-    global right
-    global bg
-    global it1
-    keys = pygame.key.get_pressed()
-    background = pygame.image.load("backgrounds/background2.PNG")
-    background1 = pygame.transform.scale(background,(1300,700))
-    back1 = background1.get_rect()
-    back1.centerx = 650
-    back1.centery = 350
-    up = True
-    down = True
-    left = True
-    right = True
-    if p.centerx <= 85:
-        left = False
-    if p.centerx >= 1200:
-        right = False
-    if p.centery <= 75:
-        up = False
-    if p.centery >= 600:
-        down = False
-    window.blit(background1, back1)
-    if p.centerx >= 215 and p.centerx <= 235 and p.centery <= 75 and keys[K_w] and abs(it1-time.time()) > 1:
-        bg = 1
-        it1 = time.time()
-    if p.centery >= 440 and p.centery <= 480 and p.centerx >= 1190 and abs(it1-time.time()) > 1 and keys[K_d]:    
-        bg = 3
-        p.centerx = 90
-        p.centery = 390
-        it1 = time.time()
+        if bg == 1:
+            background.load_background1()
+        if bg == 2:
+            background.load_background2()
+        if bg == 3:
+            background.load_background3()
+        for hit_box in background.hit_boxes:
+            for i in range(4):
+                if p.centerx >= hit_box[i][0] and p.centerx <= hit_box[i][1] and p.centery >= hit_box[i][2] and p.centery <= hit_box[i][3]:
+                    if i == 0:
+                        left = False
+                    if i == 1:
+                        right = False
+                    if i == 2:
+                        up = False
+                    if i == 3:
+                        down = False
+        for room_change in background.room_change:
+            if p.centerx >= room_change[0] and p.centerx <= room_change[1] and p.centery >= room_change[2] and p.centery <= room_change[3] and room_change[5] and abs(it1-time.time()) > .5:
+                bg = room_change[4]
+                it1 = time.time()
+                p.centerx = room_change[6]
+                p.centery = room_change[7]
+        for interaction in background.interaction_boxes:
+            if p.centerx >= interaction[0] and p.centerx <= interaction[1] and p.centery >= interaction[2] and p.centerx >= interaction[3] and keys[pygame.K_e]:
+                if interaction[5] == 0:
+                    bg = 0
+                background.interactions(information_screens_list, interaction[4])
+                
+            
         
 
-def load_background3():
-    global q
-    global up
-    global left
-    global down
-    global right
-    global bg
-    global it1
-    global damage_taken
-    global current_monsters
-    global monsters_rect
-    global monsters_mask
-    keys = pygame.key.get_pressed()
-    background = pygame.image.load("backgrounds/background3.PNG")
-    background1 = pygame.transform.scale(background,(1300,700))
-    back1 = background1.get_rect()
-    back1.centerx = 650
-    back1.centery = 350
-    up = True
-    down = True
-    left = True
-    right = True
-    if p.centerx <= 85:
-        left = False
-    if p.centerx >= 1200:
-        right = False
-    if p.centery <= 75:
-        up = False
-    if p.centery >= 600:
-        down = False
 
-    current_monsters = [monster1]
-    monsters_rect = [monster1_rect]
-    monsters_mask = [monster1_mask]
-    window.blit(background1, back1)
-    for monster in current_monsters:
-        monster.targeting(p)
-        monster.blit()
-    try:
-        for monster in current_monsters:
-            damage_taken += monster.damage_givin(p)
-    except:
-        pass
-    if p.centery >= 370 and p.centery <= 410 and p.centerx <= 90 and abs(it1-time.time()) > 1 and keys[K_a]:    
-        bg = 2
-        p.centerx = 1200
-        p.centery = 460
-        it1 = time.time()
-
-    if p.centery >= 370 and p.centery <= 410 and p.centerx <= 90 and abs(it1-time.time()) > 1 and keys[K_a]:    
-        bg = 2
-        p.centerx = 1200
-        p.centery = 460
-        it1 = time.time()
 
     
 
@@ -420,38 +362,34 @@ def load_background4():
     if p.centery >= 600:
         down = False
          
-    if p.centery >= 370 and p.centery <= 410 and p.centerx <= 90 and abs(it1-time.time()) > 1 and keys[K_a]:    
+    if p.centery >= 370 and p.centery <= 410 and p.centerx <= 90 and abs(it1-time.time()) > 1 and keys[pygame.K_a]:    
         bg = 2
         p.centerx = 1200
         p.centery = 460
         it1 = time.time()
-#load monsters
-def load_monsters():
-    global monster1
-    global monster1_mask
-    global monster1_rect
-    global monsters
-    global monsters_rect
-    global monsters_mask
-    global current_monsters
-    monster1 = mon.monster_class()
-    monster1.set_up(1, 1, 3, 2, 1, window, 32, 32, 50, 50, 500, 500)
-    monster1_rect, monster1_mask = monster1.load_monster()
-    current_monsters = []
-    monsters = [monster1]
-    monsters_rect = []
-    monsters_mask = []
+
+def monster_attack():
+        global damage_taken
+        for monster in background.current_monsters:
+            monster.targeting(p)
+            monster.blit()
+        try:
+            for monster in background.current_monsters:
+                damage_taken += monster.damage_givin(p)
+        except:
+            pass
+   
 
 def monsters_alive():
-    for monster in monsters:
+    for monster in background.monsters:
         monster.load_alive()
     global monsters_dead
-    monsters_dead = [False for _ in monsters]
+    monsters_dead = [False for _ in background.monsters]
 
 #game data
 def clear_data():
     global data
-    data = {'bg': 1, 'inventory': {'sword': [0, 0], 'range': [0, 0]}, 'x': '700', 'y': '500', "hearts": 3, 'damage': 0, 'monsters_dead': [False for _ in range(len(monsters))], 'day': 0}
+    data = {'bg': 1, 'inventory': {'sword': [0, 0], 'range': [0, 0]}, 'x': '700', 'y': '500', "hearts": 3, 'damage': 0, 'monsters_dead': [False for _ in range(len(background.monsters))], 'day': 0}
 
 def dump_data():
     global data
@@ -463,7 +401,6 @@ def open_data():
     global data
     with open('gotg.pickle', 'rb') as file:
         data = pickle.load(file)
-        print(data['damage'])
 
 def reset():
     global bg
@@ -548,7 +485,7 @@ def menu():
     
 
 #load monsters for clearing data
-load_monsters()
+background.load_monsters()
 #start of main game code
 clear_data()
 #dump_data()
@@ -567,8 +504,8 @@ def load_weapons():
 
 
 def load_quit():
-    for monster in range(len(monsters)):
-        if monsters[monster].load == False:
+    for monster in range(len(background.monsters)):
+        if background.monsters[monster].load == False:
             monsters_dead[monster] = True
 
 
@@ -583,7 +520,7 @@ while game == 0:
         while yes_or_no == 0:
             yes_no('''Are You Sure You Want To Restart''')
             for event in pygame.event.get():
-                if event.type == QUIT:
+                if event.type == pygame.QUIT:
                     if bg == 0:
                         bg = obg
                     dump_data()
@@ -607,7 +544,7 @@ while game == 0:
             wait_time = time.time()
             yes_or_no = 0
     for event in pygame.event.get():
-        if event.type == QUIT:
+        if event.type == pygame.QUIT:
             if bg == 0:
                 bg = obg
             pygame.quit()
@@ -622,9 +559,9 @@ while game == 0:
 open_data()
 reset()
 
-for monster in range(len(monsters)):
+for monster in range(len(background.monsters)):
     if monsters_dead[monster]:
-        monsters[monster].load_dead()
+        background.monsters[monster].load_dead()
 while game == True:
     # sets weapon
     current_weapon = inventorys.current_weapon
@@ -632,35 +569,31 @@ while game == True:
         monsters_alive()
         day_counter = 0
     #makes sure no moansters are loaded when not i  correct room
-    current_monsters = []
-    monsters_rect = []
-    monsters_mask = []
+    background.current_monsters = []
+    background.monsters_rect = []
+    background.monsters_mask = []
     keys = pygame.key.get_pressed()
     #open inventory
-    if keys[K_q] and bg != 0 and time.time() -  inventory_time > .25:
+    if keys[pygame.K_q] and bg != 0 and time.time() -  inventory_time > .25:
         obg = bg
         bg = 0
         inventory_time = time.time()
-    elif bg == 0 and keys[K_q] and time.time() -  inventory_time > .25:
+    elif bg == 0 and keys[pygame.K_q] and time.time() -  inventory_time > .25:
         bg = obg
         inventory_time = time.time()
 
-    if keys[K_e]:
+    if keys[pygame.K_e]:
         inventory_time = time.time()
 
     #saving game
-    if keys[K_r]:
+    if keys[pygame.K_r]:
         if bg == 0:
             bg = obg
         dump_data()
   
     #load backgrounds
-    if bg == 1:
-        room1.load_background1(inventorys)
-    if bg == 2:
-       load_background2()
-    if bg == 3:
-       load_background3()
+    backgrounds()
+    monster_attack()
 
        #load player
     player = player_image()
@@ -672,7 +605,7 @@ while game == True:
     game_developer()
 
     if bg == 0:
-        if not inventorys.run(inventorys.inventory_list):
+        if not inventorys.run():
             bg = obg
             inventory_time = time.time()
 
@@ -688,11 +621,11 @@ while game == True:
          new_music = 0
          pygame.mixer.music.load("Chill Beat (1).mp3")
          pygame.mixer.music.set_volume(0.7)
-         pygame.mixer.music.play()
+         #pygame.mixer.music.play()
 
     #make sure window can close
     for event in pygame.event.get():
-        if event.type == QUIT:
+        if event.type == pygame.QUIT:
             if bg == 0:
                 bg = obg
             load_quit()
