@@ -58,9 +58,9 @@ class inventory:
             for x in range(10):
                 self.inventory_spot.append((x*200+140, y*200+215))
         self.scale_factor = (75, 150)
+        self.inventory_list = {'sword': [0, 0], 'range': [0, 0]}
 
-    def run(self, inventory_list):
-        self.inventory_list = inventory_list
+    def run(self):
         self.load_inventory_background()
         self.load_inventory()
         self.change_background()
