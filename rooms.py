@@ -45,28 +45,28 @@ class backgrounds:
                 (self.none)#down
             ),
             (
-                (0, 85, 0, self.height), #left
+                (0, 125, 0, self.height), #left
                 (self.none),#right
                 (self.none),#up
                 (self.none)#down
             ),
             (
                 (self.none),#left
-                (1200, self.width, 0, self.height),#right
+                (1175, self.width, 0, self.height),#right
                 (self.none),#up
                 (self.none)#down
             ),
             (
                 (self.none),#left
                 (self.none),#right
-                (0, self.width, 0, 75),#up
+                (0, self.width, 0, 100),#up
                 (self.none)#down
             ),
             (
                 (self.none),#left
                 (self.none),#right
                 (self.none),#up
-                (0, self.width, 600, self.height)#down
+                (0, self.width, 575, self.height)#down
             )
             
         ]

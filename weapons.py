@@ -177,7 +177,7 @@ class ranged(weapon):
                 left = True
                 for hit_box in background.hit_boxes:
                     for i in range(4):
-                        if self.arrow_rect.centerx >= hit_box[i][0] and self.arrow_rect.centerx <= hit_box[i][1] and self.arrow_rect.centery >= hit_box[i][2] and self.arrow_rect.centery <= hit_box[i][3]:
+                        if self.x >= hit_box[i][0] and self.x <= hit_box[i][1] and self.y >= hit_box[i][2] and self.y <= hit_box[i][3]:
                             if i == 0:
                                 left = False
                             if i == 1:

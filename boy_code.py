@@ -77,8 +77,8 @@ background = rooms.backgrounds(window, HEIGHT, WIDTH)
 #game developer settings
 def game_developer():
    if GAME_DEVELOPER_MACANICS:
-        playerx = str(p.centerx)
-        playery = str(p.centery)
+        playerx = str(p.left)
+        playery = str(p.top)
         px = datas.render(f"X: {playerx}", True, "#000000")
         px1 = px.get_rect()
         px1.centerx = 25
@@ -306,7 +306,7 @@ def backgrounds():
             background.load_background3()
         for hit_box in background.hit_boxes:
             for i in range(4):
-                if p.centerx >= hit_box[i][0] and p.centerx <= hit_box[i][1] and p.centery >= hit_box[i][2] and p.centery <= hit_box[i][3]:
+                if p.left >= hit_box[i][0] and p.left+50 <= hit_box[i][1] and p.top >= hit_box[i][2] and p.top+50 <= hit_box[i][3]:
                     if i == 0:
                         left = False
                     if i == 1:
@@ -637,7 +637,7 @@ while game == True:
     pygame.display.update()
 
     #frame rate 60
-    clock.tick(10)
+    clock.tick(60)
     frame += 1
     if frame == 60:
         frame = 0
