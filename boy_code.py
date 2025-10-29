@@ -316,13 +316,13 @@ def backgrounds():
                     if i == 3:
                         down = False
         for room_change in background.room_change:
-            if p.centerx >= room_change[0] and p.centerx <= room_change[1] and p.centery >= room_change[2] and p.centery <= room_change[3] and room_change[5] and abs(it1-time.time()) > .5:
+            if p.left >= room_change[0] and p.left+50 <= room_change[1] and p.top >= room_change[2] and p.top+50 <= room_change[3] and room_change[5] and abs(it1-time.time()) > .5:
                 bg = room_change[4]
                 it1 = time.time()
-                p.centerx = room_change[6]
-                p.centery = room_change[7]
+                p.left = room_change[6]
+                p.top = room_change[7]
         for interaction in background.interaction_boxes:
-            if p.centerx >= interaction[0] and p.centerx <= interaction[1] and p.centery >= interaction[2] and p.centerx >= interaction[3] and keys[pygame.K_e]:
+            if p.left >= interaction[0] and p.left+50 <= interaction[1] and p.top >= interaction[2] and p.top+50 <= interaction[3] and keys[pygame.K_e]:
                 if interaction[5] == 0:
                     bg = 0
                 background.interactions(information_screens_list, interaction[4])

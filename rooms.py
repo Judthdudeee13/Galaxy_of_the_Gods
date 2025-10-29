@@ -39,9 +39,9 @@ class backgrounds:
         self.window.blit(chest, chest_rect)
         self.hit_boxes = [
             (
-                (613, 700, 0, 103),#left
-                (610, 697, 0, 103),#right
-                (613, 697, 0, 106), #up
+                (573, 740, 0, 140),#left
+                (570, 737, 0, 140),#right
+                (573, 737, 0, 145), #up
                 (self.none)#down
             ),
             (
@@ -71,10 +71,10 @@ class backgrounds:
             
         ]
         self.room_change = [
-            (215, 235, 0, 75, 2, keys[pygame.K_w], 230, 75)
+            (195, 260, 0, 125, 2, keys[pygame.K_w], 200, 50)
         ]
         self.interaction_boxes = [
-            (600, 700, 0, 150, 0, 0)
+            (550, 750, 0, 170, 0, 0)
         ]
         self.interactions_results = [
             ('add_to_inventory', (('sword', 1, 'basic_sword'), ('range', 1, 'basic_bow')))
@@ -91,34 +91,34 @@ class backgrounds:
         self.window.blit(self.background1, self.back1)
         self.hit_boxes = [
             (
-                (0, 85, 0, self.height), #left
+                (0, 125, 0, self.height), #left
                 (self.none),#right
                 (self.none),#up
                 (self.none)#down
             ),
             (
                 (self.none),#left
-                (1200, self.width, 0, self.height),#right
+                (1175, self.width, 0, self.height),#right
                 (self.none),#up
                 (self.none)#down
             ),
             (
                 (self.none),#left
                 (self.none),#right
-                (0, self.width, 0, 75),#up
+                (0, self.width, 0, 100),#up
                 (self.none)#down
             ),
             (
                 (self.none),#left
                 (self.none),#right
                 (self.none),#up
-                (0, self.width, 600, self.height)#down
+                (0, self.width, 575, self.height)#down
             )
             
         ]
         self.room_change = [
-            (215, 235, 0, 75, 1, keys[pygame.K_w], 230, 75),
-            (1190, self.width, 440, 480, 3, keys[pygame.K_d], 90, 390)
+            (195, 260, 0, 125, 1, keys[pygame.K_w], 200, 50),
+            (1160, self.width, 420, 500, 3, keys[pygame.K_d], 75, 375)
         ]
         self.interaction_boxes = []
         self.interactions_results = []
@@ -138,33 +138,33 @@ class backgrounds:
 
         self.hit_boxes = [
             (
-                (0, 85, 0, self.height), #left
+                (0, 125, 0, self.height), #left
                 (self.none),#right
                 (self.none),#up
                 (self.none)#down
             ),
             (
                 (self.none),#left
-                (1200, self.width, 0, self.height),#right
+                (1175, self.width, 0, self.height),#right
                 (self.none),#up
                 (self.none)#down
             ),
             (
                 (self.none),#left
                 (self.none),#right
-                (0, self.width, 0, 75),#up
+                (0, self.width, 0, 100),#up
                 (self.none)#down
             ),
             (
                 (self.none),#left
                 (self.none),#right
                 (self.none),#up
-                (0, self.width, 600, self.height)#down
+                (0, self.width, 575, self.height)#down
             )
             
         ]
         self.room_change = [
-            (0, 90, 370, 410, 2, keys[pygame.K_a], 1200, 460)
+            (0, 130, 360, 430, 2, keys[pygame.K_a], 1175, 440)
         ]
         self.interaction_boxes = []
         self.interactions_results = []
