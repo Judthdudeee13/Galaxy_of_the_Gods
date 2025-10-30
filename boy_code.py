@@ -306,15 +306,26 @@ def backgrounds():
             background.load_background3()
         for hit_box in background.hit_boxes:
             for i in range(4):
-                if p.left >= hit_box[i][0] and p.left+50 <= hit_box[i][1] and p.top >= hit_box[i][2] and p.top+50 <= hit_box[i][3]:
-                    if i == 0:
-                        left = False
-                    if i == 1:
-                        right = False
-                    if i == 2:
-                        up = False
-                    if i == 3:
-                        down = False
+                if i == 2:
+                    if p.left >= hit_box[i][0] and p.left+50 <= hit_box[i][1] and p.top >= hit_box[i][2]-25 and p.top+25 <= hit_box[i][3]:
+                        if i == 0:
+                            left = False
+                        if i == 1:
+                            right = False
+                        if i == 2:
+                            up = False
+                        if i == 3:
+                            down = False
+                else:
+                    if p.left >= hit_box[i][0] and p.left+50 <= hit_box[i][1] and p.top >= hit_box[i][2] and p.top+50 <= hit_box[i][3]:
+                        if i == 0:
+                            left = False
+                        if i == 1:
+                            right = False
+                        if i == 2:
+                            up = False
+                        if i == 3:
+                            down = False
         for room_change in background.room_change:
             if p.left >= room_change[0] and p.left+50 <= room_change[1] and p.top >= room_change[2] and p.top+50 <= room_change[3] and room_change[5] and abs(it1-time.time()) > .5:
                 bg = room_change[4]

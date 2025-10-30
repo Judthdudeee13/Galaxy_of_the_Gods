@@ -39,9 +39,9 @@ class backgrounds:
         self.window.blit(chest, chest_rect)
         self.hit_boxes = [
             (
-                (573, 740, 0, 140),#left
-                (570, 737, 0, 140),#right
-                (573, 737, 0, 145), #up
+                (573, 740, 0, 115),#left
+                (570, 737, 0, 115),#right
+                (573, 737, 0, 120), #up
                 (self.none)#down
             ),
             (
@@ -59,7 +59,7 @@ class backgrounds:
             (
                 (self.none),#left
                 (self.none),#right
-                (0, self.width, 0, 100),#up
+                (0, self.width, 0, 75),#up
                 (self.none)#down
             ),
             (
@@ -105,7 +105,7 @@ class backgrounds:
             (
                 (self.none),#left
                 (self.none),#right
-                (0, self.width, 0, 100),#up
+                (0, self.width, 0, 75),#up
                 (self.none)#down
             ),
             (
@@ -152,7 +152,7 @@ class backgrounds:
             (
                 (self.none),#left
                 (self.none),#right
-                (0, self.width, 0, 100),#up
+                (0, self.width, 0, 75),#up
                 (self.none)#down
             ),
             (
