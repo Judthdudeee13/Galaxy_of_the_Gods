@@ -269,15 +269,27 @@ def attack():
     if keys[pygame.K_SPACE]:
             space_clicked = True
             for weapon in weapons_list:
-                hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventorys.inventory_list, direction, p, current_weapon, space_clicked, background)
+                if isinstance(weapon, weapons.ranged):
+                    weapon.attack(inventorys.inventory_list, direction, p, current_weapon, space_clicked, background)
+                    for projectile in weapons.projectiles:
+                        hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = projectile.hit_box_sur,  projectile.hit_box_pos, projectile.damage, projectile.hit_box_im, projectile.attack_image, projectile.starting_time
+                    
+                else:
+                    weapon.attack(inventorys.inventory_list, direction, p, current_weapon, space_clicked, background)
+                    hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.hit_box_sur, weapon.hit_box_pos, weapon.damage, weapon.hit_box_im, weapon.attack_image, weapon.starting_time
                 all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image, starting_time)
-    else:
-        space_clicked = False
+    space_clicked = False
 
     for weapon in weapons_list:
-        hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventorys.inventory_list, direction, p, current_weapon, space_clicked, background)
-        if attack_image > 0:
-            all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image, starting_time)
+        if isinstance(weapon, weapons.ranged):
+            weapon.attack(inventorys.inventory_list, direction, p, current_weapon, space_clicked, background)
+            for projectile in weapons.projectiles:
+                hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = projectile.hit_box_sur,  projectile.hit_box_pos, projectile.damage, projectile.hit_box_im, projectile.attack_image, projectile.starting_time
+            
+        else:
+            weapon.attack(inventorys.inventory_list, direction, p, current_weapon, space_clicked, background)
+            hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.hit_box_sur, weapon.hit_box_pos, weapon.damage, weapon.hit_box_im, weapon.attack_image, weapon.starting_time
+        all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image, starting_time)
 
 def all_monsters_recive_damage(box, pos, damage, time_left, starting_time):
     for monster in background.current_monsters:
@@ -503,13 +515,14 @@ clear_data()
 
 
 def load_weapons():
+    #reload_time, ammo, damage, direction, range, staring_time
     global basic_sword
     global basic_bow
     global weapons_list
     basic_sword = weapons.melee()
     basic_sword.set_up(0.5, 0, 1, direction, 25, 3)
     basic_bow  = weapons.ranged()
-    basic_bow.set_up(2, 'basic_arrow', 1, direction, 0, 25)
+    basic_bow.set_up(0.5, 'basic_arrow', 1, direction, 0, 25)
     basic_bow.set_up1((10, 20), 'weapons/basic_bow.png')
     weapons_list = [basic_bow, basic_sword]
 
