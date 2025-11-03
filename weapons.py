@@ -28,7 +28,7 @@ GREEN = '#00ff00'
 BLACK = "#000000"
 WHITE = "#FFFFFF"
 swing= False
-projectiles = []
+
 
 class weapon:
     def __init__(self):
@@ -81,12 +81,12 @@ class melee(weapon):
                     self.hit_box_pos.y = p.y+12
                     hit_box_blit90 = pygame.transform.rotate(self.hit_box_im, 90)
                     window.blit(hit_box_blit90, self.hit_box_pos)
-                '''return  self.hit_box_sur, self.hit_box_pos, self.damage, self.hit_box_im, self.attack_image, self.starting_time
+                return  self.hit_box_sur, self.hit_box_pos, self.damage, self.hit_box_im, self.attack_image, self.starting_time
 
             else:
                 return self.hit_box_sur, self.hit_box_pos, self.damage, self.hit_box_im, -1, self.starting_time
         else:
-            return self.hit_box_sur, self.hit_box_pos, self.damage, self.hit_box_im, -1, self.starting_time'''
+            return self.hit_box_sur, self.hit_box_pos, self.damage, self.hit_box_im, -1, self.starting_time
 
 
 
@@ -128,138 +128,122 @@ class ranged(weapon):
                     self.bow_rect.centery = playery+25
                     hit_box_blit90 = pygame.transform.rotate(self.bow, 0)
                     window.blit(hit_box_blit90, self.bow_rect)
-
     def attack(self, inventory, direction, player, current_weapon, space, background):
-        global projectiles
+        self.arrow_sur = pygame.mask.from_surface(self.arrow_im)
+        self.arrow_rect = self.arrow_im.get_rect()
         if inventory['range'][1] == 'basic_bow' and current_weapon == 'basic_bow':
             if abs(self.reload_time_cooldown-time.time()) >= self.reload_time and self.attack_image <= 0 and space:
                 self.attack_image = self.starting_time
                 self.reload_time_cooldown = time.time()
-                projectiles.append(projectile())
-                for project in projectiles:
-                    project.set_up1()
-                    project.attack(inventory, direction, player, current_weapon, space, background)
-        elif not space:
-             for project in projectiles:
-                    project.attack(inventory, direction, player, current_weapon, space, background)
-        
+                self.x = 0
+                self.y = 0
+                if direction == 'up':
+                        self.x = player.x+25
+                        self.y = player.y-5
+                        self.arrow_im = pygame.transform.rotate(self.arrow, 0)
+                        self.arrow_rect = self.arrow_im.get_rect()
+                        self.arrow_direction = 'up'
+                        self.arrow_rect.left = self.x
+                        self.arrow_rect.top = self.y
+                        window.blit(self.arrow_im, self.arrow_rect)
+                if direction == 'down':
+                        self.x = player.x+25
+                        self.y = player.y+55
+                        self.arrow_direction = 'down'
+                        self.arrow_im = pygame.transform.rotate(self.arrow, 180)
+                        self.arrow_rect = self.arrow_im.get_rect()
+                        self.arrow_rect.left = self.x
+                        self.arrow_rect.top = self.y
+                        window.blit(self.arrow_im, self.arrow_rect)
+                if direction == 'left' or direction == 'None':
+                        self.x = player.x-11
+                        self.y = player.y+30
+                        self.arrow_direction = 'left'
+                        self.arrow_im = pygame.transform.rotate(self.arrow, 90)
+                        self.arrow_rect = self.arrow_im.get_rect()
+                        self.arrow_rect.left = self.x
+                        self.arrow_rect.top = self.y
+                        window.blit(self.arrow_im, self.arrow_rect)
+                if direction == 'right':
+                        self.x = player.x+52
+                        self.y = player.y+30
+                        self.arrow_direction = 'right'
+                        self.arrow_im = pygame.transform.rotate(self.arrow, 270)
+                        self.arrow_rect = self.arrow_im.get_rect()
+                        self.arrow_rect.left = self.x
+                        self.arrow_rect.top = self.y
+                        window.blit(self.arrow_im, self.arrow_rect)
+                return self.arrow_sur, self.arrow_rect, self.damage, self.arrow_im, self.attack_image, self.starting_time
 
 
-class projectile(ranged):
-    def attack(self, inventory, direction, player, current_weapon, space, background):
-        if space:
-            self.arrow_sur = pygame.mask.from_surface(self.arrow_im)
-            self.arrow_rect = self.arrow_im.get_rect()
-            if direction == 'up':
-                    self.x = player.x+25
-                    self.y = player.y-5
-                    self.arrow_im = pygame.transform.rotate(self.arrow, 0)
-                    self.arrow_rect = self.arrow_im.get_rect()
-                    self.arrow_direction = 'up'
-                    self.arrow_rect.left = self.x
-                    self.arrow_rect.top = self.y
-                    window.blit(self.arrow_im, self.arrow_rect)
-            if direction == 'down':
-                    self.x = player.x+25
-                    self.y = player.y+55
-                    self.arrow_direction = 'down'
-                    self.arrow_im = pygame.transform.rotate(self.arrow, 180)
-                    self.arrow_rect = self.arrow_im.get_rect()
-                    self.arrow_rect.left = self.x
-                    self.arrow_rect.top = self.y
-                    window.blit(self.arrow_im, self.arrow_rect)
-            if direction == 'left' or direction == 'None':
-                    self.x = player.x-11
-                    self.y = player.y+30
-                    self.arrow_direction = 'left'
-                    self.arrow_im = pygame.transform.rotate(self.arrow, 90)
-                    self.arrow_rect = self.arrow_im.get_rect()
-                    self.arrow_rect.left = self.x
-                    self.arrow_rect.top = self.y
-                    window.blit(self.arrow_im, self.arrow_rect)
-            if direction == 'right':
-                    self.x = player.x+52
-                    self.y = player.y+30
-                    self.arrow_direction = 'right'
-                    self.arrow_im = pygame.transform.rotate(self.arrow, 270)
-                    self.arrow_rect = self.arrow_im.get_rect()
-                    self.arrow_rect.left = self.x
-                    self.arrow_rect.top = self.y
-                    window.blit(self.arrow_im, self.arrow_rect)
-            '''return self.arrow_sur, self.arrow_rect, self.damage, self.arrow_im, self.attack_image, self.starting_time'''
-
-
-        elif not space:
-            for hit_box in background.hit_boxes:
-                print(hit_box)
-                for i in range(4):
-                    print(self.x)
-                    print(self.y)
-                    if i == 1 or i == 3:
-                        if self.x-25 >= hit_box[i][0] and self.x <= hit_box[i][1]-50 and self.y-25 >= hit_box[i][2] and self.y <= hit_box[i][3]:
-                            if i == 0:
-                                self.left = False
-                            if i == 1:
-                                self.right = False
-                            if i == 2:
-                                self.up = False
-                            if i == 3:
-                                self.down = False
-                    if i == 0 or i == 2:
+            elif self.attack_image > 0:
+                up = True
+                down = True
+                right = True
+                left = True
+                for hit_box in background.hit_boxes:
+                    print(hit_box)
+                    for i in range(4):
+                        print(self.x)
+                        print(self.y)
                         if self.x >= hit_box[i][0] and self.x <= hit_box[i][1]-50 and self.y >= hit_box[i][2] and self.y <= hit_box[i][3]:
                             if i == 0:
-                                self.left = False
+                                left = False
                             if i == 1:
-                                self.right = False
+                                right = False
                             if i == 2:
-                                self.up = False
+                                up = False
                             if i == 3:
-                                self.down = False
+                                 down = False
 
-            
-            self.attack_image -= 1
-            if self.arrow_direction == 'up' and self.up:
-                    self.y -= 10
-                    self.arrow_rect.left = self.x
-                    self.arrow_rect.top = self.y
-                    window.blit(self.arrow_im, self.arrow_rect)
-            if self.arrow_direction == 'down' and self.down:
-                    self.y += 10
-                    self.arrow_rect.left = self.x
-                    self.arrow_rect.top = self.y
-                    window.blit(self.arrow_im, self.arrow_rect)
-            if self.arrow_direction == 'left' and self.left or self.arrow_direction == 'None':
-                    self.x-=10
-                    self.arrow_rect.left = self.x
-                    self.arrow_rect.top = self.y
-                    window.blit(self.arrow_im, self.arrow_rect)
-            if self.arrow_direction == 'right' and self.right:
-                    self.x+=10
-                    self.arrow_rect.left = self.x
-                    self.arrow_rect.top = self.y
-                    window.blit(self.arrow_im, self.arrow_rect)
+                
+                self.attack_image -= 1
+                if self.arrow_direction == 'up' and up:
+                        self.y -= 10
+                        self.arrow_rect.left = self.x
+                        self.arrow_rect.top = self.y
+                        window.blit(self.arrow_im, self.arrow_rect)
+                if self.arrow_direction == 'down' and down:
+                        self.y += 10
+                        self.arrow_rect.left = self.x
+                        self.arrow_rect.top = self.y
+                        window.blit(self.arrow_im, self.arrow_rect)
+                if self.arrow_direction == 'left' and left or self.arrow_direction == 'None':
+                        self.x-=10
+                        self.arrow_rect.left = self.x
+                        self.arrow_rect.top = self.y
+                        window.blit(self.arrow_im, self.arrow_rect)
+                if self.arrow_direction == 'right' and right:
+                        self.x+=10
+                        self.arrow_rect.left = self.x
+                        self.arrow_rect.top = self.y
+                        window.blit(self.arrow_im, self.arrow_rect)
 
 
-            if self.arrow_direction == 'up' and not self.up:
-                    self.y = -100
-                    self.arrow_rect.left = self.x
-                    self.arrow_rect.top = self.y
-                    window.blit(self.arrow_im, self.arrow_rect)
-            if self.arrow_direction == 'down' and not self.down:
-                    self.y = -100
-                    self.arrow_rect.left = self.x
-                    self.arrow_rect.top = self.y
-                    window.blit(self.arrow_im, self.arrow_rect)
-            if self.arrow_direction == 'left' and not self.left or self.arrow_direction == 'None':
-                    self.x = -100
-                    self.arrow_rect.left = self.x
-                    self.arrow_rect.top = self.y
-                    window.blit(self.arrow_im, self.arrow_rect)
-            if self.arrow_direction == 'right' and not self.right:
-                    self.x = -100
-                    self.arrow_rect.left = self.x
-                    self.arrow_rect.top = self.y
-                    window.blit(self.arrow_im, self.arrow_rect)
-            '''return self.arrow_sur, self.arrow_rect, self.damage, self.arrow_im, self.attack_image, self.starting_time
+                if self.arrow_direction == 'up':
+                        self.y -= 0
+                        self.arrow_rect.left = self.x
+                        self.arrow_rect.top = self.y
+                        window.blit(self.arrow_im, self.arrow_rect)
+                if self.arrow_direction == 'down':
+                        self.y += 0
+                        self.arrow_rect.left = self.x
+                        self.arrow_rect.top = self.y
+                        window.blit(self.arrow_im, self.arrow_rect)
+                if self.arrow_direction == 'left' or self.arrow_direction == 'None':
+                        self.x-=0
+                        self.arrow_rect.left = self.x
+                        self.arrow_rect.top = self.y
+                        window.blit(self.arrow_im, self.arrow_rect)
+                if self.arrow_direction == 'right':
+                        self.x+=0
+                        self.arrow_rect.left = self.x
+                        self.arrow_rect.top = self.y
+                        window.blit(self.arrow_im, self.arrow_rect)
+                rect = pygame.draw.rect(window, '#000000', self.arrow_rect)
+                return self.arrow_sur, self.arrow_rect, self.damage, self.arrow_im, self.attack_image, self.starting_time
+            else:
+                return self.arrow_sur, self.arrow_rect, self.damage, self.arrow_im, -1, self.starting_time
         else:
-            return self.arrow_sur, self.arrow_rect, self.damage, self.arrow_im, -1, self.starting_time'''
+             return self.arrow_sur, self.arrow_rect, self.damage, self.arrow_im, -1, self.starting_time
+
