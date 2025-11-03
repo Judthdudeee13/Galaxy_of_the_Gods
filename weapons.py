@@ -131,6 +131,10 @@ class ranged(weapon):
     def attack(self, inventory, direction, player, current_weapon, space, background):
         self.arrow_sur = pygame.mask.from_surface(self.arrow_im)
         self.arrow_rect = self.arrow_im.get_rect()
+        self.down = True
+        self.right = True
+        self.left = True
+        self.up = True
         if inventory['range'][1] == 'basic_bow' and current_weapon == 'basic_bow':
             if abs(self.reload_time_cooldown-time.time()) >= self.reload_time and self.attack_image <= 0 and space:
                 self.attack_image = self.starting_time
@@ -176,71 +180,83 @@ class ranged(weapon):
                 return self.arrow_sur, self.arrow_rect, self.damage, self.arrow_im, self.attack_image, self.starting_time
 
 
-            elif self.attack_image > 0:
-                up = True
-                down = True
-                right = True
-                left = True
+            elif not space:
                 for hit_box in background.hit_boxes:
                     print(hit_box)
                     for i in range(4):
                         print(self.x)
                         print(self.y)
-                        if self.x >= hit_box[i][0] and self.x <= hit_box[i][1]-50 and self.y >= hit_box[i][2] and self.y <= hit_box[i][3]:
-                            if i == 0:
-                                left = False
-                            if i == 1:
-                                right = False
-                            if i == 2:
-                                up = False
-                            if i == 3:
-                                 down = False
-
+                        if i == 1 or i == 3:
+                            if self.x-25 >= hit_box[i][0] and self.x <= hit_box[i][1]-50 and self.y-25 >= hit_box[i][2] and self.y <= hit_box[i][3]:
+                                if i == 0:
+                                    self.left = False
+                                if i == 1:
+                                    self.right = False
+                                if i == 2:
+                                    self.up = False
+                                if i == 3:
+                                    self.down = False
+                        if i == 0 or i == 2:
+                            if self.x >= hit_box[i][0] and self.x <= hit_box[i][1]-50 and self.y >= hit_box[i][2] and self.y <= hit_box[i][3]:
+                                if i == 0:
+                                    self.left = False
+                                if i == 1:
+                                    self.right = False
+                                if i == 2:
+                                    self.up = False
+                                if i == 3:
+                                    self.down = False
+                if not self.down or not self.up or not self.right or not self.left:
+                    self.right = False
+                    self.left = False
+                    self.up = False
+                    self.down = False
+                    self.y = -100
+                    self.x = -100
                 
                 self.attack_image -= 1
-                if self.arrow_direction == 'up' and up:
+                if self.arrow_direction == 'up' and self.up:
                         self.y -= 10
                         self.arrow_rect.left = self.x
                         self.arrow_rect.top = self.y
                         window.blit(self.arrow_im, self.arrow_rect)
-                if self.arrow_direction == 'down' and down:
+                if self.arrow_direction == 'down' and self.down:
                         self.y += 10
                         self.arrow_rect.left = self.x
                         self.arrow_rect.top = self.y
                         window.blit(self.arrow_im, self.arrow_rect)
-                if self.arrow_direction == 'left' and left or self.arrow_direction == 'None':
+                if self.arrow_direction == 'left' and self.left or self.arrow_direction == 'None':
                         self.x-=10
                         self.arrow_rect.left = self.x
                         self.arrow_rect.top = self.y
                         window.blit(self.arrow_im, self.arrow_rect)
-                if self.arrow_direction == 'right' and right:
+                if self.arrow_direction == 'right' and self.right:
                         self.x+=10
                         self.arrow_rect.left = self.x
                         self.arrow_rect.top = self.y
                         window.blit(self.arrow_im, self.arrow_rect)
 
 
-                if self.arrow_direction == 'up':
-                        self.y -= 0
+                if self.arrow_direction == 'up' and not self.up:
+                        self.y = -100
                         self.arrow_rect.left = self.x
                         self.arrow_rect.top = self.y
                         window.blit(self.arrow_im, self.arrow_rect)
-                if self.arrow_direction == 'down':
-                        self.y += 0
+                if self.arrow_direction == 'down' and not self.down:
+                        self.y = -100
                         self.arrow_rect.left = self.x
                         self.arrow_rect.top = self.y
                         window.blit(self.arrow_im, self.arrow_rect)
-                if self.arrow_direction == 'left' or self.arrow_direction == 'None':
-                        self.x-=0
+                if self.arrow_direction == 'left' and not self.left or self.arrow_direction == 'None':
+                        self.x = -100
                         self.arrow_rect.left = self.x
                         self.arrow_rect.top = self.y
                         window.blit(self.arrow_im, self.arrow_rect)
-                if self.arrow_direction == 'right':
-                        self.x+=0
+                if self.arrow_direction == 'right' and not self.right:
+                        self.x = -100
                         self.arrow_rect.left = self.x
                         self.arrow_rect.top = self.y
                         window.blit(self.arrow_im, self.arrow_rect)
-                rect = pygame.draw.rect(window, '#000000', self.arrow_rect)
                 return self.arrow_sur, self.arrow_rect, self.damage, self.arrow_im, self.attack_image, self.starting_time
             else:
                 return self.arrow_sur, self.arrow_rect, self.damage, self.arrow_im, -1, self.starting_time

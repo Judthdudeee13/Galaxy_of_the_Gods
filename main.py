@@ -271,8 +271,7 @@ def attack():
             for weapon in weapons_list:
                 hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventorys.inventory_list, direction, p, current_weapon, space_clicked, background)
                 all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image, starting_time)
-    else:
-        space_clicked = False
+    space_clicked = False
 
     for weapon in weapons_list:
         hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventorys.inventory_list, direction, p, current_weapon, space_clicked, background)
