@@ -77,8 +77,8 @@ background = rooms.backgrounds(window, HEIGHT, WIDTH)
 #game developer settings
 def game_developer():
    if GAME_DEVELOPER_MACANICS:
-        playerx = str(p.centerx)
-        playery = str(p.centery)
+        playerx = str(p.left)
+        playery = str(p.top)
         px = datas.render(f"X: {playerx}", True, "#000000")
         px1 = px.get_rect()
         px1.centerx = 25
@@ -269,13 +269,12 @@ def attack():
     if keys[pygame.K_SPACE]:
             space_clicked = True
             for weapon in weapons_list:
-                hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventorys.inventory_list, direction, p, current_weapon, space_clicked)
+                hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventorys.inventory_list, direction, p, current_weapon, space_clicked, background)
                 all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image, starting_time)
-    else:
-        space_clicked = False
+    space_clicked = False
 
     for weapon in weapons_list:
-        hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventorys.inventory_list, direction, p, current_weapon, space_clicked)
+        hit_box_sur, hit_box_pos, damage, hit_box_im, attack_image, starting_time = weapon.attack(inventorys.inventory_list, direction, p, current_weapon, space_clicked, background)
         if attack_image > 0:
             all_monsters_recive_damage(hit_box_sur, hit_box_pos, damage, attack_image, starting_time)
 
@@ -306,23 +305,34 @@ def backgrounds():
             background.load_background3()
         for hit_box in background.hit_boxes:
             for i in range(4):
-                if p.centerx >= hit_box[i][0] and p.centerx <= hit_box[i][1] and p.centery >= hit_box[i][2] and p.centery <= hit_box[i][3]:
-                    if i == 0:
-                        left = False
-                    if i == 1:
-                        right = False
-                    if i == 2:
-                        up = False
-                    if i == 3:
-                        down = False
+                if i == 2:
+                    if p.left >= hit_box[i][0] and p.left+50 <= hit_box[i][1] and p.top >= hit_box[i][2]-25 and p.top+25 <= hit_box[i][3]:
+                        if i == 0:
+                            left = False
+                        if i == 1:
+                            right = False
+                        if i == 2:
+                            up = False
+                        if i == 3:
+                            down = False
+                else:
+                    if p.left >= hit_box[i][0] and p.left+50 <= hit_box[i][1] and p.top >= hit_box[i][2] and p.top+50 <= hit_box[i][3]:
+                        if i == 0:
+                            left = False
+                        if i == 1:
+                            right = False
+                        if i == 2:
+                            up = False
+                        if i == 3:
+                            down = False
         for room_change in background.room_change:
-            if p.centerx >= room_change[0] and p.centerx <= room_change[1] and p.centery >= room_change[2] and p.centery <= room_change[3] and room_change[5] and abs(it1-time.time()) > .5:
+            if p.left >= room_change[0] and p.left+50 <= room_change[1] and p.top >= room_change[2] and p.top+50 <= room_change[3] and room_change[5] and abs(it1-time.time()) > .5:
                 bg = room_change[4]
                 it1 = time.time()
-                p.centerx = room_change[6]
-                p.centery = room_change[7]
+                p.left = room_change[6]
+                p.top = room_change[7]
         for interaction in background.interaction_boxes:
-            if p.centerx >= interaction[0] and p.centerx <= interaction[1] and p.centery >= interaction[2] and p.centerx >= interaction[3] and keys[pygame.K_e]:
+            if p.left >= interaction[0] and p.left+50 <= interaction[1] and p.top >= interaction[2] and p.top+50 <= interaction[3] and keys[pygame.K_e]:
                 if interaction[5] == 0:
                     bg = 0
                 background.interactions(information_screens_list, interaction[4])
@@ -497,7 +507,7 @@ def load_weapons():
     global weapons_list
     basic_sword = weapons.melee()
     basic_sword.set_up(0.5, 0, 1, direction, 25, 3)
-    basic_bow  = weapons.range()
+    basic_bow  = weapons.ranged()
     basic_bow.set_up(2, 'basic_arrow', 1, direction, 0, 25)
     basic_bow.set_up1((10, 20), 'weapons/basic_bow.png')
     weapons_list = [basic_bow, basic_sword]
