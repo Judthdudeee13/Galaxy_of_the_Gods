@@ -79,6 +79,7 @@ class backgrounds:
         self.interactions_results = [
             ('add_to_inventory', (('sword', 1, 'basic_sword'), ('range', 1, 'basic_bow')))
         ]
+        self.bg = 1
 
         
     def load_background2(self):
@@ -122,6 +123,7 @@ class backgrounds:
         ]
         self.interaction_boxes = []
         self.interactions_results = []
+        self.bg = 2
 
         
     def load_background3(self):
@@ -168,6 +170,7 @@ class backgrounds:
         ]
         self.interaction_boxes = []
         self.interactions_results = []
+        self.bg = 3
 
     def interactions(self, information_screens, number):
         if self.interactions_results[number][0] == 'add_to_inventory':
