@@ -44,6 +44,7 @@ class weapon:
         self.attack_image = -1
         self.x = 0
         self.y= 0
+        self.og_bg = 0
 
 
 
@@ -106,6 +107,10 @@ class ranged(weapon):
         self.arrow = pygame.transform.scale(self.arrow_im, self.arrow_size)
         self.arrow_sur = pygame.mask.from_surface(self.arrow_im)
         self.arrow_rect = self.arrow.get_rect()
+        self.down = True
+        self.right = True
+        self.left = True
+        self.up = True
     def blit(self, playerx, playery, direction, inventory, current_weapon):
         if inventory['range'][1] == 'basic_bow' and current_weapon == 'basic_bow':
             if direction == 'up':
@@ -131,16 +136,17 @@ class ranged(weapon):
     def attack(self, inventory, direction, player, current_weapon, space, background):
         self.arrow_sur = pygame.mask.from_surface(self.arrow_im)
         self.arrow_rect = self.arrow_im.get_rect()
-        self.down = True
-        self.right = True
-        self.left = True
-        self.up = True
         if inventory['range'][1] == 'basic_bow' and current_weapon == 'basic_bow':
             if abs(self.reload_time_cooldown-time.time()) >= self.reload_time and self.attack_image <= 0 and space:
                 self.attack_image = self.starting_time
                 self.reload_time_cooldown = time.time()
                 self.x = 0
                 self.y = 0
+                self.og_bg = background.bg
+                self.down = True
+                self.right = True
+                self.left = True
+                self.up = True
                 if direction == 'up':
                         self.x = player.x+25
                         self.y = player.y-5
@@ -206,7 +212,7 @@ class ranged(weapon):
                                     self.up = False
                                 if i == 3:
                                     self.down = False
-                if not self.down or not self.up or not self.right or not self.left:
+                if not self.down or not self.up or not self.right or not self.left or self.og_bg != background.bg:
                     self.right = False
                     self.left = False
                     self.up = False
