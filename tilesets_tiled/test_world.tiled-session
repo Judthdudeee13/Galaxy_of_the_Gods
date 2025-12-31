@@ -1,0 +1,50 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "test_tile.tsx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "test_tile.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "test_tiles.tsx": {
+            "dynamicWrapping": true
+        },
+        "test_world.tmx": {
+            "scale": 0.12,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 62.5,
+                "y": 1216.666666666667
+            }
+        }
+    },
+    "last.imagePath": "/Users/family/Desktop/Galaxy of the gods storage/Galaxy_of_the_Gods/tilesets_tiled",
+    "map.fixedSize": true,
+    "map.height": 200,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 200,
+    "openFiles": [
+        "test_world.tmx",
+        "test_tile.tsx"
+    ],
+    "project": "test_world.tiled-project",
+    "recentFiles": [
+        "test_tile.tsx",
+        "test_world.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    },
+    "tileset.type": 1
+}
