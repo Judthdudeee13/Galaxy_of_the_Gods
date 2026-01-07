@@ -1,6 +1,6 @@
 #import used modules
 import pygame, sys, random, time, pickle, pyscroll
-import backgrounds
+import Backgrounds, Player
 
 #setup pygame
 pygame.init()
@@ -27,6 +27,9 @@ pygame.display.set_caption('Galaxly of the gods')
 logo = pygame.image.load("game_logo.png")
 pygame.display.set_icon(logo)
 
+#files
+main_world_tileset = "tilesets_tiled/test_world.tmx"
+
 #set up fonts
 basic = pygame.font.SysFont(None, 75)
 datas = pygame.font.SysFont(None, 25)
@@ -34,13 +37,10 @@ important = pygame.font.SysFont(None, 90)
 
 
 # Player
-player = pygame.sprite.Sprite()
-player.image = pygame.Surface((16, 16))
-player.image.fill((255, 0, 0))
-player.rect = player.image.get_rect(topleft = (0, 0))
+player = Player.Player(main_world_tileset)
 
 #backgrounds
-main_world = backgrounds.background(window, "tilesets_tiled/test_world.tmx", player, (WIDTH_RATIO, HEIGHT_RATIO), WIDTH, HEIGHT)
+main_world = Backgrounds.Background(window, main_world_tileset, player, (WIDTH_RATIO, HEIGHT_RATIO), WIDTH, HEIGHT)
 
 run = True
 while run:
@@ -48,15 +48,7 @@ while run:
     keys = pygame.key.get_pressed()
     mouse_keys = pygame.mouse.get_pressed()
 
-    #temporary player
-    if keys[pygame.K_w]:
-        player.rect.y -= 2
-    if keys[pygame.K_s]:
-        player.rect.y +=2
-    if keys[pygame.K_a]:
-        player.rect.x -= 2
-    if keys[pygame.K_d]:
-        player.rect.x += 2
+    
 
     #load main world map
     main_world.load()

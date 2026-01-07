@@ -1,6 +1,6 @@
 import pyscroll, pytmx, pygame
 
-class background:
+class Background:
     def __init__(self, window, background_file, focus, aspect_ratio, width, height):
         self.aspect_ratio = aspect_ratio
         self.window = window
