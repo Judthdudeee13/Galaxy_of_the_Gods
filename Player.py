@@ -5,8 +5,13 @@ class Player:
         self.update_info(file)
     def update_info(self, file):
         self.file = pytmx.load_pygame(file)
-        self.image = self.file.get_layer_by_name("Player")
-        self.rect = None
+        self.layer = self.file.get_layer_by_name("Player")
+        self.obj = next(iter(self.layer))
+        self.image_path = self.obj.properties.get("image", None)
+        self.image = pygame.image.load(self.image_path)
+        self.rect = self.image.get_rect(topleft = (int(self.obj.x), int(self.obj.y)))
+
+    
 
 # player = pygame.sprite.Sprite()
 # player.image = pygame.Surface((16, 16))
