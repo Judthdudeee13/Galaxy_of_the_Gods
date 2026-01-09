@@ -23,6 +23,7 @@ HEIGHT = 288
 WIDTH_RATIO = SCREEN_WIDTH/WIDTH
 HEIGHT_RATIO = SCREEN_HEIGHT/HEIGHT
 
+#set up icon for game
 pygame.display.set_caption('Galaxly of the gods')
 logo = pygame.image.load("game_logo.png")
 pygame.display.set_icon(logo)
@@ -51,6 +52,7 @@ while run:
     
 
     #load main world map
+    player.move()
     main_world.load()
 
     #make sure window can close

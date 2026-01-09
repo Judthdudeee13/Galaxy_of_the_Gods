@@ -206,10 +206,6 @@
 </data>
  </layer>
  <objectgroup id="2" name="Player">
-  <object id="3" gid="5" x="2786" y="2960" width="16" height="16">
-   <properties>
-    <property name="image" type="file" value="Place_holder_player.png"/>
-   </properties>
-  </object>
+  <object id="3" gid="5" x="2786" y="2960" width="16" height="16"/>
  </objectgroup>
 </map>
