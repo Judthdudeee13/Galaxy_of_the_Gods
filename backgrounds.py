@@ -21,3 +21,6 @@ class Background:
         self.background_group.draw(self.render_surface)
         self.scaled_surface = pygame.transform.scale(self.render_surface, (int(self.aspect_ratio[0]*self.width), int(self.aspect_ratio[1]*self.height)))
         self.window.blit(self.scaled_surface, (0,0))
+
+#test
+        
