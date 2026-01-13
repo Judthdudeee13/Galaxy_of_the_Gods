@@ -21,6 +21,7 @@ class Background:
         #tmx data for background
         self.tmx_data = pytmx.load_pygame(background_file)
         #turns it into a pyscroll window
+        self.background_image = self.tmx_data.get_layer_by_name("Background")
         self.map_data = pyscroll.data.TiledMapData(self.tmx_data)
         #surface everything is rendered on befpre scalled to window
         self.render_surface = pygame.Surface((width, height)).convert_alpha()

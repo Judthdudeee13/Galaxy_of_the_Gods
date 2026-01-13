@@ -1,7 +1,7 @@
-First set up a venv/
+set up a venv/ easiest way to run
 Run these commands in order
   python3 -m venv venv
   source venv/bin/activate
   pip install -r requirements.txt
-Second run main file to run game
+run main file to run game
 
