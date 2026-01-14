@@ -32,6 +32,7 @@ class Background:
         #adding focus to the group
         self.background_group.add(focus)
         
+        
 
     #loads background to window
     def load(self):

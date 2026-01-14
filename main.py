@@ -1,6 +1,14 @@
 #import used modules
 import pygame, sys, random, time, pickle, pyscroll
-import backgrounds, player
+from backgrounds import Background
+from player import Player
+
+class Main:
+    def __init__(self):
+        pass
+
+    def main(self):
+        pass
 
 #setup pygame
 pygame.init()
@@ -38,13 +46,15 @@ important = pygame.font.SysFont(None, 90)
 
 
 # Player
-player = Player.Player(main_world_tileset)
+player = Player(main_world_tileset)
 
 #backgrounds
-main_world = Backgrounds.Background(window, main_world_tileset, player, (WIDTH_RATIO, HEIGHT_RATIO), WIDTH, HEIGHT)
+main_world = Background(window, main_world_tileset, player, (WIDTH_RATIO, HEIGHT_RATIO), WIDTH, HEIGHT)
 
 run = True
 while run:
+    #frame rate 60 and delta time added
+    dt = clock.tick(60) /1000
     #recive mouse and keyboard inputs
     keys = pygame.key.get_pressed()
     mouse_keys = pygame.mouse.get_pressed()
@@ -63,10 +73,8 @@ while run:
         run = False
 
     #update screen
-    pygame.display.update()
+    pygame.display.flip()
 
-    #frame rate 60
-    clock.tick(60)
 
 pygame.quit()
 sys.exit()
