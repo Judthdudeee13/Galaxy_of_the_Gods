@@ -1,6 +1,6 @@
 #import used modules
 import pygame, sys, random, time, pickle, pyscroll
-import Backgrounds, Player
+import backgrounds, player
 
 #setup pygame
 pygame.init()
