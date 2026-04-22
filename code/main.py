@@ -1,26 +1,36 @@
 from settings import *
 from groups import AllSprites
 
+
 class Game:
     def __init__(self):
         pygame.init()
-        self.window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-        pygame.display.set_caption('Galaxy of the Gods')
+        self.window = pygame.display.set_mode((WINDOW_HEIGHT, 0), pygame.FULLSCREEN) #pygame.FULLSCREEN
+        pygame.display.set_caption("Galaxy of the Gods")
         self.clock = pygame.time.Clock()
         self.running = True
 
-        #imports
+        # imports
         self.import_assets()
 
-        # groups 
+        # groups
         self.all_sprites = AllSprites(self.window)
-        self.background_sprites = pygame.sprite.Group()
+        self.collision_sprites = pygame.sprite.Group()
+
+        # backgrounds
+        self.load_background()
+        self.background = Backgrounds(self.backgrounds, "Plains", self.all_sprites, self.collision_sprites)
+
+        # player
+        self.player = (500, 500)
 
     def import_assets(self):
         pass
 
     def load_background(self):
-        pass
+        self.backgrounds = {}
+        self.backgrounds['Plains'] = Map("Plains", "data", "maps", "world.tmx")
+        
 
     def run(self):
         while self.running:
@@ -28,21 +38,21 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
-            
+
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.running = False
 
             # update
             self.all_sprites.update(dt)
-           
 
-            # draw 
+            # draw
             self.all_sprites.draw(self.player)
             pygame.display.update()
-        
+
         pygame.quit()
-    
-if __name__ == '__main__':
+
+
+if __name__ == "__main__":
     game = Game()
     game.run()

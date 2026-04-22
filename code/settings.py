@@ -1,25 +1,28 @@
-#module imports
+# module imports
 import pygame
 from os.path import join
 from os import walk
 import random
 import pytmx
 
-#file imports
+# file imports
 from sprites import *
+from background import *
 
-#finding aspect ratio
+TILE_SIZE = 32
+
+# finding aspect ratio
 pygame.init()
 
 ASPECT_WIDTH, ASPECT_HEIGHT = 640, 360
-TILE_SIZE = 32
+
 
 ASPECT_RATIO = ASPECT_WIDTH / ASPECT_HEIGHT  # 16x9
 
 
 # window size
 SIZE = pygame.display.Info()
-WINDOW_WIDTH, WINDOW_HEIGHT = SIZE.current_w, SIZE.current_h
+WINDOW_WIDTH, WINDOW_HEIGHT = 640, 360  # SIZE.current_w, SIZE.current_h
 
 
 # scale
@@ -32,16 +35,14 @@ def get_closest_16_9_resolution(screen_width, screen_height, base_width, base_he
         # Screen is wider, adjust height
         target_height = screen_height
         target_width = int(target_height * aspect_ratio)
-        scale = target_width/base_width
+        scale = target_width / base_width
         return scale
     else:
         # Screen is taller, adjust width
         target_width = screen_width
         target_height = int(target_width / aspect_ratio)
-        scale = target_height/base_height
+        scale = target_height / base_height
         return scale
-
-    
 
 
 SCALE = get_closest_16_9_resolution(

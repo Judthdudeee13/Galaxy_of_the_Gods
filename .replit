@@ -27,3 +27,12 @@ args = "python main.py"
 
 [workflows.workflow.metadata]
 outputType = "vnc"
+
+[[workflows.workflow]]
+name = "run"
+mode = "sequential"
+author = 30226770
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python3 code/main.py"
