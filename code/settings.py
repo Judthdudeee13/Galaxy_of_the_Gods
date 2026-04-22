@@ -2,6 +2,7 @@ import pygame
 from os.path import join
 from os import walk
 import random
+import pytmx
 
 pygame.init()
 
@@ -26,20 +27,20 @@ def get_closest_16_9_resolution(screen_width, screen_height, base_width, base_he
         # Screen is wider, adjust height
         target_height = screen_height
         target_width = int(target_height * aspect_ratio)
+        scale = target_width/base_width
+        return scale
     else:
         # Screen is taller, adjust width
         target_width = screen_width
         target_height = int(target_width / aspect_ratio)
+        scale = target_height/base_height
+        return scale
 
-    # Return the closest 16:9 resolution under the current screen size
-    return target_width, target_height
+    
 
 
-SCALED_WIDTH, SCALED_HEIGHT = get_closest_16_9_resolution(
+SCALE = get_closest_16_9_resolution(
     WINDOW_WIDTH, WINDOW_HEIGHT, ASPECT_WIDTH, ASPECT_HEIGHT
 )
-print(SCALED_WIDTH / SCALED_HEIGHT)
-print(SCALED_WIDTH, SCALED_HEIGHT)
-print(WINDOW_WIDTH,WINDOW_HEIGHT)
 
 pygame.quit()
