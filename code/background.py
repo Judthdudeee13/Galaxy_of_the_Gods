@@ -36,7 +36,7 @@ class Map:
         for x, y, image in self.map.get_layer_by_name("Ground").tiles():
             Sprite(
                 (x * TILE_SIZE * SCALE, y * TILE_SIZE * SCALE),
-                pygame.transfrom.scale_by(image, SCALE),
+                pygame.transform.scale_by(image, SCALE),
                 self.group,
                 True,
             )
