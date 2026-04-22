@@ -1,9 +1,14 @@
+#module imports
 import pygame
 from os.path import join
 from os import walk
 import random
 import pytmx
 
+#file imports
+from sprites import *
+
+#finding aspect ratio
 pygame.init()
 
 ASPECT_WIDTH, ASPECT_HEIGHT = 640, 360
