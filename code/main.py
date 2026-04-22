@@ -1,5 +1,8 @@
+# file imports
 from settings import *
 from groups import AllSprites
+from sprites import *
+from background import *
 
 
 class Game:

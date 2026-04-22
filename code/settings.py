@@ -5,10 +5,6 @@ from os import walk
 import random
 import pytmx
 
-# file imports
-from sprites import *
-from background import *
-
 TILE_SIZE = 32
 
 # finding aspect ratio
