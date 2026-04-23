@@ -2,9 +2,10 @@ from settings import *
 from sprites import *
 
 #player sprite
-class Player(AnimatedSprite):
+class Player(MultiDirectionalSprite):
     def __init__(self, pos, frames, groups):
-        super().__init__(pos, frames, groups)
+        animation_speed = 5
+        super().__init__(pos, frames, groups, animation_speed)
         #movment
         self.speed = 200 * SCALE
         self.direction = pygame.Vector2(0, 0)
@@ -19,6 +20,9 @@ class Player(AnimatedSprite):
         self.rect.x += self.direction.x * self.speed * dt 
         self.check_collision('horizontal')
         self.rect.y += self.direction.y * self.speed * dt 
+        self.check_collision('vertical')
+
+    def 
 
     def check_collision(self, direction):
         pass
