@@ -5,12 +5,12 @@ from os import walk
 import random
 import pytmx
 
-TILE_SIZE = 32
+TILE_SIZE = 31
 
 # finding aspect ratio
 pygame.init()
 
-ASPECT_WIDTH, ASPECT_HEIGHT = 854, 480
+ASPECT_WIDTH, ASPECT_HEIGHT = 640, 360
 
 
 ASPECT_RATIO = ASPECT_WIDTH / ASPECT_HEIGHT  # 16x9
