@@ -4,10 +4,10 @@ from sprites import *
 #player sprite
 class Player(MiltiDirectionalSprite):
     def __init__(self, pos, folders, groups):
-        animation_speed = 5
+        animation_speed = 8
         super().__init__(pos, folders, groups, animation_speed)
         #movment
-        self.speed = 200 * SCALE
+        self.speed = 100 * SCALE
         self.direction = pygame.Vector2(0, 0)
 
     def input(self):

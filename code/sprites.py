@@ -17,7 +17,7 @@ class AnimatedSprite(Sprite):
 
     def animate(self, dt):
         self.frame_index += self.animation_speed * dt
-        self.image = frames[int(self.frame_index%len(frames))]
+        self.image = self.frames[int(self.frame_index%len(self.frames))]
 
 class MiltiDirectionalSprite(AnimatedSprite):
     def __init__(self, pos, folders, groups, animation_speed, sprint = False):
@@ -26,4 +26,3 @@ class MiltiDirectionalSprite(AnimatedSprite):
 
     def update_direction(self, direction):
         self.frames = self.folders[direction]
-        self.frame_index = 0
