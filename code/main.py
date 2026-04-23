@@ -1,5 +1,6 @@
 # file imports
 from settings import *
+from assets import *
 from groups import AllSprites
 from sprites import *
 from background import *
@@ -30,10 +31,10 @@ class Game:
         )
 
         # player
-        self.player = Player(self.background.player_start_pos, pygame.Surface((32*SCALE, 32*SCALE)), self.all_sprites)
+        self.player = Player(self.background.player_start_pos, self.player_assets, self.all_sprites)
 
     def import_assets(self):
-        self.player_assets = []
+        self.player_assets = folder_loader('images', 'player')
 
     def load_background(self):
         self.backgrounds = {}

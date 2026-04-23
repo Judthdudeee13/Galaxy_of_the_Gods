@@ -2,10 +2,10 @@ from settings import *
 from sprites import *
 
 #player sprite
-class Player(MultiDirectionalSprite):
-    def __init__(self, pos, frames, groups):
+class Player(MiltiDirectionalSprite):
+    def __init__(self, pos, folders, groups):
         animation_speed = 5
-        super().__init__(pos, frames, groups, animation_speed)
+        super().__init__(pos, folders, groups, animation_speed)
         #movment
         self.speed = 200 * SCALE
         self.direction = pygame.Vector2(0, 0)
@@ -22,7 +22,22 @@ class Player(MultiDirectionalSprite):
         self.rect.y += self.direction.y * self.speed * dt 
         self.check_collision('vertical')
 
-    def 
+    def direction_check(self):
+        if self.direction.x:
+            if self.direction.x > 0:
+                self.update_direction('right')
+            else:
+                self.update_direction('left')
+        elif self.direction.y:
+            if self.direction.y > 0 :
+                self.update_direction('down')
+            else:
+                self.update_direction('up')
+
+    def draw(self, dt):
+        self.direction_check()
+        self.animate(dt)
+        
 
     def check_collision(self, direction):
         pass
@@ -30,3 +45,4 @@ class Player(MultiDirectionalSprite):
     def update(self, dt):
         self.input()
         self.move(dt)
+        self.draw(dt)
