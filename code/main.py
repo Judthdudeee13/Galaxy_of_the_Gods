@@ -36,7 +36,7 @@ class Game:
 
     def load_background(self):
         self.backgrounds = {}
-        self.backgrounds["Plains"] = Map("Plains", "data", "maps", "world.tmx")
+        self.backgrounds["Plains"] = Map("Plains", "data", "maps", "plains.tmx")
 
     def run(self):
         while self.running:

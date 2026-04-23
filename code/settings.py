@@ -5,7 +5,7 @@ from os import walk
 import random
 import pytmx
 
-TILE_SIZE = 63
+TILE_SIZE = 32
 
 # finding aspect ratio
 pygame.init()
