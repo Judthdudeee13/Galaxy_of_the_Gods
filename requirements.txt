@@ -1,3 +1,2 @@
-pygame
+pygame-ce
 pytmx
-pyscroll
