@@ -10,6 +10,7 @@ class Backgrounds:
         self.collision_sprites = collision_sprites
         self.old_map = None
         self.update_map(self.current_map)
+        self.player_start_pos = self.current_map.player_start_pos
 
     def update_map(self, new_map):
         if self.old_map:
@@ -47,3 +48,4 @@ class Map:
                 self.group,
                 True,
             )
+        self.player_start_pos = (1500*SCALE, 1500*SCALE)

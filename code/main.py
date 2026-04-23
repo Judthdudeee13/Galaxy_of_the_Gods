@@ -3,6 +3,7 @@ from settings import *
 from groups import AllSprites
 from sprites import *
 from background import *
+from player import Player
 
 
 class Game:
@@ -29,10 +30,10 @@ class Game:
         )
 
         # player
-        self.player = pygame.Vector2(500, 500)
+        self.player = Player(self.background.player_start_pos, pygame.Surface((32*SCALE, 32*SCALE)), self.all_sprites)
 
     def import_assets(self):
-        pass
+        self.player_assets = []
 
     def load_background(self):
         self.backgrounds = {}
@@ -49,16 +50,12 @@ class Game:
                     if event.key == pygame.K_ESCAPE:
                         self.running = False
 
-                    if event.key == pygame.K_s:
-                        self.player.y += 100
-                        self.player.x += 100
-
             # update
             self.all_sprites.update(dt)
 
             # draw
             self.window.fill("black")
-            self.all_sprites.draw(self.player)
+            self.all_sprites.draw(self.player.rect.center)
             pygame.display.update()
 
         pygame.quit()
