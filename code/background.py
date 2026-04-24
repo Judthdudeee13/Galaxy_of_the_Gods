@@ -41,7 +41,14 @@ class Map:
                 self.group,
                 True,
             )
-        for x, y, image in self.map.get_layer_by_name("Designs").tiles():
+        for x, y, image in self.map.get_layer_by_name("Elevation").tiles():
+            Sprite(
+                (x * TILE_SIZE * SCALE, y * TILE_SIZE * SCALE),
+                pygame.transform.scale_by(image, SCALE),
+                self.group,
+                True,
+            )
+        for x, y, image in self.map.get_layer_by_name("Elevation_ground").tiles():
             Sprite(
                 (x * TILE_SIZE * SCALE, y * TILE_SIZE * SCALE),
                 pygame.transform.scale_by(image, SCALE),
@@ -54,5 +61,12 @@ class Map:
                 (obj.x * SCALE, obj.y * SCALE),
                 pygame.transform.scale_by(obj.image, SCALE),
                 self.group,
+                True,
+            )
+        for obj in self.map.get_layer_by_name("Collisions"):
+            Sprite(
+                (obj.x * SCALE, obj.y * SCALE),
+                pygame.transform.scale_by(pygame.Surface(int(obj.width), int(obj.height)), SCALE),
+                self.collision_group,
                 True,
             )

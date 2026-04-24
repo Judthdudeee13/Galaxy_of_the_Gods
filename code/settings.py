@@ -18,7 +18,7 @@ ASPECT_RATIO = ASPECT_WIDTH / ASPECT_HEIGHT  # 16x9
 
 # window size
 SIZE = pygame.display.Info()
-WINDOW_WIDTH, WINDOW_HEIGHT = SIZE.current_w, SIZE.current_h
+WINDOW_WIDTH, WINDOW_HEIGHT = SIZE.current_w+1, SIZE.current_h+1
 
 
 # scale
