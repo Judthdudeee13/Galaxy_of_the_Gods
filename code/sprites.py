@@ -20,9 +20,15 @@ class AnimatedSprite(Sprite):
         self.image = self.frames[int(self.frame_index%len(self.frames))]
 
 class MiltiDirectionalSprite(AnimatedSprite):
-    def __init__(self, pos, folders, groups, animation_speed, sprint = False):
-        super().__init__(pos, folders['down'], groups, animation_speed)
+    def __init__(self, pos, folders, groups, animation_speed, idle_animation_speed, sprint = False):
+        super().__init__(pos, folders['down'], groups, idle_animation_speed)
         self.folders = folders
+        self.moving_animation_speed = animation_speed
+        self.idle_animation_speed = idle_animation_speed
 
     def update_direction(self, direction):
         self.frames = self.folders[direction]
+        if 'idle' in direction:
+            self.animation_speed = self.idle_animation_speed
+        else:
+            self.animation_speed = self.moving_animation_speed

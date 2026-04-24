@@ -49,3 +49,10 @@ class Map:
                 True,
             )
         self.player_start_pos = (1500*SCALE, 1500*SCALE)
+        for obj in self.map.get_layer_by_name("Objects"):
+            Sprite(
+                (obj.x * SCALE, obj.y * SCALE),
+                pygame.transform.scale_by(obj.image, SCALE),
+                self.group,
+                True,
+            )
