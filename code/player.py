@@ -4,7 +4,7 @@ from sprites import *
 #player sprite
 class Player(MiltiDirectionalSprite):
     def __init__(self, pos, folders, groups):
-        animation_speed = 7
+        animation_speed = 6
         super().__init__(pos, folders, groups, animation_speed)
         #movment
         self.speed = 100 * SCALE
