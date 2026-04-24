@@ -5,7 +5,7 @@ from sprites import *
 class Player(MiltiDirectionalSprite):
     def __init__(self, pos, folders, groups):
         animation_speed = 7
-        super().__init__(pos, folders, groups, animation_speed)
+        super().__init__(pos, folders, groups, animation_speed, idle_animation_seed)
         #movment
         self.speed = 100 * SCALE
         self.direction = pygame.Vector2(0, 0)
