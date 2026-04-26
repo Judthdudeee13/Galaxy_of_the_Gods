@@ -34,6 +34,13 @@ class Map:
         self.load_map()
 
     def load_map(self):
+        for x, y, image in self.map.get_layer_by_name("Water").tiles():
+            Sprite(
+                (x * TILE_SIZE * SCALE, y * TILE_SIZE * SCALE),
+                pygame.transform.scale_by(image, SCALE),
+                self.group,
+                True,
+            )
         for x, y, image in self.map.get_layer_by_name("Ground").tiles():
             Sprite(
                 (x * TILE_SIZE * SCALE, y * TILE_SIZE * SCALE),
@@ -55,18 +62,34 @@ class Map:
                 self.group,
                 True,
             )
-        self.player_start_pos = (1500*SCALE, 1500*SCALE)
-        for obj in self.map.get_layer_by_name("Objects"):
+        self.player_start_pos = (800*SCALE, 800*SCALE)
+        for obj in self.map.get_layer_by_name("Trees"):
             Sprite(
                 (obj.x * SCALE, obj.y * SCALE),
                 pygame.transform.scale_by(obj.image, SCALE),
-                self.group,
-                True,
+                self.group
             )
-        for obj in self.map.get_layer_by_name("Collisions"):
-            Sprite(
-                (obj.x * SCALE, obj.y * SCALE),
-                pygame.transform.scale_by(pygame.Surface(int(obj.width), int(obj.height)), SCALE),
-                self.collision_group,
-                True,
-            )
+        for obj in self.map.get_layer_by_name('Collisions'):
+            Sprite((obj.x*SCALE, obj.y*SCALE), 
+                   pygame.transform.scale_by(pygame.Surface((obj.width, obj.height)), 
+                    SCALE), 
+                    (self.collision_group)
+                    )
+
+        for obj in self.map.get_layer_by_name("Trees"):
+            
+
+
+
+            tile_props = self.map.get_tile_properties_by_gid(obj.gid)
+            if not tile_props or "colliders" not in tile_props:
+                continue
+
+
+            for shape in tile_props["colliders"]:
+                Sprite((shape.x*SCALE+obj.x*SCALE, shape.y * SCALE + obj.y*SCALE), 
+                   pygame.transform.scale_by(pygame.Surface((shape.width, shape.height)), 
+                    SCALE), 
+                    (self.collision_group)
+                    )
+                

@@ -4,13 +4,15 @@ from sprites import *
 
 # player sprite
 class Player(MiltiDirectionalSprite):
-    def __init__(self, pos, folders, groups):
+    def __init__(self, pos, folders, groups, collision_sprites):
         animation_speed = 5.88
         super().__init__(pos, folders, groups, animation_speed)
         # movment
         self.speed = 80 * SCALE
         self.direction = pygame.Vector2(0, 0)
         self.facing = "down"
+        self.collision_sprites = collision_sprites
+        self.collision_rect = self.rect.inflate(-7*SCALE, -15*SCALE)
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -21,9 +23,9 @@ class Player(MiltiDirectionalSprite):
         )
 
     def move(self, dt):
-        self.rect.x += self.direction.x * self.speed * dt
+        self.collision_rect.x += self.direction.x * self.speed * dt
         self.check_collision("horizontal")
-        self.rect.y += self.direction.y * self.speed * dt
+        self.collision_rect.y += self.direction.y * self.speed * dt
         self.check_collision("vertical")
 
     def direction_check(self):
@@ -56,17 +58,18 @@ class Player(MiltiDirectionalSprite):
 
     def check_collision(self, direction):
         for sprite in self.collision_sprites:
-            if sprite.rect.colliderect(self.rect):
+            if sprite.rect.colliderect(self.collision_rect):
                 if direction == 'horizontal':
                     if self.direction.x > 0:
-                        self.rect.right = sprite.rect.left
+                        self.collision_rect.right = sprite.rect.left
                     if self.direction.x < 0:
-                        self.rect.left = sprite.rect.right
+                        self.collision_rect.left = sprite.rect.right
                 if direction == 'vertical':
                     if self.direction.y > 0:
-                        self.rect.bottom = sprite.rect.top
+                        self.collision_rect.bottom = sprite.rect.top
                     if self.direction.y < 0:
-                        self.rect.top = sprite.rect.bottom
+                        self.collision_rect.top = sprite.rect.bottom
+        self.rect.center = self.collision_rect.center
 
     def update(self, dt):
         self.input()

@@ -30,7 +30,7 @@ class Game:
         )
 
         # player
-        self.player = Player(self.background.player_start_pos, self.player_assets, self.all_sprites)
+        self.player = Player(self.background.player_start_pos, self.player_assets, self.all_sprites, self.collision_sprites)
 
     def import_assets(self):
         self.player_assets = folder_loader('images', 'player')

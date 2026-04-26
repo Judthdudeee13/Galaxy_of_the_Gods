@@ -174,6 +174,9 @@
  </tile>
  <tile id="57">
   <image source="../graphics/objects/Tree 23.png" width="183" height="231"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="74.3333" y="132.333" width="50.6667" height="43.6667"/>
+  </objectgroup>
  </tile>
  <tile id="58">
   <image source="../graphics/objects/Tree 24.png" width="26" height="25"/>
