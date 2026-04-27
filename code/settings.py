@@ -2,6 +2,7 @@
 import pygame
 from os.path import join
 from os import walk
+import math
 import random
 import pytmx
 
@@ -41,8 +42,9 @@ def get_closest_16_9_resolution(screen_width, screen_height, base_width, base_he
         return scale
 
 
-SCALE = get_closest_16_9_resolution(
-    WINDOW_WIDTH, WINDOW_HEIGHT, ASPECT_WIDTH, ASPECT_HEIGHT
+SCALE = int(get_closest_16_9_resolution(
+    WINDOW_WIDTH, WINDOW_HEIGHT, ASPECT_WIDTH, ASPECT_HEIGHT)
 )
+print(SCALE)
 
 pygame.quit()
