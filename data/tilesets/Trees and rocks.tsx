@@ -195,14 +195,26 @@
  </tile>
  <tile id="63">
   <image source="../graphics/objects/Tree 29.png" width="74" height="136"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="28.6875" y="89.4375" width="25.125" height="21.75"/>
+  </objectgroup>
  </tile>
  <tile id="64">
   <image source="../graphics/objects/Tree 30.png" width="94" height="135"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="35.75" y="83.25" width="23.6875" height="25"/>
+  </objectgroup>
  </tile>
  <tile id="65">
   <image source="../graphics/objects/Tree 31.png" width="56" height="125"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="19.4375" y="77.5625" width="16.1875" height="27.625"/>
+  </objectgroup>
  </tile>
  <tile id="66">
   <image source="../graphics/objects/Tree 32.png" width="48" height="122"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="17.3125" y="73.1875" width="11.8125" height="23"/>
+  </objectgroup>
  </tile>
 </tileset>

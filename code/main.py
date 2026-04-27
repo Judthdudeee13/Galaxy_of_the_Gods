@@ -20,17 +20,19 @@ class Game:
         self.import_assets()
 
         # groups
-        self.all_sprites = AllSprites(self.window)
+        self.ground_sprites = AllSprites(self.window)
+        self.player_sprites = AllSprites(self.window)
+        self.cover_sprites = AllSprites(self.window)
         self.collision_sprites = pygame.sprite.Group()
 
         # backgrounds
         self.load_background()
         self.background = Backgrounds(
-            self.backgrounds, "Plains", self.all_sprites, self.collision_sprites
+            self.backgrounds, "Plains", self.ground_sprites, self.player_sprites, self.cover_sprites, self.collision_sprites
         )
 
         # player
-        self.player = Player(self.background.player_start_pos, self.player_assets, self.all_sprites, self.collision_sprites)
+        self.player = Player(self.background.player_start_pos, self.player_assets, self.player_sprites, self.collision_sprites)
 
     def import_assets(self):
         self.player_assets = folder_loader('images', 'player')
@@ -51,11 +53,15 @@ class Game:
                         self.running = False
 
             # update
-            self.all_sprites.update(dt)
+            self.ground_sprites.update(dt)
+            self.player_sprites.update(dt)
+            self.cover_sprites.update(dt)
 
             # draw
             self.window.fill("black")
-            self.all_sprites.draw(self.player.rect.center)
+            self.ground_sprites.draw(self.player.rect.center)
+            self.player_sprites.draw(self.player.rect.center)
+            self.cover_sprites.draw(self.player.rect.center)
             pygame.display.update()
 
         pygame.quit()
