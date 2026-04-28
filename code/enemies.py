@@ -1,6 +1,6 @@
-from typing import Any
 from settings import *
 from sprites import *
+from timer import Timer
 
 class Enemy(MiltiDirectionalSprite):
 	def __init__(self, pos, folders, groups, speed, player, collision_sprites):
@@ -10,14 +10,16 @@ class Enemy(MiltiDirectionalSprite):
 		self.player = player
 		self.direction = pygame.Vector2(0, 0)
 		self.collision_sprites = collision_sprites
-		
-
+		self.redirect_timer = Timer(1000)
         
 
 	def target(self):
 		self.direction.x = 1 if self.player.rect.x > self.rect.x else -1
+		self.direction.y = 1 if self.player.rect.y > self.rect.y else -1
+		self.direction = self.direction.normalize() if self.direction else self.direction
 
 	def move(self, dt):
+		
 		self.rect.x += self.direction.x * self.speed * dt
 		self.check_collision("horizontal")
 		self.rect.y += self.direction.y * self.speed * dt
@@ -27,6 +29,7 @@ class Enemy(MiltiDirectionalSprite):
 	def check_collision(self, direction):
 		for sprite in self.collision_sprites:
 			if sprite.rect.colliderect(self.rect):
+				self.redirect_timer.activate()
 				if direction == 'horizontal':
 					if self.direction.x > 0:
 						self.rect.right = sprite.rect.left
@@ -67,6 +70,7 @@ class Enemy(MiltiDirectionalSprite):
 		self.animate(dt)
 
 	def update(self, dt):
+		self.redirect_timer.update()
 		self.target()
 		self.move(dt)
 		self.draw(dt)
