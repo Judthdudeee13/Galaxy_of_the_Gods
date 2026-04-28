@@ -5,6 +5,7 @@ from groups import AllSprites
 from sprites import *
 from background import *
 from player import Player
+from enemies import Enemy
 
 
 class Game:
@@ -23,6 +24,7 @@ class Game:
         self.ground_sprites = AllSprites(self.window)
         self.player_sprites = AllSprites(self.window)
         self.cover_sprites = AllSprites(self.window)
+        self.enemies = pygame.sprite.Group()
         self.collision_sprites = pygame.sprite.Group()
 
         # backgrounds
@@ -33,9 +35,10 @@ class Game:
 
         # player
         self.player = Player(self.background.player_start_pos, self.player_assets, self.player_sprites, self.collision_sprites)
-
+        self.monster = Enemy((500, 500), self.skeleton1, (self.player_sprites, self.enemies), 300, self.player, self.collision_sprites)
     def import_assets(self):
         self.player_assets = folder_loader('images', 'player')
+        self.skeleton1 = folder_loader('images', 'skeleton1')
 
     def load_background(self):
         self.backgrounds = {}
