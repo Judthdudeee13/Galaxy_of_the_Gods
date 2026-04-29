@@ -4,7 +4,7 @@ from assets import *
 from groups import AllSprites
 from sprites import *
 from background import *
-from player import Player
+from player import *
 from enemies import Enemy
 
 
@@ -24,6 +24,7 @@ class Game:
         self.ground_sprites = AllSprites(self.window)
         self.player_sprites = AllSprites(self.window)
         self.cover_sprites = AllSprites(self.window)
+        self.UI = pygame.sprite.Group()
         self.enemies = pygame.sprite.Group()
         self.collision_sprites = pygame.sprite.Group()
 
@@ -36,6 +37,8 @@ class Game:
         # player
         self.player = Player(self.background.player_start_pos, self.player_assets, self.player_sprites, self.collision_sprites)
         self.monster = Enemy((500, 500), self.skeleton1, (self.player_sprites, self.enemies), 300, self.player, self.collision_sprites)
+        self.health = InfoBar((255, 0, 0), None, 100, (10*SCALE, 10*SCALE), self.UI, 100)
+
     def import_assets(self):
         self.player_assets = folder_loader('images', 'player')
         self.skeleton1 = folder_loader('images', 'skeleton1')
@@ -59,12 +62,14 @@ class Game:
             self.ground_sprites.update(dt)
             self.player_sprites.update(dt)
             self.cover_sprites.update(dt)
+            self.UI.update()
 
             # draw
             self.window.fill("black")
             self.ground_sprites.draw(self.player.rect.center)
             self.player_sprites.draw(self.player.rect.center)
             self.cover_sprites.draw(self.player.rect.center)
+            self.UI.draw(self.window)
             pygame.display.update()
 
         pygame.quit()

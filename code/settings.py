@@ -45,6 +45,5 @@ def get_closest_16_9_resolution(screen_width, screen_height, base_width, base_he
 SCALE = int(get_closest_16_9_resolution(
     WINDOW_WIDTH, WINDOW_HEIGHT, ASPECT_WIDTH, ASPECT_HEIGHT)
 )
-print(SCALE)
 
 pygame.quit()
