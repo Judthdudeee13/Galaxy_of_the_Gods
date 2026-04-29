@@ -106,7 +106,7 @@ class InfoBar(pygame.sprite.Sprite):
     def draw_bar(self, surface, rect):
         ratio = rect.width / self.max
         progress_rect = pygame.FRect((0, 0), (self._current*ratio, rect.height))
-        pygame.draw.rect(surface, self.color, progress_rect)
+        pygame.draw.rect(surface, self.color, progress_rect, 0, 10*SCALE)
 
         
 

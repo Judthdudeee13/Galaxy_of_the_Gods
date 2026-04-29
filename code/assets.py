@@ -2,6 +2,8 @@ from settings import *
 
 from settings import * 
 
+def image_loader(*path):
+    pygame.transform.scale_by(pygame.image.load(join(*path)), SCALE)
 
 def folder_importer(name, *path):
     surfs = []

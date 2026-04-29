@@ -36,12 +36,13 @@ class Game:
 
         # player
         self.player = Player(self.background.player_start_pos, self.player_assets, self.player_sprites, self.collision_sprites)
-        self.monster = Enemy((500, 500), self.skeleton1, (self.player_sprites, self.enemies), 300, self.player, self.collision_sprites)
-        self.health = InfoBar((255, 0, 0), None, 100, (10*SCALE, 10*SCALE), self.UI, 100)
+        self.monster = Enemy((500, 500), self.skeleton1, (self.player_sprites, self.enemies), 50*SCALE, self.player, self.collision_sprites)
+        self.health = InfoBar((255, 0, 0), None, 100, (10*SCALE, 10*SCALE), self.UI, 50)
 
     def import_assets(self):
         self.player_assets = folder_loader('images', 'player')
         self.skeleton1 = folder_loader('images', 'skeleton1')
+        self.UIBar_assets = {'Heart': image_loader('images', 'UI', 'bar_icons', 'heart.png')}
 
     def load_background(self):
         self.backgrounds = {}
