@@ -82,7 +82,7 @@ class InfoBar(pygame.sprite.Sprite):
         super().__init__(groups)
         self.left, self.top = pos
         self.color = color
-        #self.image = image
+        self.image = image
         self.max = max
         self.pos = pos
         self._current = start
@@ -93,7 +93,7 @@ class InfoBar(pygame.sprite.Sprite):
     
     @current.setter
     def current(self, value):
-        self._current = max(0, min(self.current, self.max))
+        self._current = max(0, min(value, self.max))
 
     def draw_rect(self):
         rect = pygame.FRect(0, 0, 50*SCALE, 5*SCALE)
@@ -115,6 +115,7 @@ class InfoBar(pygame.sprite.Sprite):
 
     def update(self):
         self.draw()
+        self.current -= 0.1
 
 '''
 rect = pygame.FRect(self.left, self.top, 250, 80)

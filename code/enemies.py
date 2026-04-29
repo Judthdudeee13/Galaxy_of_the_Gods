@@ -37,6 +37,7 @@ class Enemy(MiltiDirectionalSprite):
 						self.rect.bottom = sprite.rect.top
 					if self.direction.y < 0:
 						self.rect.top = sprite.rect.bottom
+
 	
 	def direction_check(self):
 		if self.direction:
