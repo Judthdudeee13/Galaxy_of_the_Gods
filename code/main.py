@@ -35,21 +35,27 @@ class Game:
         )
 
         # player
-        self.health = InfoBar((255, 0, 0), self.UIBar_assets['Heart'], 100, (10*SCALE, 10*SCALE), self.UI, 100)
-        self.health = InfoBar((0, 0, 255), self.UIBar_assets['Mana'], 100, (10*SCALE, 25*SCALE), self.UI, 100)
+        self.health = InfoBar((255, 0, 0), self.UIBar_assets['Heart'], 100, (10*SCALE, 5*SCALE), self.UI, 100)
+        self.health = InfoBar((0, 0, 255), self.UIBar_assets['Mana'], 100, (10*SCALE, 20*SCALE), self.UI, 100)
         self.player = Player(self.background.player_start_pos, self.player_assets, self.player_sprites, self.collision_sprites, self.health)
+        
+        #monsters
         self.monster = Enemy((500, 500), self.skeleton1, (self.player_sprites, self.enemies), 50*SCALE, self.player, self.collision_sprites)
         
 
     def import_assets(self):
+        #load player assets
         self.player_assets = folder_loader('images', 'player')
+        #load first monster
         self.skeleton1 = folder_loader('images', 'skeleton1')
+        #load ui bar images
         self.UIBar_assets = {
             'Heart': image_loader('images', 'UI', 'bar_icons', 'heart.png'),
             'Mana' : image_loader('images', 'UI', 'bar_icons', 'mana.png')   
                             }
 
     def load_background(self):
+        #load maps
         self.backgrounds = {}
         self.backgrounds["Plains"] = Map("Plains", "data", "maps", "plains.tmx")
 

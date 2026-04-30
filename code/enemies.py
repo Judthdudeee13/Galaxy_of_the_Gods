@@ -12,12 +12,13 @@ class Enemy(MiltiDirectionalSprite):
         
 
 	def target(self):
+     #targetting the player
 		self.direction.x = 1 if self.player.rect.x > self.rect.x else -1
 		self.direction.y = 1 if self.player.rect.y > self.rect.y else -1
 		self.direction = self.direction.normalize() if self.direction else self.direction
 
 	def move(self, dt):
-		
+	#actully moving the enemy
 		self.rect.x += self.direction.x * self.speed * dt
 		self.check_collision("horizontal")
 		self.rect.y += self.direction.y * self.speed * dt
@@ -25,6 +26,7 @@ class Enemy(MiltiDirectionalSprite):
 
          
 	def check_collision(self, direction):
+     #checks for collisions
 		for sprite in self.collision_sprites:
 			if sprite.rect.colliderect(self.rect):
 				if direction == 'horizontal':
@@ -40,6 +42,7 @@ class Enemy(MiltiDirectionalSprite):
 
 	
 	def direction_check(self):
+     #checks for animation state
 		if self.direction:
 			if self.direction.x:
 				if self.direction.x > 0:
@@ -65,6 +68,7 @@ class Enemy(MiltiDirectionalSprite):
 	
 
 	def draw(self, dt):
+     #updates player position
 		self.direction_check()
 		self.animate(dt)
 

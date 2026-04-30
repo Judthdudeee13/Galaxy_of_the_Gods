@@ -8,11 +8,13 @@ class AllSprites(pygame.sprite.Group):
         self.offset = pygame.Vector2()
 
     def draw(self, target_pos):
+        #draws camera around target pos
         self.offset.x = -(int(target_pos[0] - WINDOW_WIDTH / 2))
         self.offset.y = -(int(target_pos[1] - WINDOW_HEIGHT / 2))
         ground_sprites = [sprite for sprite in self if sprite.isGround]
         object_sprites = [sprite for sprite in self if not sprite.isGround]
 
+        #draws ground before other objects then makes objects on screen on top of objects behind them
         for layer in [ground_sprites, object_sprites]:
             for sprite in sorted(layer, key=lambda sprite: sprite.rect.centery):
                 self.window.blit(sprite.image, sprite.rect.topleft + self.offset)

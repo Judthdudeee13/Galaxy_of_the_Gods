@@ -1,10 +1,11 @@
 from settings import *
-
 from settings import * 
 
+#loads single images
 def image_loader(*path):
     return pygame.transform.scale_by(pygame.image.load(join(*path)), SCALE).convert_alpha()
 
+#loads folders
 def folder_importer(name, *path):
     surfs = []
     for folder_path, _, file_names in walk(join(*path)):
@@ -13,6 +14,7 @@ def folder_importer(name, *path):
             surfs.append(pygame.transform.scale_by(pygame.image.load(full_path).convert_alpha(), SCALE))
     return surfs
 
+#loads audio
 def audio_importer(name, *path):
     audio_dict = {}
     for folder_path, _, file_names in walk(join(*path)):
@@ -20,6 +22,7 @@ def audio_importer(name, *path):
             audio_dict[file_name.split('.')[0]] = pygame.mixer.Sound(join(folder_path, file_name))
     return audio_dict
 
+#loads animation folders
 def folder_loader(*path):
     files = {}
     for folder_path, folders, _ in walk(join(*path)):
