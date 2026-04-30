@@ -85,9 +85,14 @@ class InfoBar(pygame.sprite.Sprite):
         self.left, self.top = pos
         self.color = color
         self.logo = image
-        self.max = max
+        self._max = max
         self.pos = pos
         self._current = start
+        self.vrect = pygame.FRect(5*SCALE, 5*SCALE, 50*SCALE, 5*SCALE)
+        surface = pygame.Surface((self.vrect.width+10*SCALE, self.vrect.height+10*SCALE), pygame.SRCALPHA)
+        self.image = surface
+        self.rect = self.image.get_frect(topleft = (self.left, self.top))
+        self.ratio = self.vrect.width / self._max
 
     @property
     def current(self):
@@ -97,38 +102,45 @@ class InfoBar(pygame.sprite.Sprite):
     def current(self, value):
         self._current = max(0, min(value, self.max))
 
+    @property
+    def max(self):
+        return self._max
+
+    @max.setter
+    def max(self, value):
+        self._max = value
+        self.update_max()
+
     def __call__(self):
         self._current
 
+    def update_max(self):
+        self.ratio = self.vrect.width / self._max
+
     def draw_rect(self):
-        rect = pygame.FRect(5*SCALE, 5*SCALE, 50*SCALE, 5*SCALE)
-        surface = pygame.Surface((rect.width+10*SCALE, rect.height+10*SCALE), pygame.SRCALPHA)
         pygame.draw.rect(
-            surface, 
+            self.image, 
             (    max(0, self.color[0]-125), 
                  max(0, self.color[1]-125), 
                  max(0, self.color[2]-125)), 
-             rect, 
+             self.vrect, 
              0, 
              10*SCALE)
-        self.draw_bar(surface, rect)
-        self.draw_image(surface, rect)
-        self.image = surface
-        self.rect = self.image.get_frect(topleft = (self.left, self.top))
-
-    def draw_bar(self, surface, rect):
-        ratio = rect.width / self.max
-        progress_rect = pygame.FRect((5*SCALE, 5*SCALE), (self._current*ratio, rect.height))
-        pygame.draw.rect(surface, self.color, progress_rect, 0, 10*SCALE)
-
-    def draw_image(self, surface, rect):
-        rect = self.logo.get_frect(center = (rect.left, rect.top+rect.height/2))
-        surface.blit(self.logo, rect)
-
+        self.draw_bar()
+        self.draw_image()
         
+        
+    def draw_bar(self):
+        progress_rect = pygame.FRect((5*SCALE, 5*SCALE), (self._current*self.ratio, self.vrect.height))
+        pygame.draw.rect(self.image, self.color, progress_rect, 0, 10*SCALE)
 
-    def draw(self):
-        self.draw_rect()
+    def draw_image(self):
+        rect = self.logo.get_frect(center = (self.vrect.left, self.vrect.top+self.vrect.height/2))
+        self.image.blit(self.logo, rect)
 
     def update(self):
-        self.draw()
+        self.image.fill((0, 0, 0, 0))
+        self.draw_rect()
+        self.current -= 0.1
+
+    
