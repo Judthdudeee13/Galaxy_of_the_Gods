@@ -4,7 +4,7 @@ from sprites import *
 
 # player sprite
 class Player(MiltiDirectionalSprite):
-    def __init__(self, pos, folders, groups, collision_sprites):
+    def __init__(self, pos, folders, groups, collision_sprites, health):
         animation_speed = 5.88
         super().__init__(pos, folders, groups, animation_speed)
         # movment
@@ -13,6 +13,7 @@ class Player(MiltiDirectionalSprite):
         self.facing = "down"
         self.collision_sprites = collision_sprites
         self.collision_rect = self.rect.inflate(-7*SCALE, -15*SCALE)
+        self.health = health
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -82,7 +83,7 @@ class InfoBar(pygame.sprite.Sprite):
         super().__init__(groups)
         self.left, self.top = pos
         self.color = color
-        self.image = image
+        self.logo = image
         self.max = max
         self.pos = pos
         self._current = start
@@ -96,17 +97,22 @@ class InfoBar(pygame.sprite.Sprite):
         self._current = max(0, min(value, self.max))
 
     def draw_rect(self):
-        rect = pygame.FRect(0, 0, 50*SCALE, 5*SCALE)
+        rect = pygame.FRect(5*SCALE, 5*SCALE, 50*SCALE, 5*SCALE)
         surface = pygame.Surface((rect.width+10*SCALE, rect.height+10*SCALE), pygame.SRCALPHA)
         pygame.draw.rect(surface, (100, 0, 0), rect, 0, 10*SCALE)
         self.draw_bar(surface, rect)
+        self.draw_image(surface, rect)
         self.image = surface
         self.rect = self.image.get_frect(topleft = (self.left, self.top))
 
     def draw_bar(self, surface, rect):
         ratio = rect.width / self.max
-        progress_rect = pygame.FRect((0, 0), (self._current*ratio, rect.height))
+        progress_rect = pygame.FRect((5*SCALE, 5*SCALE), (self._current*ratio, rect.height))
         pygame.draw.rect(surface, self.color, progress_rect, 0, 10*SCALE)
+
+    def draw_image(self, surface, rect):
+        rect = self.logo.get_frect(center = (rect.left, rect.top+rect.height/2))
+        surface.blit(self.logo, rect)
 
         
 
