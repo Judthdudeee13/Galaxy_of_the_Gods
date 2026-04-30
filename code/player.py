@@ -96,6 +96,9 @@ class InfoBar(pygame.sprite.Sprite):
     def current(self, value):
         self._current = max(0, min(value, self.max))
 
+    def __call__(self):
+        self._current
+
     def draw_rect(self):
         rect = pygame.FRect(5*SCALE, 5*SCALE, 50*SCALE, 5*SCALE)
         surface = pygame.Surface((rect.width+10*SCALE, rect.height+10*SCALE), pygame.SRCALPHA)
