@@ -76,6 +76,7 @@ class Player(MiltiDirectionalSprite):
         self.input()
         self.move(dt)
         self.draw(dt)
+        
 
 
 class InfoBar(pygame.sprite.Sprite):
@@ -102,7 +103,14 @@ class InfoBar(pygame.sprite.Sprite):
     def draw_rect(self):
         rect = pygame.FRect(5*SCALE, 5*SCALE, 50*SCALE, 5*SCALE)
         surface = pygame.Surface((rect.width+10*SCALE, rect.height+10*SCALE), pygame.SRCALPHA)
-        pygame.draw.rect(surface, (100, 0, 0), rect, 0, 10*SCALE)
+        pygame.draw.rect(
+            surface, 
+            (    max(0, self.color[0]-125), 
+                 max(0, self.color[1]-125), 
+                 max(0, self.color[2]-125)), 
+             rect, 
+             0, 
+             10*SCALE)
         self.draw_bar(surface, rect)
         self.draw_image(surface, rect)
         self.image = surface
@@ -124,25 +132,3 @@ class InfoBar(pygame.sprite.Sprite):
 
     def update(self):
         self.draw()
-        self.current -= 0.1
-
-'''
-rect = pygame.FRect(self.left, self.top, 250, 80)
-pygame.draw.rect(self.window, COLORS['white'], rect, 0, 4)
-pygame.draw.rect(self.window, COLORS['gray'], rect, 4, 4)
-
-#data
-name_surf = self.font.render(self.monster.name, True, COLORS['black'])
-name_rect = name_surf.get_frect(topleft = rect.topleft + pygame.Vector2(rect.width*0.05, 12))
-self.window.blit(name_surf, name_rect)
-
-#health bar
-health_rect = pygame.FRect(name_rect.left, name_rect.bottom + 10, rect.width * 0.9, 20)
-pygame.draw.rect(self.window, COLORS['gray'], health_rect)
-self.draw_bar(health_rect, self.monster.health, self.monster.max_health)
-
-def draw_bar(self, rect, value, max_value):
-ratio = rect.width / max_value
-progress_rect = pygame.FRect(rect.topleft, (value*ratio, rect.height))
-pygame.draw.rect(self.window, COLORS['red'], progress_rect)
-'''
