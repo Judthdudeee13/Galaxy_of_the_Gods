@@ -14,6 +14,7 @@ class Player(MiltiDirectionalSprite):
         self.collision_sprites = collision_sprites
         self.collision_rect = self.rect.inflate(-7*SCALE, -15*SCALE)
         self._health = health
+        print(self._health)
 
     @property
     def health(self):
