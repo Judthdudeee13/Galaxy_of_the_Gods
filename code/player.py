@@ -13,7 +13,15 @@ class Player(MiltiDirectionalSprite):
         self.facing = "down"
         self.collision_sprites = collision_sprites
         self.collision_rect = self.rect.inflate(-7*SCALE, -15*SCALE)
-        self.health = health
+        self._health = health
+
+    @property
+    def health(self):
+        return self._health()
+
+    @health.setter
+    def health(self, value):
+        self._health.current -= value
 
     def input(self):
         keys = pygame.key.get_pressed()

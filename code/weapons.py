@@ -6,4 +6,6 @@ class Weapon:
         self.range = range
         self.damage_type = damage_type
 
+    def deal_damage(self, target):
+        target.health -= self.damage
         
