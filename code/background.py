@@ -122,7 +122,7 @@ class Map:
         #find collisions
         for obj in self.map.get_layer_by_name('Collisions'):
             Sprite((obj.x*SCALE, obj.y*SCALE), 
-                   pygame.transformS.scale_by(pygame.Surface((obj.width, obj.height)), 
+                   pygame.transform.scale_by(pygame.Surface((obj.width, obj.height)), 
                     SCALE), 
                     (self.collision_group)
                     )
