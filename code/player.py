@@ -14,7 +14,6 @@ class Player(MiltiDirectionalSprite):
         self.collision_sprites = collision_sprites
         self.collision_rect = self.rect.inflate(-7*SCALE, -15*SCALE)
         self._health = health
-        print(self.health)
 
     @property
     def health(self):
@@ -22,7 +21,7 @@ class Player(MiltiDirectionalSprite):
 
     @health.setter
     def health(self, value):
-        self._health.current -= value
+        self._health.current = value
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -150,6 +149,5 @@ class InfoBar(pygame.sprite.Sprite):
     def update(self):
         self.image.fill((0, 0, 0, 0))
         self.draw_rect()
-        self.current -= 0.1
 
     

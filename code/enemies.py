@@ -1,5 +1,6 @@
 from settings import *
 from sprites import *
+from weapons import *
 
 class Enemy(MiltiDirectionalSprite):
 	def __init__(self, pos, folders, groups, speed, player, collision_sprites):
@@ -9,6 +10,7 @@ class Enemy(MiltiDirectionalSprite):
 		self.player = player
 		self.direction = pygame.Vector2(0, 0)
 		self.collision_sprites = collision_sprites
+		self.weapon = Weapon(1, 2, 1000)
         
 
 	def target(self):
@@ -65,6 +67,11 @@ class Enemy(MiltiDirectionalSprite):
 				self.facing = "idle_down"
 
 		self.update_direction(self.facing)
+
+	def attack(self):
+		if self.rect.colliderect(self.player.rect):
+			self.weapon.deal_damage(self.player)
+
 	
 
 	def draw(self, dt):
@@ -73,6 +80,8 @@ class Enemy(MiltiDirectionalSprite):
 		self.animate(dt)
 
 	def update(self, dt):
+		self.attack()
+		self.weapon.update()
 		self.target()
 		self.move(dt)
 		self.draw(dt)

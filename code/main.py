@@ -36,9 +36,8 @@ class Game:
         )
 
         # player
-        self.weapon = Weapon(1, 2)
         self.health = InfoBar((255, 0, 0), self.UIBar_assets['Heart'], 100, (10*SCALE, 5*SCALE), self.UI, 100)
-        self.health = InfoBar((0, 0, 255), self.UIBar_assets['Mana'], 100, (10*SCALE, 20*SCALE), self.UI, 100)
+        self.mana = InfoBar((0, 0, 255), self.UIBar_assets['Mana'], 100, (10*SCALE, 20*SCALE), self.UI, 100)
         self.player = Player(self.background.player_start_pos, self.player_assets, self.player_sprites, self.collision_sprites, self.health)
         
         #monsters
@@ -73,7 +72,6 @@ class Game:
                         self.running = False
 
             # update
-            self.weapon.deal_damage(self.player)
             self.ground_sprites.update(dt)
             self.player_sprites.update(dt)
             self.cover_sprites.update(dt)
