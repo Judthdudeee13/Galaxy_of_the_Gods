@@ -55,6 +55,10 @@ class Game:
             'Mana' : image_loader('images', 'UI', 'bar_icons', 'mana.png')   
                             }
 
+        self.weapon_sprites = {}
+        self.weapon_sprites['Bow'] = {'Bow' : image_loader('images', 'weapons', 'bow', '0.png')}
+        self.weapon_sprites['Bow']['arrow'] = image_loader('images', "weapons", 'arrow.png')
+
     def load_background(self):
         #load maps
         self.backgrounds = {}
