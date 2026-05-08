@@ -40,7 +40,7 @@ class Bow(pygame.sprite.Sprite):
     def aim(self):
         if self.target == 'Mouse':
             pos = pygame.Vector2(pygame.mouse.get_pos())
-            self.direction = (self.player-pos).normalize() if (self.player-pos) else pygame.Vector2(0,0)
+            self.direction = (self.player.center-pos).normalize() if (self.player.center-pos) else pygame.Vector2(0,0)
             angle = degrees(atan2(self.direction.x, self.direction.y))- self.fix
             self.image = pygame.transform.rotozoom(self.surf, angle, 1)
             self.image = pygame.transform.flip(self.image, False, True)
