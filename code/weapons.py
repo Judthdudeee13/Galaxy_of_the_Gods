@@ -20,7 +20,7 @@ class Arrow(Weapon, pygame.sprite.Sprite):
     def __init__(self, image, ):
         pass
 
-class Bow(pygame.Sprite.sprite()):
+class Bow(pygame.sprite.Sprite()):
     def __init__(self, damage, cool_down, image, arrow, player, target, groups, fix = 0, distance = 10, damage_type=None):
         super().__init__(groups)
         self.image = image
@@ -32,6 +32,7 @@ class Bow(pygame.Sprite.sprite()):
         self.player = player
         self.target = target
         self.fix = fix
+        self.isGround = False
         self.distance = distance*SCALE
         self.direction = pygame.Vector2(0, 0)
         self.rect = self.image.get_frect(center = (self.player.x + 10*SCALE, self.player.y + 10*SCALE))
