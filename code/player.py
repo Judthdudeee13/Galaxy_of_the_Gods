@@ -1,10 +1,11 @@
 from settings import *
 from sprites import *
+from weapons import *
 
 
 # player sprite
 class Player(MiltiDirectionalSprite):
-    def __init__(self, pos, folders, groups, collision_sprites, health):
+    def __init__(self, pos, folders, groups, collision_sprites, weapon_sprites, health):
         animation_speed = 5.88
         super().__init__(pos, folders, groups, animation_speed)
         # movment
@@ -14,6 +15,7 @@ class Player(MiltiDirectionalSprite):
         self.collision_sprites = collision_sprites
         self.collision_rect = self.rect.inflate(-7*SCALE, -15*SCALE)
         self._health = health
+        self.weapon = Bow(10, 1000, weapon_sprites['Bow']['Bow'], weapon_sprites['Bow']['Arrow'], self, "Mouse", groups)
 
     @property
     def health(self):
