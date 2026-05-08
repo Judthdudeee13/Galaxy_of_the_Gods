@@ -21,7 +21,7 @@ class Arrow(Weapon, pygame.sprite.Sprite):
         pass
 
 class Bow(pygame.Sprite.sprite()):
-    def __init__(self, damage, cool_down, image, arrow, player, target, groups, fix = 0, distance = 100, damage_type=None):
+    def __init__(self, damage, cool_down, image, arrow, player, target, groups, fix = 0, distance = 10, damage_type=None):
         super().__init__(groups)
         self.image = image
         self.surf = image
