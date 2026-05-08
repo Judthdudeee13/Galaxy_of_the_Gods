@@ -1,6 +1,7 @@
 modules = ["python-3.12"]
 [agent]
 expertMode = true
+stack = "BEST_EFFORT_FALLBACK"
 
 [nix]
 channel = "stable-25_05"
@@ -21,18 +22,9 @@ args = "Start application"
 name = "Start application"
 author = "agent"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "python code/main.py"
-
 [workflows.workflow.metadata]
 outputType = "vnc"
 
-[[workflows.workflow]]
-name = "run"
-mode = "sequential"
-author = 30226770
-
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "python3 code/main.py"
+args = "python code/main.py"

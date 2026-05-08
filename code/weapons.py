@@ -20,7 +20,7 @@ class Arrow(Weapon, pygame.sprite.Sprite):
     def __init__(self, image, ):
         pass
 
-class Bow(pygame.sprite.Sprite()):
+class Bow(pygame.sprite.Sprite):
     def __init__(self, damage, cool_down, image, arrow, player, target, groups, fix = 0, distance = 10, damage_type=None):
         super().__init__(groups)
         self.image = image
@@ -35,12 +35,14 @@ class Bow(pygame.sprite.Sprite()):
         self.isGround = False
         self.distance = distance*SCALE
         self.direction = pygame.Vector2(0, 0)
-        self.rect = self.image.get_frect(center = (self.player.x + 10*SCALE, self.player.y + 10*SCALE))
+        self.rect = self.image.get_frect(center = (self.player.rect.centerx + 10*SCALE, self.player.rect.centery + 10*SCALE))
 
     def aim(self):
         if self.target == 'Mouse':
             pos = pygame.Vector2(pygame.mouse.get_pos())
-            self.direction = (self.player.rect-pos).normalize() if (self.player.rect-pos) else pygame.Vector2(0, 0)
+            player_center = pygame.Vector2(self.player.rect.center)
+            diff = player_center - pos
+            self.direction = diff.normalize() if diff else pygame.Vector2(0, 0)
             angle = degrees(atan2(self.direction.x, self.direction.y))- self.fix
             self.image = pygame.transform.rotozoom(self.surf, angle, 1)
             self.image = pygame.transform.flip(self.image, False, True)
