@@ -21,7 +21,7 @@ class Arrow(Weapon, pygame.sprite.Sprite):
         pass
 
 class Bow(pygame.sprite.Sprite):
-    def __init__(self, damage, cool_down, image, arrow, player, target, groups, fix = 0, distance = 10, damage_type=None):
+    def __init__(self, damage, cool_down, image, arrow, player, target, groups, fix = 90, distance = 10, damage_type=None):
         super().__init__(groups)
         self.image = image
         self.surf = image
@@ -40,7 +40,8 @@ class Bow(pygame.sprite.Sprite):
     def aim(self):
         if self.target == 'Mouse':
             pos = pygame.Vector2(pygame.mouse.get_pos())
-            self.direction = (self.player.center-pos).normalize() if (self.player.center-pos) else pygame.Vector2(0,0)
+            player = pygame.Vector2(WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
+            self.direction = (player-pos).normalize() if (player-pos) else pygame.Vector2(0,0)
             angle = degrees(atan2(self.direction.x, self.direction.y))- self.fix
             self.image = pygame.transform.rotozoom(self.surf, angle, 1)
             self.image = pygame.transform.flip(self.image, False, True)

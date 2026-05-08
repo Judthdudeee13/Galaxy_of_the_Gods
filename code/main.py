@@ -14,7 +14,7 @@ class Game:
         pygame.init()
         self.window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)  # pygame.FULLSCREEN
         pygame.display.set_caption("Galaxy of the Gods")
-        pygame.mouse.set_visible(False)
+        #pygame.mouse.set_visible(False)
         self.clock = pygame.time.Clock()
         self.running = True
 
