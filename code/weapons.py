@@ -16,4 +16,44 @@ class Weapon:
     def update(self):
         self.cool_down_timer.update()
 
+class Arrow(Weapon, pygame.sprite.Sprite):
+    def __init__(self, image, ):
+        pass
+
+class Bow(pygame.Sprite.sprite()):
+    def __init__(self, damage, cool_down, image, arrow, player, target, groups, fix = 0, distance = 100, damage_type=None):
+        super().__init__(groups)
+        self.image = image
+        self.surf = image
+        self.arrow = arrow
+        self.damage = damage
+        self.cool_down = cool_down
+        self.damage_type = damage_type
+        self.player = player
+        self.target = target
+        self.fix = fix
+        self.distance = distance*SCALE
+        self.direction = pygame.Vector2(0, 0)
+        self.rect = self.image.get_frect(center = (self.player.x + 10*SCALE, self.player.y + 10*SCALE))
+
+    def aim(self):
+        if self.target == 'Mouse':
+            pos = pygame.Vector2(pygame.mouse.get_pos())
+            self.direction = (self.player.rect-pos).normalize() if (self.player.rect-pos) else pygame.Vector2(0, 0)
+            angle = degrees(atan2(self.direction.x, self.direction.y))- self.fix
+            self.image = pygame.transform.rotozoom(self.surf, angle, 1)
+            self.image = pygame.transform.flip(self.image, False, True)
+            
+
+        else:
+            pass
+
+    def draw(self):
+        self.aim()
+        self.rect.center = self.player.rect.center + self.direction * self.distance
+
+    def update(self, dt):
+        self.draw()
+
+
         

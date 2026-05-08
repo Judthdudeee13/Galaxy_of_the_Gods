@@ -2,6 +2,7 @@
 import pygame
 from os.path import join
 from os import walk
+from math import atan2, degrees
 import math
 import random
 import pytmx
