@@ -38,7 +38,7 @@ class Game:
         # player
         self.health = InfoBar((255, 0, 0), self.UIBar_assets['Heart'], 100, (10*SCALE, 5*SCALE), self.UI, 100)
         self.mana = InfoBar((0, 0, 255), self.UIBar_assets['Mana'], 100, (10*SCALE, 20*SCALE), self.UI, 100)
-        self.player = Player(self.background.player_start_pos, self.player_assets, self.player_sprites, self.collision_sprites, self.health)
+        self.player = Player(self.background.player_start_pos, self.player_assets, self.player_sprites, self.collision_sprites, self.weapon_sprites, self.health)
         
         #monsters
         self.monster = Enemy((500, 500), self.skeleton1, (self.player_sprites, self.enemies), 50*SCALE, self.player, self.collision_sprites)
@@ -57,7 +57,7 @@ class Game:
 
         self.weapon_sprites = {}
         self.weapon_sprites['Bow'] = {'Bow' : image_loader('images', 'weapons', 'bow', '0.png')}
-        self.weapon_sprites['Bow']['arrow'] = image_loader('images', "weapons", 'arrow.png')
+        self.weapon_sprites['Bow']['Arrow'] = image_loader('images', "weapons", 'arrow.png')
 
     def load_background(self):
         #load maps
