@@ -22,13 +22,15 @@ class Arrow(Weapon, pygame.sprite.Sprite):
         pass
 
 class Bow(pygame.sprite.Sprite):
-    def __init__(self, damage, cool_down, image, arrow, player, target, groups, fix = 180, distance = 10, damage_type=None):
+    def __init__(self, damage, cool_down, images, arrow, player, target, groups, fix = 180, distance = 10, damage_type=None):
         super().__init__()
         for group in self.groups():
             if hasattr(group, "offset"):
                 self.offset_group = group
-        self.image = image
-        self.surf = image
+        self.frame = 0
+        self.image = images[self.frame]
+        self.surf = images[self.frame]
+        self.images = images
         self.center = self.surf.get_frect()
         self.arrow = arrow
         self.damage = damage
@@ -40,6 +42,7 @@ class Bow(pygame.sprite.Sprite):
         self.isGround = False
         self.distance = distance*SCALE
         self.direction = pygame.Vector2(0, 0)
+        self.animation_speed = 100
         self.rect = self.image.get_frect(center = (self.player.centerx + 10*SCALE, self.player.centery + 10*SCALE))
 
     def update_offset(self):
@@ -59,8 +62,9 @@ class Bow(pygame.sprite.Sprite):
         else:
             pass
 
-    def attack(self):
-        pass
+    def attack(self, dt):
+        self.frame = (self.frame + self.animation_speed * dt) % len(self.images)
+        self.surf = self.images(int(self.frame))
 
     def draw(self):
         self.aim()
@@ -68,6 +72,7 @@ class Bow(pygame.sprite.Sprite):
         self.rect.center = self.center.center
 
     def update(self, dt):
+        self.attack(dt)
         self.draw()
 
 
