@@ -56,8 +56,9 @@ class Game:
                             }
 
         self.weapon_sprites = {}
-        self.weapon_sprites['Bow'] = {'Bow' : folder_importer('images', 'weapons', 'ranged', 'bow')}
+        self.weapon_sprites['Bow'] = {'Bow' : folder_importer('Bow', 'images', 'weapons', 'ranged', 'bow')}
         self.weapon_sprites['Bow']['Arrow'] = image_loader('images', "weapons", 'ranged', 'ammo', 'arrow.png')
+        print(self.weapon_sprites)
 
     def load_background(self):
         #load maps

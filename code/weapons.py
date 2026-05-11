@@ -17,17 +17,17 @@ class Weapon:
     def update(self):
         self.cool_down_timer.update()
 
-class Arrow(Weapon, pygame.sprite.Sprite):
-    def __init__(self, image, ):
-        pass
+class Arrow(Weapon, Sprite):
+    def __init__(self, image, pos, direction, speed, damage, type, groups):
+        Sprite.__init__(pos, image, groups)
 
 class Bow(pygame.sprite.Sprite):
     def __init__(self, damage, cool_down, images, arrow, player, target, groups, fix = 180, distance = 10, damage_type=None):
-        super().__init__()
+        super().__init__(groups)
         for group in self.groups():
             if hasattr(group, "offset"):
                 self.offset_group = group
-        self.frame = 0
+        self.frame = -1
         self.image = images[self.frame]
         self.surf = images[self.frame]
         self.images = images
@@ -42,7 +42,10 @@ class Bow(pygame.sprite.Sprite):
         self.isGround = False
         self.distance = distance*SCALE
         self.direction = pygame.Vector2(0, 0)
-        self.animation_speed = 100
+        self.animation_speed = 1
+        self.isShoot = False
+        self.angle = 0
+        self.group = group
         self.rect = self.image.get_frect(center = (self.player.centerx + 10*SCALE, self.player.centery + 10*SCALE))
 
     def update_offset(self):
@@ -54,17 +57,26 @@ class Bow(pygame.sprite.Sprite):
             pos = pygame.Vector2(pygame.mouse.get_pos())
             player = self.player.center + self.offset
             self.direction = (pos-player).normalize() if (pos-player) else pygame.Vector2(0,0)
-            angle = degrees(atan2(self.direction.x, self.direction.y))- self.fix
-            self.image = pygame.transform.rotozoom(self.surf, angle, 1)
+            self.angle = degrees(atan2(self.direction.x, self.direction.y))- self.fix
+            self.image = pygame.transform.rotozoom(self.surf, self.angle, 1)
             self.rect = self.image.get_frect()
             
 
         else:
             pass
 
+    def create_arrow(self):
+        Arrow(pygame.transform.rotozoom(self.arrow, self.angle, 1), self.rect.center, self.direction, 100, self.damage, self.damage_type, self.group)
+        print('worked')
+
     def attack(self, dt):
         self.frame = (self.frame + self.animation_speed * dt) % len(self.images)
-        self.surf = self.images(int(self.frame))
+        self.surf = self.images[int(self.frame)]
+        if self.surf == self.images[-2] and not self.isShoot:
+            self.create_arrow()
+            self.isShoot = True
+        if self.surf == self.images[-1]:
+            self.isShoot = False
 
     def draw(self):
         self.aim()
