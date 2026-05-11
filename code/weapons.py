@@ -21,10 +21,14 @@ class Arrow(Weapon, pygame.sprite.Sprite):
         pass
 
 class Bow(pygame.sprite.Sprite):
-    def __init__(self, damage, cool_down, image, arrow, player, target, groups, fix = 90, distance = 10, damage_type=None):
+    def __init__(self, damage, cool_down, image, arrow, player, target, groups, fix = 180, distance = 10, damage_type=None):
         super().__init__(groups)
+        for group in self.groups():
+            if hasattr(group, "offset"):
+                self.offset_group = group
         self.image = image
         self.surf = image
+        self.center = self.surf.get_frect()
         self.arrow = arrow
         self.damage = damage
         self.cool_down = cool_down
@@ -37,14 +41,18 @@ class Bow(pygame.sprite.Sprite):
         self.direction = pygame.Vector2(0, 0)
         self.rect = self.image.get_frect(center = (self.player.centerx + 10*SCALE, self.player.centery + 10*SCALE))
 
+    def update_offset(self):
+        self.offset = self.offset_group.offset
+
     def aim(self):
+        self.update_offset()
         if self.target == 'Mouse':
             pos = pygame.Vector2(pygame.mouse.get_pos())
-            player = pygame.Vector2(WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
-            self.direction = (player-pos).normalize() if (player-pos) else pygame.Vector2(0,0)
+            player = self.player.center + self.offset
+            self.direction = (pos-player).normalize() if (pos-player) else pygame.Vector2(0,0)
             angle = degrees(atan2(self.direction.x, self.direction.y))- self.fix
             self.image = pygame.transform.rotozoom(self.surf, angle, 1)
-            self.image = pygame.transform.flip(self.image, False, True)
+            self.rect = self.image.get_frect()
             
 
         else:
@@ -52,7 +60,8 @@ class Bow(pygame.sprite.Sprite):
 
     def draw(self):
         self.aim()
-        self.rect.center = self.player.center + self.direction * self.distance
+        self.center.center = self.player.center + self.direction * self.distance
+        self.rect.center = self.center.center
 
     def update(self, dt):
         self.draw()
