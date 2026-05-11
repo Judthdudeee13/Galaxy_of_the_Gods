@@ -21,7 +21,7 @@ class Arrow(Weapon, pygame.sprite.Sprite):
     def __init__(self, image, ):
         pass
 
-class Bow(AnimatedSprite):
+class Bow(pygame.sprite.Sprite):
     def __init__(self, damage, cool_down, image, arrow, player, target, groups, fix = 180, distance = 10, damage_type=None):
         super().__init__()
         for group in self.groups():
