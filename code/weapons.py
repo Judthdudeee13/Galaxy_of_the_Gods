@@ -1,5 +1,6 @@
 from settings import *
 from timer import Timer
+from sprites import *
 
 class Weapon:
     def __init__(self, damage, range, cool_down, damage_type = None):
@@ -20,9 +21,9 @@ class Arrow(Weapon, pygame.sprite.Sprite):
     def __init__(self, image, ):
         pass
 
-class Bow(pygame.sprite.Sprite):
+class Bow(AnimatedSprite):
     def __init__(self, damage, cool_down, image, arrow, player, target, groups, fix = 180, distance = 10, damage_type=None):
-        super().__init__(groups)
+        super().__init__()
         for group in self.groups():
             if hasattr(group, "offset"):
                 self.offset_group = group
@@ -57,6 +58,9 @@ class Bow(pygame.sprite.Sprite):
 
         else:
             pass
+
+    def attack(self):
+        pass
 
     def draw(self):
         self.aim()
