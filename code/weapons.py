@@ -24,7 +24,11 @@ class Arrow(Weapon, Sprite):
         self.enemies = enemies
         self.collisions = collision
         self.direction = direction
-        self.speed = speed
+        self.speed = speed * SCALE
+        self.rect.center = pos
+        self.move(0.06)
+        self.move(0.06)
+        self.update(0.06)
 
     #if hits obsticle kills self
     def check_collision(self):
@@ -40,10 +44,13 @@ class Arrow(Weapon, Sprite):
                 self.deal_damage(sprite)
             self.kill()
 
-    #updates sprite
-    def update(self, dt):
+    def move(self, dt):
         self.rect.x += self.direction.x * self.speed * dt
         self.rect.y += self.direction.y * self.speed * dt
+
+    #updates sprite
+    def update(self, dt):
+        self.move(dt)
         self.check_attack()
         self.check_collision()
         
@@ -60,7 +67,7 @@ class Bow(pygame.sprite.Sprite):
                 self.offset_group = group
         
         #animation
-        self.animation_speed = 1
+        self.animation_speed = 2
         self.frame = -1
         self.image = images[self.frame]
         self.surf = images[self.frame]
@@ -72,7 +79,7 @@ class Bow(pygame.sprite.Sprite):
         self.damage = damage
         self.cool_down = cool_down
         self.damage_type = damage_type
-        self.isShoot = False
+        self.isShoot = True
         self.angle = 0
         self.group = group
         self.enemies = enemies
@@ -84,7 +91,9 @@ class Bow(pygame.sprite.Sprite):
         self.fix = fix
         self.distance = distance*SCALE
         self.direction = pygame.Vector2(0, 0)
-        self.rect = self.image.get_frect(center = (self.player.centerx + 10*SCALE, self.player.centery + 10*SCALE))
+        
+        #animation timer
+        self.attack_timer = False
 
     def update_offset(self):
         self.offset = self.offset_group.offset
@@ -107,17 +116,24 @@ class Bow(pygame.sprite.Sprite):
 
     #creat arrow sprite
     def create_arrow(self):
-        Arrow(pygame.transform.rotozoom(self.arrow, self.angle+180, 1), self.rect.midtop, self.direction, 100, self.damage, self.damage_type, self.group, self.enemies, self.collisions)
+        Arrow(pygame.transform.rotozoom(self.arrow, self.angle+180, 1), self.rect.center, self.direction, 100, self.damage, self.damage_type, self.group, self.enemies, self.collisions)
 
     #if space key is pressed will work into player class
-    def attack(self, dt):
+    def _attack(self, dt):
         self.frame = (self.frame + self.animation_speed * dt) % len(self.images)
-        self.surf = self.images[int(self.frame)]
-        if self.surf == self.images[-2] and not self.isShoot:
+        try:
+            self.surf = self.images[int(self.frame)]
+        except:
+            self.surf = self.image[-1]
+        if self.surf == self.images[-1] and not self.isShoot:
             self.create_arrow()
             self.isShoot = True
-        if self.surf == self.images[-1]:
+        if self.surf == self.images[-2]:
             self.isShoot = False
+            self.frame += 1
+            
+    def attack(self):
+        self.attack_timer = True
 
     def draw(self):
         self.aim()
@@ -125,12 +141,12 @@ class Bow(pygame.sprite.Sprite):
         self.rect.center = self.center.center
 
     def update(self, dt):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_SPACE]:
-            self.attack(dt)
+        if self.attack_timer or self.frame > 3:
+             self._attack(dt)
         else:
             self.surf = self.images[-1]
             self.frame = -1
+        self.attack_timer = False
         self.draw()
 
 

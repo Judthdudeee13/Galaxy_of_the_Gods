@@ -39,10 +39,10 @@ class Game:
         # player
         self.health = InfoBar((255, 0, 0), self.UIBar_assets['Heart'], 100, (10*SCALE, 5*SCALE), self.UI, 100)
         self.mana = InfoBar((0, 0, 255), self.UIBar_assets['Mana'], 100, (10*SCALE, 20*SCALE), self.UI, 100)
-        self.player = Player(self.background.player_start_pos, self.player_assets, self.player_sprites, self.collision_sprites, self.weapon_sprites, self.enemies, self.health)
+        self.player = Player(self.background.player_start_pos, self.player_assets, (self.player_sprites, self.collision_sprites), self.collision_sprites, self.weapon_sprites, self.enemies, self.health)
         
         #monsters
-        self.monster = Enemy((500, 500), self.skeleton1, (self.player_sprites, self.enemies), 50*SCALE, self.player, self.collision_sprites, 100)
+        self.monster = Enemy((500, 500), self.skeleton1, (self.player_sprites, self.collision_sprites, self.enemies), 50*SCALE, self.player, self.collision_sprites, 100)
         
 
     def import_assets(self):
