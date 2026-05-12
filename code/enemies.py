@@ -3,7 +3,7 @@ from sprites import *
 from weapons import *
 
 class Enemy(MiltiDirectionalSprite):
-	def __init__(self, pos, folders, groups, speed, player, collision_sprites):
+	def __init__(self, pos, folders, groups, speed, player, collision_sprites, health):
 		animation_speed = 5.88
 		super().__init__(pos, folders, groups, animation_speed)
 		self.speed = speed
@@ -11,6 +11,7 @@ class Enemy(MiltiDirectionalSprite):
 		self.direction = pygame.Vector2(0, 0)
 		self.collision_sprites = collision_sprites
 		self.weapon = Weapon(1, 2, 1000)
+		self.health = health
         
 
 	def target(self):
@@ -81,7 +82,7 @@ class Enemy(MiltiDirectionalSprite):
 
 	def update(self, dt):
 		self.attack()
-		self.weapon.update()
+		self.weapon.update(None)
 		self.target()
 		self.move(dt)
 		self.draw(dt)

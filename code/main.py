@@ -12,7 +12,8 @@ from weapons import *
 class Game:
     def __init__(self):
         pygame.init()
-        self.window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)  # pygame.FULLSCREEN
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)  # pygame.FULLSCREEN
+        self.window = pygame.Surface((self.screen.width, self.screen.height))
         pygame.display.set_caption("Galaxy of the Gods")
         #pygame.mouse.set_visible(False)
         self.clock = pygame.time.Clock()
@@ -38,10 +39,10 @@ class Game:
         # player
         self.health = InfoBar((255, 0, 0), self.UIBar_assets['Heart'], 100, (10*SCALE, 5*SCALE), self.UI, 100)
         self.mana = InfoBar((0, 0, 255), self.UIBar_assets['Mana'], 100, (10*SCALE, 20*SCALE), self.UI, 100)
-        self.player = Player(self.background.player_start_pos, self.player_assets, self.player_sprites, self.collision_sprites, self.weapon_sprites, self.health)
+        self.player = Player(self.background.player_start_pos, self.player_assets, self.player_sprites, self.collision_sprites, self.weapon_sprites, self.enemies, self.health)
         
         #monsters
-        self.monster = Enemy((500, 500), self.skeleton1, (self.player_sprites, self.enemies), 50*SCALE, self.player, self.collision_sprites)
+        self.monster = Enemy((500, 500), self.skeleton1, (self.player_sprites, self.enemies), 50*SCALE, self.player, self.collision_sprites, 100)
         
 
     def import_assets(self):
@@ -55,10 +56,10 @@ class Game:
             'Mana' : image_loader('images', 'UI', 'bar_icons', 'mana.png')   
                             }
 
+        #load weapon sprites
         self.weapon_sprites = {}
         self.weapon_sprites['Bow'] = {'Bow' : folder_importer('Bow', 'images', 'weapons', 'ranged', 'bow')}
         self.weapon_sprites['Bow']['Arrow'] = image_loader('images', "weapons", 'ranged', 'ammo', 'arrow.png')
-        print(self.weapon_sprites)
 
     def load_background(self):
         #load maps
@@ -83,11 +84,16 @@ class Game:
             self.UI.update()
 
             # draw
+            #clear surface
             self.window.fill("black")
+            self.screen.fill("black")
+            #add stuck to window to add effects and replace cut sceens if needed
             self.ground_sprites.draw(self.player.rect.center)
             self.player_sprites.draw(self.player.rect.center)
             self.cover_sprites.draw(self.player.rect.center)
-            self.UI.draw(self.window)
+            #draw on actull window resulting in this stuff being on top and not effected by screen shake and other effects
+            self.screen.blit(self.window, (0, 0))
+            self.UI.draw(self.screen)
             pygame.display.update()
 
         pygame.quit()
