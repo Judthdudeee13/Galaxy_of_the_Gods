@@ -94,7 +94,6 @@ class Enemy(MiltiDirectionalSprite):
 			self.weapon.deal_damage(self.player)
 
 	def check_death(self):
-		print(self.health)
 		if self.health <= 0:
 			self.kill()	
 
