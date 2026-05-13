@@ -12,6 +12,7 @@ class Enemy(MiltiDirectionalSprite):
 		self.collision_sprites = collision_sprites
 		self.weapon = Weapon(1, 2, 1000)
 		self.health = health
+		self.name = "Enemy"
         
 
 	def target(self):
@@ -31,8 +32,8 @@ class Enemy(MiltiDirectionalSprite):
 	def check_collision(self, direction):
      #checks for collisions
 		for sprite in self.collision_sprites:
-      		if sprite == self:
-            	continue
+			if self == sprite:
+				continue
 			else:
 				if sprite.rect.colliderect(self.rect):
 					if direction == 'horizontal':
@@ -76,7 +77,10 @@ class Enemy(MiltiDirectionalSprite):
 		if self.rect.colliderect(self.player.rect):
 			self.weapon.deal_damage(self.player)
 
-	
+	def check_death(self):
+		print(self.health)
+		if self.health <= 0:
+			self.kill()	
 
 	def draw(self, dt):
      #updates player position
@@ -84,6 +88,7 @@ class Enemy(MiltiDirectionalSprite):
 		self.animate(dt)
 
 	def update(self, dt):
+		self.check_death()
 		self.attack()
 		self.weapon.update(None)
 		self.target()

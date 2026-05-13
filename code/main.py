@@ -15,7 +15,7 @@ class Game:
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)  # pygame.FULLSCREEN
         self.window = pygame.Surface((self.screen.width, self.screen.height))
         pygame.display.set_caption("Galaxy of the Gods")
-        #pygame.mouse.set_visible(False)
+        pygame.mouse.set_visible(False)
         self.clock = pygame.time.Clock()
         self.running = True
 
@@ -39,10 +39,10 @@ class Game:
         # player
         self.health = InfoBar((255, 0, 0), self.UIBar_assets['Heart'], 100, (10*SCALE, 5*SCALE), self.UI, 100)
         self.mana = InfoBar((0, 0, 255), self.UIBar_assets['Mana'], 100, (10*SCALE, 20*SCALE), self.UI, 100)
-        self.player = Player(self.background.player_start_pos, self.player_assets, (self.player_sprites, self.collision_sprites), self.collision_sprites, self.weapon_sprites, self.enemies, self.health)
+        self.player = Player(self.background.player_start_pos, self.player_assets, self.player_sprites, self.collision_sprites, self.weapon_sprites, self.enemies, self.health)
         
         #monsters
-        self.monster = Enemy((500, 500), self.skeleton1, (self.player_sprites, self.collision_sprites, self.enemies), 50*SCALE, self.player, self.collision_sprites, 100)
+        self.monster = Enemy((500, 500), self.skeleton1, (self.player_sprites, self.enemies), 50*SCALE, self.player, self.collision_sprites, 100)
         
 
     def import_assets(self):
@@ -91,10 +91,11 @@ class Game:
             self.ground_sprites.draw(self.player.rect.center)
             self.player_sprites.draw(self.player.rect.center)
             self.cover_sprites.draw(self.player.rect.center)
+            self.UI.draw(self.window)
             #draw on actull window resulting in this stuff being on top and not effected by screen shake and other effects
             self.screen.blit(self.window, (0, 0))
-            self.UI.draw(self.screen)
-            pygame.display.update()
+            
+            pygame.display.flip()
 
         pygame.quit()
 
