@@ -14,9 +14,8 @@ class Enemy(MiltiDirectionalSprite):
 		self.weapon = Weapon(1, 2, 1000)
 		self._health = health
 		self.name = "Enemy"
-		self.hit_timer = Timer(200)
-		self.mask_image = pygame.mask.from_surface(self.image).to_surface()
-		self.mask_image.set_colorkey((0, 0, 0))
+		self.hit_timer = Timer(150)
+		self.mask_image = pygame.mask.from_surface(self.image).to_surface(setcolor = DAMAGE_FLASH, unsetcolor=(0, 0, 0, 0))
 
 	@property
 	def health(self):
@@ -28,8 +27,8 @@ class Enemy(MiltiDirectionalSprite):
 		self._health = value
 
 	def knockback(self, direction):
-		self.rect.x += direction.x * 100 * 0.06
-		self.rect.y += direction.y * 100 * 0.06
+		self.rect.x += direction.x * 700 * 0.06
+		self.rect.y += direction.y * 700 * 0.06
 
 	def target(self):
      #targetting the player

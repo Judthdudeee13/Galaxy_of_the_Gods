@@ -68,7 +68,7 @@ class Bow(pygame.sprite.Sprite):
                 self.offset_group = group
         
         #animation
-        self.animation_speed = 2
+        self.animation_speed = 3
         self.frame = -1
         self.image = images[self.frame]
         self.surf = images[self.frame]
@@ -117,7 +117,7 @@ class Bow(pygame.sprite.Sprite):
 
     #creat arrow sprite
     def create_arrow(self):
-        Arrow(pygame.transform.rotozoom(self.arrow, self.angle+180, 1), self.rect.center, self.direction, 100, self.damage, self.damage_type, self.group, self.enemies, self.collisions)
+        Arrow(pygame.transform.rotozoom(self.arrow, self.angle+180, 1), self.rect.center, self.direction, 200, self.damage, self.damage_type, self.group, self.enemies, self.collisions)
 
     #if space key is pressed will work into player class
     def _attack(self, dt):

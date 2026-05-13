@@ -36,7 +36,8 @@ class Player(MiltiDirectionalSprite):
         self.direction = (
             self.direction.normalize() if self.direction else self.direction
         )
-        if keys[pygame.K_SPACE]:
+        mouse = pygame.mouse.get_pressed()
+        if mouse[0]:
             self.current_weapon.attack()
 
     def move(self, dt):

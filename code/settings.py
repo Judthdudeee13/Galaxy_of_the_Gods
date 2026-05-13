@@ -48,3 +48,7 @@ SCALE = int(get_closest_16_9_resolution(
 )
 
 pygame.quit()
+
+
+#constants
+DAMAGE_FLASH = '#fff8e7'

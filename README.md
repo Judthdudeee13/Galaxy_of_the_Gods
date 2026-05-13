@@ -5,3 +5,7 @@ Run these commands in order
   pip install -r requirements.txt
 Second run main file to run game
 
+CONTROLS
+wasd - 8 direction movement
+mouse cursor - aim bow and other projectiles
+left click - charge and fire bow
