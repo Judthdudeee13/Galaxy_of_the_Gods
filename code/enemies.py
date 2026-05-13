@@ -1,6 +1,7 @@
 from settings import *
 from sprites import *
 from weapons import *
+from timer import *
 
 class Enemy(MiltiDirectionalSprite):
 	def __init__(self, pos, folders, groups, speed, player, collision_sprites, health):
@@ -11,9 +12,24 @@ class Enemy(MiltiDirectionalSprite):
 		self.direction = pygame.Vector2(0, 0)
 		self.collision_sprites = collision_sprites
 		self.weapon = Weapon(1, 2, 1000)
-		self.health = health
+		self._health = health
 		self.name = "Enemy"
-        
+		self.hit_timer = Timer(200)
+		self.mask_image = pygame.mask.from_surface(self.image).to_surface()
+		self.mask_image.set_colorkey((0, 0, 0))
+
+	@property
+	def health(self):
+		return self._health
+	
+	@health.setter
+	def health(self, value):
+		self.hit_timer.activate()
+		self._health = value
+
+	def knockback(self, direction):
+		self.rect.x += direction.x * 100 * 0.06
+		self.rect.y += direction.y * 100 * 0.06
 
 	def target(self):
      #targetting the player
@@ -88,9 +104,14 @@ class Enemy(MiltiDirectionalSprite):
 		self.animate(dt)
 
 	def update(self, dt):
-		self.check_death()
-		self.attack()
-		self.weapon.update(None)
-		self.target()
-		self.move(dt)
-		self.draw(dt)
+		if not self.hit_timer:
+			self.check_death()
+			self.attack()
+			self.weapon.update(None)
+			self.target()
+			self.move(dt)
+			self.draw(dt)
+		else:
+			self.image = self.mask_image
+			self.hit_timer.update()
+			

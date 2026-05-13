@@ -9,10 +9,11 @@ class Weapon:
         self.damage_type = damage_type
         self.cool_down_timer = Timer(cool_down)
 
-    def deal_damage(self, target):
+    def deal_damage(self, target, direction=None):
         if not self.cool_down_timer:
             target.health -= self.damage
             self.cool_down_timer.activate()
+            target.knockback(direction)
             
     def update(self, _):
         self.cool_down_timer.update()
@@ -41,7 +42,7 @@ class Arrow(Weapon, Sprite):
         collision = pygame.sprite.spritecollide(self, self.enemies, False, pygame.sprite.collide_mask)
         if collision:
             for sprite in collision:
-                self.deal_damage(sprite)
+                self.deal_damage(sprite, self.direction)
             self.kill()
 
     def move(self, dt):

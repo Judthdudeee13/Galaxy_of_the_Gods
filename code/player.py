@@ -26,6 +26,9 @@ class Player(MiltiDirectionalSprite):
     def health(self, value):
         self._health.current = value
 
+    def knockback(self, _):
+        pass
+
     def input(self):
         keys = pygame.key.get_pressed()
         self.direction.x = int(keys[pygame.K_d]) - int(keys[pygame.K_a])
