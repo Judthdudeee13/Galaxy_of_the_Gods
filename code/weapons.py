@@ -151,4 +151,21 @@ class Bow(pygame.sprite.Sprite):
         self.draw()
 
 
+class Spear(Weapon, pygame.sprite.Sprite):
+    def __init__(self, damage, range, cool_down, damage_type, images, groups):
+        Weapon().__init__(damage, range, cool_down, damage_type)
+        pygame.sprite.Sprite().__init__(groups)
+        self.isAttacking = False
+        self.images = images
+        
+
+    def _attack(self, player, direction):
+        if not self.cool_down_timer:
+            self.isAttacking = True
+
+        if abs(direction.x) > abs(direction.y):
+            pass
+        
+    def attacK(self):
+        pass
         
