@@ -12,7 +12,8 @@ class Weapon:
     def deal_damage(self, target, direction=None):
         if not self.cool_down_timer:
             target.health -= self.damage
-            self.cool_down_timer.activate()
+            if not self.cool_down_timer:
+                self.cool_down_timer.activate()
             target.knockback(direction)
             
     def update(self, _):
@@ -152,20 +153,79 @@ class Bow(pygame.sprite.Sprite):
 
 
 class Spear(Weapon, pygame.sprite.Sprite):
-    def __init__(self, damage, range, cool_down, damage_type, images, groups):
+    def __init__(self, damage, range, cool_down, damage_type, images, groups, strenght, player):
         Weapon().__init__(damage, range, cool_down, damage_type)
         pygame.sprite.Sprite().__init__(groups)
         self.isAttacking = False
         self.images = images
+        self.strenght = strenght
+        self.direction = (0, 0)
+        self.player = player
+        
+        
+        #animation
+        self.animation_speed = 5
+        self.frame = 0
+        self.image = self.image[self.frame]
+        self.rect = self.image.get_frect(midleft = self.player.midright)
         
 
-    def _attack(self, player, direction):
+    def _attack(self, direction):
         if not self.cool_down_timer:
             self.isAttacking = True
+            self.cool_down_timer.activate()
 
-        if abs(direction.x) > abs(direction.y):
-            pass
+            if abs(direction.x) > abs(direction.y):
+                if direction.x > 0:
+                    self.direction.x = 1
+                    self.direction.y = 0
+                
+                else:
+                    self.direction.x = -1
+                    self.direction.y = 0
+            else:      
+                if direction.y > 0:
+                    self.direction.x = 0
+                    self.direction.y = 1
+                else:
+                    self.direction.x = 0
+                    self.direction.y = -1
+                    
+            self.player.rect.x += self.direction.x * self.strenght * 0.06
+            self.player.rect.y += self.direction.y * self.strenght * 0.06
         
-    def attacK(self):
-        pass
+    def attack(self, dt):
+        if self.isAttacking:
+            self.frame += (self.animation_speed * dt) % len(self.images)
+            self.image = self.images[self.frame]
+            if self.image == self.images[-1]:
+                self.isAttacking = False
+                
+    def rotate(self):
+        if self.direction.y > 0:
+            self.image = pygame.transform.rotozoom(self.image, 180, 1)
+            self.rect.midtop = self.player.rect.midbottom
+        elif self.direction.x > 0 :
+            self.image = pygame.transform.rotozoom(self.image, 90, 1)
+            self.rect.midleft = self.player.rect.midright
+        elif self.direction.x < 0 :
+            self.image = pygame.transform.rotozoom(self.image, 270, 1)
+            self.rect.midright = self.player.rect.midleft
+        else:
+            self.rect.midbottom = self.player.rect.midtop
+        
+            
+    def update(self, dt):
+        if self.isAttacking:
+            self.attack(dt)
+            self.rotate()
+            def check_attack(self):
+                collision = pygame.sprite.spritecollide(self, self.enemies, False, pygame.sprite.collide_mask)
+                if collision:
+                    for sprite in collision:
+                        self.deal_damage(sprite, self.direction)
+        else:
+            self.image = self.images[0]
+            self.rect = self.image.get_frect(midleft = self.player.midright)
+        
         
