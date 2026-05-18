@@ -28,9 +28,11 @@ class Arrow(Weapon, Sprite):
         self.direction = direction
         self.speed = speed * SCALE
         self.rect.center = pos
+        self.timer = Timer(5000, autostart=True ,func = self.kill)
         self.move(0.06)
         self.move(0.06)
         self.update(0.06)
+        
 
     #if hits obsticle kills self
     def check_collision(self):
@@ -52,6 +54,7 @@ class Arrow(Weapon, Sprite):
 
     #updates sprite
     def update(self, dt):
+        self.timer.update()
         self.move(dt)
         self.check_attack()
         self.check_collision()
