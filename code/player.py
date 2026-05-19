@@ -15,7 +15,7 @@ class Player(MiltiDirectionalSprite):
         self.collision_sprites = collision_sprites
         self.collision_rect = self.rect.inflate(-7*SCALE, -15*SCALE)
         self._health = health
-        self.weapon = [Bow(10, 1000, weapon_sprites['Bow']['Bow'], weapon_sprites['Bow']['Arrow'], self.rect, "Mouse", groups, enemies, collision_sprites)]
+        self.weapon = [Bow(10, 1000, weapon_sprites['Bow']['Bow'], weapon_sprites['Bow']['Arrow'], self.rect, "Mouse", groups, enemies, collision_sprites), Spear(10, 0, 2, 'Normal', weapon_sprites['Spear']['Spear'], groups, 100, self)]
         self.current_weapon = self.weapon[0]
 
     @property

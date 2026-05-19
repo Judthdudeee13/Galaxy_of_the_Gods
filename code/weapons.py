@@ -42,11 +42,13 @@ class Arrow(Weapon, Sprite):
 
     #check collisions with enimes
     def check_attack(self):
-        collision = pygame.sprite.spritecollide(self, self.enemies, False, pygame.sprite.collide_mask)
-        if collision:
-            for sprite in collision:
-                self.deal_damage(sprite, self.direction)
-            self.kill()
+        collisions  = pygame.sprite.spritecollide(self, self.enemies, False)
+        if collisions:
+            collision = pygame.sprite.spritecollide(self, collisions, False, pygame.sprite.collide_mask)
+            if collision:
+                for sprite in collision:
+                    self.deal_damage(sprite, self.direction)
+                    self.kill()
 
     def move(self, dt):
         self.rect.x += self.direction.x * self.speed * dt
@@ -65,7 +67,6 @@ class Bow(pygame.sprite.Sprite):
     def __init__(self, damage, cool_down, images, arrow, player, target, groups, enemies, collisions, fix = 180, distance = 10, damage_type=None):
         #adds self to allsprites
         super().__init__(groups)
-        self.isGround = False
         #checks to see if screen has an offset for position to place bow and arc correctly
         for group in self.groups():
             if hasattr(group, "offset"):
@@ -157,8 +158,8 @@ class Bow(pygame.sprite.Sprite):
 
 class Spear(Weapon, pygame.sprite.Sprite):
     def __init__(self, damage, range, cool_down, damage_type, images, groups, strenght, player):
-        Weapon().__init__(damage, range, cool_down, damage_type)
-        pygame.sprite.Sprite().__init__(groups)
+        Weapon.__init__(self, damage, range, cool_down, damage_type)
+        pygame.sprite.Sprite.__init__(self, groups)
         self.isAttacking = False
         self.images = images
         self.strenght = strenght
@@ -169,8 +170,8 @@ class Spear(Weapon, pygame.sprite.Sprite):
         #animation
         self.animation_speed = 5
         self.frame = 0
-        self.image = self.image[self.frame]
-        self.rect = self.image.get_frect(midleft = self.player.midright)
+        self.image = self.images[self.frame]
+        self.rect = self.image.get_frect(midleft = self.player.rect.midright)
         
 
     def _attack(self, direction):
@@ -217,18 +218,21 @@ class Spear(Weapon, pygame.sprite.Sprite):
         else:
             self.rect.midbottom = self.player.rect.midtop
         
+    def check_attack(self):
+        collisions  = pygame.sprite.spritecollide(self, self.enemies, False)
+        if collisions:
+            collision = pygame.sprite.spritecollide(self, collisions, False, pygame.sprite.collide_mask)
+            if collision:
+                for sprite in collision:
+                    self.deal_damage(sprite, self.direction)
             
     def update(self, dt):
         if self.isAttacking:
             self.attack(dt)
             self.rotate()
-            def check_attack(self):
-                collision = pygame.sprite.spritecollide(self, self.enemies, False, pygame.sprite.collide_mask)
-                if collision:
-                    for sprite in collision:
-                        self.deal_damage(sprite, self.direction)
+            
         else:
             self.image = self.images[0]
-            self.rect = self.image.get_frect(midleft = self.player.midright)
+            self.rect = self.image.get_frect(midleft = self.player.rect.midright)
         
         

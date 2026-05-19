@@ -30,3 +30,15 @@ def folder_loader(*path):
             files[folder] = folder_importer(folder, folder_path, folder)
 
     return files
+
+def tile_importer(cols, *path):
+    attack_frames = []
+    full_path = join(*path)
+    surf = pygame.transform.scale(pygame.image.load(full_path).convert_alpha(), SCALE)
+    cutout_width = surf.get_width() / cols
+    for col in range(cols):
+        cutout_surf = pygame.Surface((cutout_width, surf.get_height()), pygame.SRCALPHA)
+        cutout_rect = pygame.FRect(cutout_width* col, 0, cutout_width, cutout_surf.get_height())
+        cutout_surf.blit(surf, (0, 0), cutout_rect)
+        attack_frames.append(cutout_surf)
+    return attack_frames
