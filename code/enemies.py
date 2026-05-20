@@ -46,21 +46,25 @@ class Enemy(MiltiDirectionalSprite):
          
 	def check_collision(self, direction):
      #checks for collisions
+		nearby_area = self.rect.inflate(96 * SCALE, 96 * SCALE)
 		for sprite in self.collision_sprites:
 			if self == sprite:
 				continue
-			else:
-				if sprite.rect.colliderect(self.rect):
-					if direction == 'horizontal':
-						if self.direction.x > 0:
-							self.rect.right = sprite.rect.left
-						if self.direction.x < 0:
-							self.rect.left = sprite.rect.right
-					if direction == 'vertical':
-						if self.direction.y > 0:
-							self.rect.bottom = sprite.rect.top
-						if self.direction.y < 0:
-							self.rect.top = sprite.rect.bottom
+			
+			if not sprite.rect.colliderect(nearby_area):
+				continue
+
+			if sprite.rect.colliderect(self.rect):
+				if direction == 'horizontal':
+					if self.direction.x > 0:
+						self.rect.right = sprite.rect.left
+					if self.direction.x < 0:
+						self.rect.left = sprite.rect.right
+				if direction == 'vertical':
+					if self.direction.y > 0:
+						self.rect.bottom = sprite.rect.top
+					if self.direction.y < 0:
+						self.rect.top = sprite.rect.bottom
 
 	
 	def direction_check(self):

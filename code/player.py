@@ -87,21 +87,25 @@ class Player(MiltiDirectionalSprite):
         self.animate(dt)
 
     def check_collision(self, direction):
+        nearby_area = self.rect.inflate(96 * SCALE, 96 * SCALE)
         for sprite in self.collision_sprites:
-            if sprite == self:
+            if self == sprite:
                 continue
-            else:
-                if sprite.rect.colliderect(self.collision_rect):
-                    if direction == 'horizontal':
-                        if self.direction.x > 0:
-                            self.collision_rect.right = sprite.rect.left
-                        if self.direction.x < 0:
-                            self.collision_rect.left = sprite.rect.right
-                    if direction == 'vertical':
-                        if self.direction.y > 0:
-                            self.collision_rect.bottom = sprite.rect.top
-                        if self.direction.y < 0:
-                            self.collision_rect.top = sprite.rect.bottom
+			
+            if not sprite.rect.colliderect(nearby_area):
+                continue
+
+            if sprite.rect.colliderect(self.collision_rect):
+                if direction == 'horizontal':
+                    if self.direction.x > 0:
+                        self.collision_rect.right = sprite.rect.left
+                    if self.direction.x < 0:
+                        self.collision_rect.left = sprite.rect.right
+                if direction == 'vertical':
+                    if self.direction.y > 0:
+                        self.collision_rect.bottom = sprite.rect.top
+                    if self.direction.y < 0:
+                        self.collision_rect.top = sprite.rect.bottom
         self.rect.center = self.collision_rect.center
 
     def update(self, dt):
