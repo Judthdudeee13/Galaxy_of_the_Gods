@@ -71,6 +71,9 @@ class Bow(pygame.sprite.Sprite):
         for group in self.groups():
             if hasattr(group, "offset"):
                 self.offset_group = group
+
+        #ranged def
+        self.ranged = True
         
         #animation
         self.animation_speed = 3
@@ -87,7 +90,7 @@ class Bow(pygame.sprite.Sprite):
         self.damage_type = damage_type
         self.isShoot = True
         self.angle = 0
-        self.group = group
+        self.group = groups
         self.enemies = enemies
         self.collisions = collisions
 
@@ -103,6 +106,12 @@ class Bow(pygame.sprite.Sprite):
 
     def update_offset(self):
         self.offset = self.offset_group.offset
+
+    def update_groups(self):
+        for group in self.groups():
+            if hasattr(group, "offset"):
+                self.offset_group = group
+        self.group = self.groups()
 
     def aim(self):
         #update offset
@@ -174,8 +183,9 @@ class Spear(Weapon, pygame.sprite.Sprite):
         self.rect = self.image.get_frect(midleft = self.player.rect.midright)
         
 
-    def _attack(self, direction):
+    def attack(self, direction):
         if not self.cool_down_timer:
+            print('hello')
             self.isAttacking = True
             self.cool_down_timer.activate()
 
@@ -198,7 +208,7 @@ class Spear(Weapon, pygame.sprite.Sprite):
             self.player.rect.x += self.direction.x * self.strenght * 0.06
             self.player.rect.y += self.direction.y * self.strenght * 0.06
         
-    def attack(self, dt):
+    def _attack(self, dt):
         if self.isAttacking:
             self.frame += (self.animation_speed * dt) % len(self.images)
             self.image = self.images[self.frame]
@@ -228,7 +238,7 @@ class Spear(Weapon, pygame.sprite.Sprite):
             
     def update(self, dt):
         if self.isAttacking:
-            self.attack(dt)
+            self._attack(dt)
             self.rotate()
             
         else:

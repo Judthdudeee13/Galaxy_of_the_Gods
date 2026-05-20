@@ -15,8 +15,13 @@ class Player(MiltiDirectionalSprite):
         self.collision_sprites = collision_sprites
         self.collision_rect = self.rect.inflate(-7*SCALE, -15*SCALE)
         self._health = health
-        self.weapon = [Bow(10, 1000, weapon_sprites['Bow']['Bow'], weapon_sprites['Bow']['Arrow'], self.rect, "Mouse", groups, enemies, collision_sprites), Spear(10, 0, 2, 'Normal', weapon_sprites['Spear']['Spear'], groups, 100, self)]
+        self.weapon_group = pygame.sprite.Group()
+        self.weapon = [Bow(10, 1000, weapon_sprites['Bow']['Bow'], weapon_sprites['Bow']['Arrow'], self.rect, "Mouse", self.weapon_group, enemies, collision_sprites), Spear(10, 0, 2, 'Normal', weapon_sprites['Spear']['Spear'], self.weapon_group, 100, self)]
         self.current_weapon = self.weapon[0]
+        self.current_groups = groups
+        self.current_weapon.add(self.current_groups)
+        self.current_weapon.update_groups()
+        
 
     @property
     def health(self):
@@ -36,9 +41,16 @@ class Player(MiltiDirectionalSprite):
         self.direction = (
             self.direction.normalize() if self.direction else self.direction
         )
+
+        if keys[pygame.K_SPACE]:
+            if hasattr(self.current_weapon, 'melee'):
+                self.current_weapon.attack()
+
         mouse = pygame.mouse.get_pressed()
         if mouse[0]:
-            self.current_weapon.attack()
+            if hasattr(self.current_weapon, 'ranged'):
+                self.current_weapon.attack()
+        
 
     def move(self, dt):
         self.collision_rect.x += self.direction.x * self.speed * dt
