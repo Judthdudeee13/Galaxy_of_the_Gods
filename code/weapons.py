@@ -235,6 +235,9 @@ class Spear(Weapon, pygame.sprite.Sprite):
             if collision:
                 for sprite in collision:
                     self.deal_damage(sprite, self.direction)
+    
+    def update_groups(self):
+        pass
             
     def update(self, dt):
         if self.isAttacking:
