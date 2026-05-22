@@ -189,21 +189,22 @@ class Spear(Weapon, pygame.sprite.Sprite):
             self.isAttacking = True
             self.cool_down_timer.activate()
 
-            if abs(direction.x) > abs(direction.y):
-                if direction.x > 0:
-                    self.direction.x = 1
-                    self.direction.y = 0
-                
-                else:
-                    self.direction.x = -1
-                    self.direction.y = 0
-            else:      
-                if direction.y > 0:
-                    self.direction.x = 0
-                    self.direction.y = 1
-                else:
-                    self.direction.x = 0
-                    self.direction.y = -1
+            if direction
+                if abs(direction.x) > abs(direction.y):
+                    if direction.x > 0:
+                        self.direction.x = 1
+                        self.direction.y = 0
+                    
+                    else:
+                        self.direction.x = -1
+                        self.direction.y = 0
+                else:      
+                    if direction.y > 0:
+                        self.direction.x = 0
+                        self.direction.y = 1
+                    else:
+                        self.direction.x = 0
+                        self.direction.y = -1
                     
             self.player.rect.x += self.direction.x * self.strenght*SCALE
             self.player.rect.y += self.direction.y * self.strenght*SCALE
