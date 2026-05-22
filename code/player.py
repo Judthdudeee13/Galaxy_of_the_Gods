@@ -44,7 +44,7 @@ class Player(MiltiDirectionalSprite):
 
         if keys[pygame.K_SPACE]:
             if hasattr(self.current_weapon, 'melee'):
-                self.current_weapon.attack()
+                self.current_weapon.attack(self.direction)
 
         mouse = pygame.mouse.get_pressed()
         if mouse[0]:

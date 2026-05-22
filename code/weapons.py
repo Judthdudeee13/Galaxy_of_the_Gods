@@ -172,8 +172,9 @@ class Spear(Weapon, pygame.sprite.Sprite):
         self.isAttacking = False
         self.images = images
         self.strenght = strenght
-        self.direction = (0, 0)
+        self.direction = pygame.Vector2(0, 0)
         self.player = player
+        self.melee = True
         
         
         #animation
