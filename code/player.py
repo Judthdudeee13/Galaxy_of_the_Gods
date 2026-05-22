@@ -17,7 +17,7 @@ class Player(MiltiDirectionalSprite):
         self._health = health
         self.weapon_group = pygame.sprite.Group()
         self.weapon = [Bow(10, 1000, weapon_sprites['Bow']['Bow'], weapon_sprites['Bow']['Arrow'], self.rect, "Mouse", self.weapon_group, enemies, collision_sprites), 
-                       Spear(10, 0, 2, 'Normal', weapon_sprites['Spear']['Spear'], self.weapon_group, 100, self)]
+                       Spear(10, 0, 2000, 'Normal', weapon_sprites['Spear']['Spear'], self.weapon_group, 100, self)]
         self.current_weapon = self.weapon[1]
         self.current_groups = groups
         self.current_weapon.add(self.current_groups)
