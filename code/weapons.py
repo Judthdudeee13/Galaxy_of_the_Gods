@@ -178,15 +178,14 @@ class Spear(Weapon, pygame.sprite.Sprite):
         
         
         #animation
-        self.animation_speed = 5
+        self.animation_speed = 20
         self.frame = 0
-        self.image = self.images[self.frame]
+        self.image = self.images[int(self.frame)]
         self.rect = self.image.get_frect(midleft = self.player.rect.midright)
         
 
     def attack(self, direction):
         if not self.cool_down_timer:
-            print('hello')
             self.isAttacking = True
             self.cool_down_timer.activate()
 
@@ -206,27 +205,31 @@ class Spear(Weapon, pygame.sprite.Sprite):
                     self.direction.x = 0
                     self.direction.y = -1
                     
-            self.player.rect.x += self.direction.x * self.strenght * 0.06
-            self.player.rect.y += self.direction.y * self.strenght * 0.06
+            self.player.rect.x += self.direction.x * self.strenght*SCALE
+            self.player.rect.y += self.direction.y * self.strenght*SCALE
         
     def _attack(self, dt):
         if self.isAttacking:
             self.frame += (self.animation_speed * dt) % len(self.images)
-            self.image = self.images[self.frame]
+            self.image = self.images[int(self.frame)]
             if self.image == self.images[-1]:
                 self.isAttacking = False
                 
     def rotate(self):
         if self.direction.y > 0:
             self.image = pygame.transform.rotozoom(self.image, 180, 1)
+            self.rect = self.image.get_frect()
             self.rect.midtop = self.player.rect.midbottom
         elif self.direction.x > 0 :
-            self.image = pygame.transform.rotozoom(self.image, 90, 1)
+            self.image = pygame.transform.rotozoom(self.image, 270, 1)
+            self.rect = self.image.get_frect()
             self.rect.midleft = self.player.rect.midright
         elif self.direction.x < 0 :
-            self.image = pygame.transform.rotozoom(self.image, 270, 1)
+            self.image = pygame.transform.rotozoom(self.image, 90, 1)
+            self.rect = self.image.get_frect()
             self.rect.midright = self.player.rect.midleft
         else:
+            self.rect = self.image.get_frect()
             self.rect.midbottom = self.player.rect.midtop
         
     def check_attack(self):
@@ -241,12 +244,14 @@ class Spear(Weapon, pygame.sprite.Sprite):
         pass
             
     def update(self, dt):
+        self.cool_down_timer.update()
         if self.isAttacking:
             self._attack(dt)
             self.rotate()
             
         else:
-            self.image = self.images[0]
+            self.frame = 0
+            self.image = self.images[self.frame]
             self.rect = self.image.get_frect(midleft = self.player.rect.midright)
         
         
