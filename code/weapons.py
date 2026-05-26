@@ -166,7 +166,7 @@ class Bow(pygame.sprite.Sprite):
 
 
 class Spear(Weapon, pygame.sprite.Sprite):
-    def __init__(self, damage, range, cool_down, damage_type, images, groups, strenght, player):
+    def __init__(self, damage, range, cool_down, damage_type, images, groups, strenght, player, enemies):
         Weapon.__init__(self, damage, range, cool_down, damage_type)
         pygame.sprite.Sprite.__init__(self, groups)
         self.isAttacking = False
@@ -175,6 +175,7 @@ class Spear(Weapon, pygame.sprite.Sprite):
         self.direction = pygame.Vector2(0, 0)
         self.player = player
         self.melee = True
+        self.enemies = enemies
         
         
         #animation
@@ -240,6 +241,7 @@ class Spear(Weapon, pygame.sprite.Sprite):
             if collision:
                 for sprite in collision:
                     self.deal_damage(sprite, self.direction)
+                print('worked')
     
     def update_groups(self):
         pass
@@ -249,7 +251,7 @@ class Spear(Weapon, pygame.sprite.Sprite):
         if self.isAttacking:
             self._attack(dt)
             self.rotate()
-            
+            self.check_attack()
         else:
             self.frame = 0
             self.image = self.images[self.frame]
