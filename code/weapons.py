@@ -11,6 +11,7 @@ class Weapon:
 
     def deal_damage(self, target, direction=None):
         if not self.cool_down_timer:
+            print(target)
             target.health -= self.damage
             if not self.cool_down_timer:
                 self.cool_down_timer.activate()
@@ -241,7 +242,6 @@ class Spear(Weapon, pygame.sprite.Sprite):
             if collision:
                 for sprite in collision:
                     self.deal_damage(sprite, self.direction)
-                print('worked')
     
     def update_groups(self):
         pass
