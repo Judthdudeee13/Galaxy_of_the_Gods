@@ -177,7 +177,7 @@ class Spear(Weapon, pygame.sprite.Sprite):
         self.player = player
         self.melee = True
         self.enemies = enemies
-        
+        self.cool_down = Timer(cool_down)
         
         #animation
         self.animation_speed = 20
@@ -187,9 +187,9 @@ class Spear(Weapon, pygame.sprite.Sprite):
         
 
     def attack(self, direction):
-        if not self.cool_down_timer:
+        if not self.cool_down:
             self.isAttacking = True
-            self.cool_down_timer.activate()
+            self.cool_down.activate()
 
             if direction:
                 if abs(direction.x) > abs(direction.y):
@@ -247,6 +247,7 @@ class Spear(Weapon, pygame.sprite.Sprite):
         pass
             
     def update(self, dt):
+        self.cool_down.update()
         self.cool_down_timer.update()
         if self.isAttacking:
             self._attack(dt)
