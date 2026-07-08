@@ -12,7 +12,6 @@ class Weapon:
 
     def deal_damage(self, target, direction=None):
         if not self.cool_down_timer:
-            print(target)
             target.health -= self.damage
             if not self.cool_down_timer:
                 self.cool_down_timer.activate()

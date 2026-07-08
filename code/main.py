@@ -13,13 +13,15 @@ from ui import *
 class Game:
     def __init__(self):
         pygame.init()
+        #for testinbg in small size to see what other screens see
+        #self.screen = pygame.display.set_mode((320, 180)) #for tetsing only
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)  # pygame.FULLSCREEN
         self.window = pygame.Surface((self.screen.width, self.screen.height))
         pygame.display.set_caption("Galaxy of the Gods")
         pygame.mouse.set_visible(False)
         self.clock = pygame.time.Clock()
         self.running = True
-        self.open = False
+        self.inventory_open = False
 
         # imports
         self.import_assets()
@@ -71,9 +73,12 @@ class Game:
         self.backgrounds["Plains"] = Map("Plains", "data", "maps", "plains.tmx")
 
     def input(self):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_TAB]:
-            self.open = True
+        just_pressed_keys = pygame.key.get_just_pressed()
+        if just_pressed_keys[pygame.K_TAB]:
+            if self.inventory_open:
+                self.inventory_open = False
+            else:
+                self.inventory_open = True
             self.inventory.load()
 
     def run(self):
@@ -86,10 +91,11 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.running = False
+            
             #check for other inputs
             self.input()
 
-            if not self.open:
+            if not self.inventory_open:
                 # update
                 self.ground_sprites.update(dt)
                 self.player_sprites.update(dt)
