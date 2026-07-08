@@ -52,3 +52,6 @@ pygame.quit()
 
 #constants
 DAMAGE_FLASH = '#fff8e7'
+
+#BASIC COLORS
+BLACK = '#000000'

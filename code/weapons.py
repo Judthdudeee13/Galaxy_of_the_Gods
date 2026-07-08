@@ -3,11 +3,12 @@ from timer import Timer
 from sprites import *
 
 class Weapon:
-    def __init__(self, damage, range, cool_down, damage_type = None):
+    def __init__(self, damage, range, cool_down, name = None, damage_type = None):
         self.damage = damage
         self.range = range
         self.damage_type = damage_type
         self.cool_down_timer = Timer(cool_down)
+        self.name = name
 
     def deal_damage(self, target, direction=None):
         if not self.cool_down_timer:
@@ -65,13 +66,16 @@ class Arrow(Weapon, Sprite):
 
 #basic bow class
 class Bow(pygame.sprite.Sprite):
-    def __init__(self, damage, cool_down, images, arrow, player, target, groups, enemies, collisions, fix = 180, distance = 10, damage_type=None):
+    def __init__(self, damage, cool_down, images, arrow, player, target, groups, enemies, collisions, name, fix = 180, distance = 10, damage_type=None):
         #adds self to allsprites
         super().__init__(groups)
         #checks to see if screen has an offset for position to place bow and arc correctly
         for group in self.groups():
             if hasattr(group, "offset"):
                 self.offset_group = group
+
+        #add name
+        self.name = name
 
         #ranged def
         self.ranged = True
@@ -167,8 +171,8 @@ class Bow(pygame.sprite.Sprite):
 
 
 class Spear(Weapon, pygame.sprite.Sprite):
-    def __init__(self, damage, range, cool_down, damage_type, images, groups, strenght, player, enemies):
-        Weapon.__init__(self, damage, range, cool_down, damage_type)
+    def __init__(self, damage, range, cool_down, damage_type, images, groups, strenght, player, enemies, name):
+        Weapon.__init__(self, damage, range, cool_down, name, damage_type)
         pygame.sprite.Sprite.__init__(self, groups)
         self.isAttacking = False
         self.images = images

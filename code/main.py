@@ -7,6 +7,7 @@ from background import *
 from player import *
 from enemies import Enemy
 from weapons import *
+from ui import *
 
 
 class Game:
@@ -18,6 +19,7 @@ class Game:
         pygame.mouse.set_visible(False)
         self.clock = pygame.time.Clock()
         self.running = True
+        self.open = False
 
         # imports
         self.import_assets()
@@ -40,6 +42,7 @@ class Game:
         self.health = InfoBar((255, 0, 0), self.UIBar_assets['Heart'], 100, (10*SCALE, 5*SCALE), self.UI, 100)
         self.mana = InfoBar((0, 0, 255), self.UIBar_assets['Mana'], 100, (10*SCALE, 20*SCALE), self.UI, 100)
         self.player = Player(self.background.player_start_pos, self.player_assets, self.player_sprites, self.collision_sprites, self.weapon_sprites, self.enemies, self.health)
+        self.inventory = Inventory(self.player, self.screen)
         
         #monsters
         self.monster = Enemy((500, 500), self.skeleton1, (self.player_sprites, self.enemies), 50*SCALE, self.player, self.collision_sprites, 100)
@@ -67,6 +70,12 @@ class Game:
         self.backgrounds = {}
         self.backgrounds["Plains"] = Map("Plains", "data", "maps", "plains.tmx")
 
+    def input(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_TAB]:
+            self.open = True
+            self.inventory.load()
+
     def run(self):
         while self.running:
             dt = self.clock.tick() / 1000
@@ -77,24 +86,31 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.running = False
+            #check for other inputs
+            self.input()
 
-            # update
-            self.ground_sprites.update(dt)
-            self.player_sprites.update(dt)
-            self.cover_sprites.update(dt)
-            self.UI.update()
+            if not self.open:
+                # update
+                self.ground_sprites.update(dt)
+                self.player_sprites.update(dt)
+                self.cover_sprites.update(dt)
+                self.UI.update()
 
-            # draw
-            #clear surface
-            self.window.fill("black")
-            self.screen.fill("black")
-            #add stuck to window to add effects and replace cut sceens if needed
-            self.ground_sprites.draw(self.player.rect.center)
-            self.player_sprites.draw(self.player.rect.center)
-            self.cover_sprites.draw(self.player.rect.center)
-            self.UI.draw(self.window)
-            #draw on actull window resulting in this stuff being on top and not effected by screen shake and other effects
-            self.screen.blit(self.window, (0, 0))
+                # draw
+                #clear surface
+                self.window.fill("black")
+                self.screen.fill("black")
+                #add stuck to window to add effects and replace cut sceens if needed
+                self.ground_sprites.draw(self.player.rect.center)
+                self.player_sprites.draw(self.player.rect.center)
+                self.cover_sprites.draw(self.player.rect.center)
+                self.UI.draw(self.window)
+                #draw on actull window resulting in this stuff being on top and not effected by screen shake and other effects
+                self.screen.blit(self.window, (0, 0))
+
+            else:
+                #other updates
+                self.inventory.update()
             
             pygame.display.flip()
 
