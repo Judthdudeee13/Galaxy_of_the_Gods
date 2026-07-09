@@ -15,10 +15,12 @@ class Inventory:
         
 
     def weapons(self):
-        text = self.player_weapons[0].name
-        text = self.font.render(text, True, BLACK)
-        text_rect = text.get_frect(topleft = (10*SCALE, 10*SCALE))
-        self.blit_obj.append((text, text_rect))
+        text_size = 14*SCALE
+        for x in range(len(self.player_weapons)):
+            text = self.player_weapons[x].name
+            text = self.font.render(text, True, BLACK)
+            text_rect = text.get_frect(topleft = (10*SCALE, 10*SCALE+(text_size*x)))
+            self.blit_obj.append((text, text_rect))
 
     def update(self):
         self.player_weapons = self.player.weapon
