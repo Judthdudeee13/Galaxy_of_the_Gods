@@ -21,6 +21,9 @@ class Inventory:
             text = self.font.render(text, True, BLACK)
             text_rect = text.get_frect(topleft = (10*SCALE, 10*SCALE+(text_size*x)))
             self.blit_obj.append((text, text_rect))
+    
+    def background(self):
+        quit_game_button = pygame.draw.rect(self.window, )
 
     def update(self):
         self.player_weapons = self.player.weapon

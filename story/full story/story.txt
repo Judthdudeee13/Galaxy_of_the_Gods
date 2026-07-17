@@ -1,0 +1,27 @@
+# Galaxy of the Gods – Story Summary
+
+*Galaxy of the Gods* is a top-down pixel-art action RPG set in a fantasy world.
+
+The player lives just outside the kingdom with their grandfather, the royal blacksmith. One morning, the grandfather is urgently summoned to the castle by the king. While the player is home alone, a group of bandits steals the kingdom's entire royal armory and throws every weapon into a massive magical fire. The molten weapons fuse together, awakening the ancient **King of the Gods**, a colossal god forged from iron and steel.
+
+The bandits believe they can control the god and use it to conquer the world, but the moment it awakens, it turns them all to stone. It then flies to the capital, turning everyone in its path—including the king, the townspeople, and the player's grandfather—to stone.
+
+The player grabs their sword, fights through the city, and confronts the god in the castle. However, the god is far too powerful, and the player is defeated in their first encounter.
+
+The player awakens in the home of a mysterious witch, who explains that the only way to defeat the King of the Gods is to recover the lost elemental powers hidden within ancient temples scattered across the world. Each temple contains a guardian that must be defeated to earn an elemental shard, which opens a portal to another world where a powerful elemental god awaits. Defeating these gods grants their ancient power.
+
+The five elemental powers are:
+
+* Fire
+* Water
+* Air
+* Earth
+* Electricity
+
+After collecting all five powers, the player discovers the final temple and battles the god's right-hand servant. During the fight, the servant steals the player's elemental abilities, but after being defeated, he drops the **Power Orb**, which combines all five elements into a single source of power.
+
+Armed with the completed Power Orb, the player returns to the castle for a final battle against the King of the Gods. This time, the player defeats him, but instead of dying, the god retreats through a portal into his own divine realm. The player follows him through the portal, beginning the true final battle.
+
+Inside the God's world, the player chases the King of the Gods through his ruined celestial kingdom before confronting him one last time. After defeating him in his own realm, the curse over the world is finally broken. Everyone who had been turned to stone is restored, the kingdom is saved, and peace returns to the land.
+
+The game focuses on exploration, dungeon crawling, combat, puzzles, boss fights, and gradually becoming stronger while uncovering the ancient history of the gods and their forgotten world.
