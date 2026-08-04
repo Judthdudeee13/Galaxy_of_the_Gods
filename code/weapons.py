@@ -1,5 +1,5 @@
 from settings import *
-from timer import Timer
+from timers import Timer
 from sprites import *
 
 class Weapon:

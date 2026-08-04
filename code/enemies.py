@@ -1,7 +1,7 @@
 from settings import *
 from sprites import *
 from weapons import *
-from timer import *
+from timers import *
 
 class Enemy(MiltiDirectionalSprite):
 	def __init__(self, pos, folders, groups, speed, player, collision_sprites, health):

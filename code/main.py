@@ -16,7 +16,7 @@ class Game:
         #for testinbg in small size to see what other screens see
         #self.screen = pygame.display.set_mode((320, 180)) #for tetsing only
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)  # pygame.FULLSCREEN
-        self.window = pygame.Surface((self.screen.width, self.screen.height))
+        self.window = pygame.Surface((self.screen.get_width(), self.screen.get_height()))
         pygame.display.set_caption("Galaxy of the Gods")
         pygame.mouse.set_visible(False)
         self.clock = pygame.time.Clock()
