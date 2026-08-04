@@ -59,7 +59,7 @@ class Clock(Timer):
 
 	def start_on(self):
 		if self.repeat or self.repeat == -1:
-			self.repeat -= 1 if self.repeat else 0
+			self.repeat -= 1 if self.repeat > 0 else 0
 			self.onTimer.activate()
 			self.isOn = True
 	
